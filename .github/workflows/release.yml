@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7-dind
+        options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          npm test -- --watchAll=false
+
+      - name: Restore backend dependencies
+        run: |
+          cd backend
+          dotnet restore
+
+      - name: Run backend unit tests
+        run: |
+          cd StepTracker.Tests
+          dotnet test --no-build --verbosity normal
+
+      - name: Build Docker images
+        run: |
+          cd docker
+          docker compose build
+
+      - name: Upload Docker Compose artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-compose-files
+          path: docker/docker-compose.yml
+
+  # Add deployment or publishing steps as needed
