@@ -2,8 +2,8 @@ import React from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { getTheme } from './theme';
 import NavBar from './components/NavBar';
-import Dashboard from './components/Dashboard';
-import PersonPage from './components/PersonPage';
+import Dashboard from './pages/Dashboard';
+import PersonPage from './pages/PersonPage';
 import Home from './pages/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStepsData } from './hooks/useStepsData';
@@ -15,7 +15,13 @@ export default function App() {
   const theme = React.useMemo(() => getTheme(darkMode), [darkMode]);
   // Fetch people list for NavBar
   const { data: steps } = useStepsData();
-  const people = React.useMemo(() => (steps.length > 0 ? Object.keys(steps[0].steps) : []), [steps]);
+  const people = React.useMemo(() => (
+    steps.length > 0
+      ? Object.keys(steps[0]).filter(
+          k => !['id', 'month', 'total', 'date'].includes(k) && k.length > 1 && !/^\d+$/.test(k)
+        )
+      : []
+  ), [steps]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -4,13 +4,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 
-// Add CORS policy for frontend (Vite default: http://localhost:5173)
+// Add CORS policy to allow frontend localhost
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins("http://localhost:5173")
                         .AllowAnyHeader()
-                        .AllowAnyMethod());
+                        .AllowAnyMethod()
+                        .AllowCredentials());
 });
 
 var app = builder.Build();

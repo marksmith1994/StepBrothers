@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 
-export function useStepsData({ filterDailyAverage = true, person = null, totals = false } = {}) {
+export function useStepsData({ filterDailyAverage = true, person = null, totals = false, tab = 'dashboard' } = {}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let url = totals ? 'http://localhost:5120/steps/totals' : 'http://localhost:5120/steps';
+    // Backend API endpoint for Google Sheets data
+    let url = `http://localhost:5120/api/sheets/data?tab=${tab}`;
     setLoading(true);
     fetch(url)
       .then(res => {
@@ -14,11 +15,16 @@ export function useStepsData({ filterDailyAverage = true, person = null, totals 
         return res.json();
       })
       .then(json => {
+        // Backend now returns array of objects, not a 2D array
+        if (!Array.isArray(json)) {
+          setData([]);
+          return;
+        }
         let result = json;
         if (!totals && filterDailyAverage) {
           const filtered = [];
           for (const entry of json) {
-            const month = (entry.month || '').trim().toLowerCase();
+            const month = (entry.month || '').toString().trim().toLowerCase();
             if (month === 'daily average') break;
             if (month === 'annual') continue;
             filtered.push(entry);
@@ -26,13 +32,13 @@ export function useStepsData({ filterDailyAverage = true, person = null, totals 
           result = filtered;
         }
         if (person && !totals) {
-          result = result.filter(entry => entry.steps[person] !== undefined);
+          result = result.filter(entry => entry[person.toLowerCase()] !== undefined);
         }
         setData(result);
       })
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
-  }, [filterDailyAverage, person, totals]);
+  }, [filterDailyAverage, person, totals, tab]);
 
   return { data, loading, error };
 }

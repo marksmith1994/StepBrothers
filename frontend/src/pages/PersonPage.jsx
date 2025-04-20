@@ -1,17 +1,25 @@
 import React from "react";
 import { useParams } from 'react-router-dom';
 import { Box, Typography, Alert, Button } from '@mui/material';
-import StepLineChart from './charts/StepLineChart';
-import StepBarChart from './charts/StepBarChart';
+import StepLineChart from '../components/StepLineChart';
+// import StepBarChart from './charts/StepBarChart'; // File does not exist, comment out or remove
 import { useStepsData } from '../hooks/useStepsData';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-import PersonPageSkeleton from './skeletons/PersonPageSkeleton';
+import PersonPageSkeleton from '../components/PersonPageSkeleton';
 
 export default function PersonPage() {
   const { name } = useParams();
   const navigate = useNavigate();
-  const { data: steps, loading, error } = useStepsData({ person: name });
+  // Fetch all data (no tab), filter for person
+  const { data: allData, loading, error } = useStepsData();
+  // Lowercase name for matching keys
+  const personKey = name.toLowerCase();
+  // Filter allData for entries that have this person as a key
+  const personData = React.useMemo(() =>
+    allData.filter(entry => Object.keys(entry).includes(personKey)),
+    [allData, personKey]
+  );
 
   // Set page title on mount
   React.useEffect(() => {
@@ -22,9 +30,9 @@ export default function PersonPage() {
   }, [name]);
 
   // Prepare chart data
-  const chartData = steps.map(entry => ({
+  const chartData = personData.map(entry => ({
     month: entry.month,
-    steps: entry.steps[name],
+    steps: entry[personKey],
     total: entry.total
   }));
 
@@ -39,7 +47,6 @@ export default function PersonPage() {
       {!loading && !error && (
         <>
           <StepLineChart data={chartData} />
-          <StepBarChart data={chartData} />
         </>
       )}
     </Box>
