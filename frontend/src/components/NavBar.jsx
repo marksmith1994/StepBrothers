@@ -1,9 +1,9 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button, Box, Switch } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 
-export default function NavBar({ people = [], onToggleTheme, darkMode }) {
+export default function NavBar({ people = [] }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -14,53 +14,87 @@ export default function NavBar({ people = [], onToggleTheme, darkMode }) {
     setAnchorEl(null);
   };
   return (
-    <AppBar position="static" color="primary" enableColorOnDark>
-      <Toolbar>
-        <Typography
-          variant="h6"
-          sx={{ flexGrow: 1, cursor: 'pointer' }}
-          onClick={() => navigate('/')}
-          aria-label="Go to Dashboard"
-        >
-          Step Brothers
-        </Typography>
-        {people.length > 0 && (
-          <Box>
-            <Button
-              color="inherit"
-              aria-controls="person-menu"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              startIcon={<MenuIcon />}
-            >
-              People
-            </Button>
-            <Menu
-              id="person-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {people.map((person) => (
-                <MenuItem
-                  key={person}
-                  onClick={() => {
-                    navigate(`/person/${encodeURIComponent(person)}`);
-                    handleClose();
-                  }}
-                  aria-label={`Go to ${person}'s page`}
-                >
-                  {person}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        )}
-        <Box sx={{ ml: 2 }}>
-          <Typography component="span" variant="body2" sx={{ mr: 1 }}>
-            {darkMode ? 'Dark' : 'Light'} Mode
+    <AppBar position="static" color="primary" elevation={2} sx={{ background: 'linear-gradient(90deg, #283593 0%, #1565c0 100%)', width: '100%' }}>
+      <Toolbar sx={{ minHeight: 72, px: 0, width: '100%', boxSizing: 'border-box', justifyContent: 'center' }}>
+        <Box sx={{ width: '100%', maxWidth: 1500, display: 'flex', alignItems: 'center', px: { xs: 2, sm: 8 } }}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2, display: { xs: 'flex', sm: 'none' } }}
+            onClick={handleMenu}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h4"
+            sx={{
+              flexGrow: 1,
+              fontWeight: 900,
+              letterSpacing: 2,
+              cursor: 'pointer',
+              color: '#fff',
+              textShadow: '0 2px 8px rgba(21,101,192,0.15)',
+              textAlign: 'left',
+              pl: 1
+            }}
+            onClick={() => navigate('/')}
+            aria-label="Go to Dashboard"
+          >
+            Step Brothers
           </Typography>
-          <Switch checked={darkMode} onChange={onToggleTheme} inputProps={{ 'aria-label': 'Toggle theme' }} />
+          {people.length > 0 && (
+            <Box>
+              <Button
+                color="inherit"
+                aria-controls="person-menu"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                startIcon={<MenuIcon />}
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 500,
+                  borderRadius: 2,
+                  px: 3,
+                  py: 1.5,
+                  fontSize: '1rem',
+                  background: 'rgba(255,255,255,0.10)',
+                  boxShadow: '0 1px 4px rgba(21,101,192,0.08)',
+                  '&:hover': { background: 'rgba(255,255,255,0.18)' }
+                }}
+              >
+                People
+              </Button>
+              <Menu
+                id="person-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                PaperProps={{
+                  sx: {
+                    mt: 1.5,
+                    minWidth: 240,
+                    borderRadius: 2,
+                    boxShadow: '0 2px 8px rgba(21,101,192,0.10)'
+                  }
+                }}
+              >
+                {people.map((person) => (
+                  <MenuItem
+                    key={person}
+                    onClick={() => {
+                      navigate(`/person/${encodeURIComponent(person)}`);
+                      handleClose();
+                    }}
+                    aria-label={`Go to ${person}'s page`}
+                    sx={{ fontWeight: 500, letterSpacing: 0.5, fontSize: '1.05rem', py: 1.5 }}
+                  >
+                    {person}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

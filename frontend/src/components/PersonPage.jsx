@@ -1,3 +1,4 @@
+import React from "react";
 import { useParams } from 'react-router-dom';
 import { Box, Typography, Alert, Button } from '@mui/material';
 import StepLineChart from './charts/StepLineChart';

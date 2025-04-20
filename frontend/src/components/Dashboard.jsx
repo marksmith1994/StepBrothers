@@ -24,15 +24,6 @@ export default function Dashboard() {
       ...people.map(person => ({
         field: person,
         headerName: person,
-        renderHeader: () => (
-          <Link
-            component="button"
-            onClick={() => navigate(`/person/${encodeURIComponent(person)}`)}
-            underline="hover"
-          >
-            {person}
-          </Link>
-        ),
         flex: 1,
         renderCell: (params) => {
           const row = params.row;
@@ -40,7 +31,9 @@ export default function Dashboard() {
           const max = Math.max(...values);
           const isMax = row[person] === max && max !== -Infinity;
           return (
-            <span style={isMax ? { fontWeight: 'bold' } : {}}>{row[person]}</span>
+            <Typography component="span" sx={{ fontWeight: isMax ? 700 : 400, color: isMax ? 'primary.main' : 'inherit' }}>
+              {row[person]}
+            </Typography>
           );
         }
       })),
@@ -67,7 +60,7 @@ export default function Dashboard() {
   }
 
   return (
-    <Box sx={{ width: '100%', background: '#fff', p: 2, borderRadius: 2, boxShadow: 2 }}>
+    <Box sx={{ width: '100%', maxWidth: 1500, mx: 'auto', background: '#fff', p: { xs: 1, sm: 3 }, borderRadius: 2, boxShadow: 2 }}>
       <Typography variant="h4" gutterBottom>
         Step Dashboard
       </Typography>
