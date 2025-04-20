@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Alert, Link, Paper } from '@mui/material';
-import StepPieChart from './charts/StepPieChart';
+import { Box, Typography, Alert } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStepsData } from '../hooks/useStepsData';
 import DashboardSkeleton from './skeletons/DashboardSkeleton';
@@ -8,7 +7,6 @@ import DashboardSkeleton from './skeletons/DashboardSkeleton';
 export default function Dashboard() {
   const navigate = useNavigate();
   const { data: steps, loading, error } = useStepsData();
-  const { data: totals, loading: totalsLoading, error: totalsError } = useStepsData({ totals: true });
 
   let columns = [
     { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -53,18 +51,11 @@ export default function Dashboard() {
     });
   }
 
-  // Prepare pie chart data
-  let pieData = [];
-  if (totals && typeof totals === 'object') {
-    pieData = Object.keys(totals).map((name) => ({ name, value: totals[name] }));
-  }
-
   return (
     <Box sx={{ width: '100%', maxWidth: 1500, mx: 'auto', background: '#fff', p: { xs: 1, sm: 3 }, borderRadius: 2, boxShadow: 2 }}>
       <Typography variant="h4" gutterBottom>
         Step Dashboard
       </Typography>
-      <StepPieChart data={pieData} loading={totalsLoading} error={totalsError} />
       {loading && <DashboardSkeleton />}
       {error && <Alert severity="error">{error}</Alert>}
       {!loading && !error && (

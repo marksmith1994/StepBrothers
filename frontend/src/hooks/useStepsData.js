@@ -18,7 +18,9 @@ export function useStepsData({ filterDailyAverage = true, person = null, totals 
         if (!totals && filterDailyAverage) {
           const filtered = [];
           for (const entry of json) {
-            if ((entry.month || '').trim().toLowerCase() === 'daily average') break;
+            const month = (entry.month || '').trim().toLowerCase();
+            if (month === 'daily average') break;
+            if (month === 'annual') continue;
             filtered.push(entry);
           }
           result = filtered;

@@ -4,9 +4,10 @@ import { getTheme } from './theme';
 import NavBar from './components/NavBar';
 import Dashboard from './components/Dashboard';
 import PersonPage from './components/PersonPage';
+import Home from './pages/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStepsData } from './hooks/useStepsData';
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import './App.css';
 
 export default function App() {
@@ -21,12 +22,10 @@ export default function App() {
       <CssBaseline />
       <Router>
         <NavBar people={people} darkMode={darkMode} onToggleTheme={() => setDarkMode(m => !m)} />
-        <Container maxWidth="lg" style={{ marginTop: 40 }}>
-          <Typography variant="h3" align="center" gutterBottom>
-            Step Brothers Dashboard
-          </Typography>
+        <Container maxWidth={false} disableGutters style={{ marginTop: 40, padding: 0 }}>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/person/:name" element={<PersonPage />} />
           </Routes>
         </Container>
