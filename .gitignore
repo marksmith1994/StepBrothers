@@ -1,5 +1,6 @@
 **/bin/
 **/obj/
+backend/credentials.json
 
 # Node
 frontend/node_modules/
