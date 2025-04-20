@@ -1,0 +1,7 @@
+# Frontend Dockerfile
+FROM node:20-alpine AS base
+WORKDIR /app
+COPY ../frontend ./frontend
+WORKDIR /app/frontend
+RUN npm install
+CMD ["npm", "run", "dev"]

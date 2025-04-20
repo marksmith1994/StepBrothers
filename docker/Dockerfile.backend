@@ -1,0 +1,7 @@
+# Backend Dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+WORKDIR /app
+COPY ../backend ./backend
+WORKDIR /app/backend
+RUN dotnet restore
+CMD ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5120"]

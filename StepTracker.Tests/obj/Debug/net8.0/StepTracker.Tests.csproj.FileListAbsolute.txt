@@ -1,0 +1,6 @@
+C:\Users\Mark\source\StepTracker\StepTracker.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_StepTracker.Tests
+C:\Users\Mark\source\StepTracker\StepTracker.Tests\obj\Debug\net8.0\StepTracker.Tests.csproj.AssemblyReference.cache
+C:\Users\Mark\source\StepTracker\StepTracker.Tests\obj\Debug\net8.0\StepTracker.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mark\source\StepTracker\StepTracker.Tests\obj\Debug\net8.0\StepTracker.Tests.AssemblyInfoInputs.cache
+C:\Users\Mark\source\StepTracker\StepTracker.Tests\obj\Debug\net8.0\StepTracker.Tests.AssemblyInfo.cs
+C:\Users\Mark\source\StepTracker\StepTracker.Tests\obj\Debug\net8.0\StepTracker.Tests.csproj.CoreCompileInputs.cache

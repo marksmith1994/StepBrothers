@@ -1,0 +1,32 @@
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Dotnet
+backend/bin/
+backend/obj/
+
+# Docker
+**/.dockerignore
+**/Dockerfile*
+**/docker-compose.yml
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+TestResults/
+StepTracker.Tests/bin/
+StepTracker.Tests/obj/
+
+# Misc
+.env
+.idea/

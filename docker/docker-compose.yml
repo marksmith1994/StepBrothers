@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - "5120:5120"
+    volumes:
+      - ../backend:/app/backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/app/frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
