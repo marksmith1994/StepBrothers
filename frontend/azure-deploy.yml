@@ -9,7 +9,7 @@ on:
     paths: [ 'frontend/**' ]
 
 env:
-  AZURE_WEBAPP_NAME: your-frontend-app-name    # Change this to your Azure App Service name
+  AZURE_WEBAPP_NAME: stepbrothers-ui
   AZURE_WEBAPP_PACKAGE_PATH: './frontend/dist'
   NODE_VERSION: '18.x'
 
@@ -37,7 +37,7 @@ jobs:
         cd frontend
         npm run build
       env:
-        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        VITE_API_URL: https://stepbrothers.azurewebsites.net
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3

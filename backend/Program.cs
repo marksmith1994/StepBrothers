@@ -16,8 +16,7 @@ builder.Services.AddCors(options =>
         policy => policy
             .WithOrigins(
                 "http://localhost:5173", // Development
-                "https://your-frontend-domain.azurewebsites.net", // Production - Update this
-                "https://your-frontend-domain.com" // Custom domain if you have one
+                "https://stepbrothers-ui.azurewebsites.net" // Production frontend
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
