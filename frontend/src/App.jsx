@@ -11,6 +11,7 @@ import { useStepsData } from './hooks/useStepsData';
 import { Container } from '@mui/material';
 import './App.css';
 import './styles/common.css';
+import './styles/mobile.css';
 
 export default function App() {
   const [darkMode, setDarkMode] = React.useState(false);

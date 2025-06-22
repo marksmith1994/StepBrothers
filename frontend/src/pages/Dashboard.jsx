@@ -232,7 +232,10 @@ export default function Dashboard() {
   }, [stepData]);
 
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 1, sm: 2, md: 4 } }}>
+    <Container maxWidth="xl" sx={{ 
+      py: { xs: 1, sm: 2, md: 4 },
+      px: { xs: 1, sm: 2, md: 3 }
+    }}>
       <Fade in timeout={800}>
         <Box>
           {/* Enhanced Header */}
@@ -270,7 +273,7 @@ export default function Dashboard() {
 
           {/* Quick Stats Cards */}
           {!isLoading && !hasError && quickStats && (
-            <Grid container spacing={{ xs: 2, sm: 3 }} sx={{ mb: { xs: 4, sm: 6 } }}>
+            <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 3, sm: 4, md: 6 } }}>
               <Grid item xs={12} sm={6} md={4}>
                 <Card className="stat-card">
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
@@ -368,17 +371,30 @@ export default function Dashboard() {
 
           {/* Enhanced Filter Section */}
           <Paper className="paper-glass p-4 mb-4" sx={{ 
-            p: { xs: 3, sm: 4, md: 6 },
-            mb: { xs: 4, sm: 6 }
+            p: { xs: 2, sm: 3, md: 4, lg: 6 },
+            mb: { xs: 3, sm: 4, md: 6 }
           }}>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: { xs: 3, lg: 4 }, alignItems: { xs: 'stretch', lg: 'center' } }}>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', lg: 'row' }, 
+              gap: { xs: 2, sm: 3, lg: 4 }, 
+              alignItems: { xs: 'stretch', lg: 'center' } 
+            }}>
               {/* Filter Controls */}
               <Box sx={{ flex: { xs: '1', lg: '0 0 auto' }, minWidth: { lg: 300 } }}>
-                <Typography variant="h5" className="text-bold mb-3" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
+                <Typography variant="h5" className="text-bold mb-3" sx={{ 
+                  fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' },
+                  mb: { xs: 2, sm: 3 }
+                }}>
                   📅 Filter Data
                 </Typography>
                 
-                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 3, alignItems: { xs: 'stretch', sm: 'center' } }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: { xs: 'column', sm: 'row' }, 
+                  gap: { xs: 2, sm: 3 }, 
+                  alignItems: { xs: 'stretch', sm: 'center' } 
+                }}>
                   <FormControl fullWidth>
                     <InputLabel id="month-select-label">Select Month</InputLabel>
                     <Select
@@ -395,6 +411,9 @@ export default function Dashboard() {
                         },
                         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                           borderColor: theme.palette.primary.main,
+                        },
+                        '@media (max-width: 600px)': {
+                          fontSize: '0.875rem'
                         }
                       }}
                     >

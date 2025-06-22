@@ -68,6 +68,12 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
       background: 'rgba(255,255,255,0.25)',
       transform: 'translateY(-1px)',
       boxShadow: '0 6px 16px rgba(0,0,0,0.12)'
+    },
+    '@media (max-width: 600px)': {
+      fontSize: '0.875rem',
+      px: 2,
+      py: 1,
+      minHeight: '44px'
     }
   });
 
@@ -104,7 +110,9 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
               sx={{ 
                 mr: 2,
                 background: 'rgba(255,255,255,0.1)',
-                '&:hover': { background: 'rgba(255,255,255,0.2)' }
+                '&:hover': { background: 'rgba(255,255,255,0.2)' },
+                minWidth: '44px',
+                minHeight: '44px'
               }}
               onClick={handleMenu}
             >
@@ -128,7 +136,8 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
               '&:hover': {
                 transform: 'scale(1.02)',
                 textShadow: '0 6px 16px rgba(0,0,0,0.4)'
-              }
+              },
+              fontSize: { xs: '1.25rem', sm: '2.125rem' }
             }}
             onClick={() => navigate('/')}
             aria-label="Go to Dashboard"
@@ -152,7 +161,12 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                   boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                   backdropFilter: 'blur(20px)',
                   background: 'rgba(255,255,255,0.95)',
-                  border: '1px solid rgba(255,255,255,0.2)'
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  '@media (max-width: 600px)': {
+                    minWidth: 260,
+                    maxWidth: 300,
+                    borderRadius: 2
+                  }
                 }
               }}
             >
@@ -178,6 +192,12 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                       : 'transparent',
                     '&:hover': {
                       background: 'rgba(102, 126, 234, 0.05)'
+                    },
+                    '@media (max-width: 600px)': {
+                      fontSize: '0.875rem',
+                      py: 1.5,
+                      px: 2,
+                      minHeight: '44px'
                     }
                   }}
                 >
@@ -185,10 +205,15 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                     {item.icon}
                   </Box>
                   <Box>
-                    <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                    <Typography variant="body1" sx={{ 
+                      fontWeight: 600,
+                      fontSize: { xs: '0.875rem', sm: '1rem' }
+                    }}>
                       {item.label}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ 
+                      fontSize: { xs: '0.75rem', sm: '0.75rem' }
+                    }}>
                       {item.description}
                     </Typography>
                   </Box>
@@ -201,7 +226,10 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                   <Divider sx={{ my: 1 }} />
                   
                   <Box sx={{ px: 2, py: 1 }}>
-                    <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 600 }}>
+                    <Typography variant="overline" color="text.secondary" sx={{ 
+                      fontWeight: 600,
+                      fontSize: { xs: '0.7rem', sm: '0.75rem' }
+                    }}>
                       Participants
                     </Typography>
                   </Box>
@@ -228,15 +256,20 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                           : 'transparent',
                         '&:hover': {
                           background: 'rgba(102, 126, 234, 0.05)'
+                        },
+                        '@media (max-width: 600px)': {
+                          fontSize: '0.8rem',
+                          py: 1,
+                          px: 2,
+                          minHeight: '44px'
                         }
                       }}
                     >
                       <Avatar 
                         sx={{ 
-                          width: 28, 
-                          height: 28, 
-                          mr: 2, 
-                          fontSize: '0.75rem',
+                          width: { xs: 24, sm: 28 }, 
+                          height: { xs: 24, sm: 28 }, 
+                          fontSize: { xs: '0.7rem', sm: '0.75rem' },
                           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                         }}
                       >
@@ -245,7 +278,8 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                       <Typography variant="body2" sx={{ 
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
+                        whiteSpace: 'nowrap',
+                        fontSize: { xs: '0.8rem', sm: '0.875rem' }
                       }}>
                         {person}
                       </Typography>
@@ -261,7 +295,7 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                         mx: 1,
                         my: 0.25,
                         color: 'text.secondary',
-                        fontSize: '0.8rem'
+                        fontSize: { xs: '0.75rem', sm: '0.8rem' }
                       }}
                     >
                       +{people.length - 6} more participants

@@ -38,7 +38,12 @@ export default function Leaderboard({ tab = 'dashboard' }) {
       p: { xs: 1.5, sm: 3 }, 
       borderRadius: 3, 
       boxShadow: 3, 
-      overflowX: 'auto' 
+      overflowX: 'auto',
+      '@media (max-width: 600px)': {
+        mt: 1,
+        p: 1,
+        borderRadius: 2
+      }
     }}>
       <Typography variant="h5" sx={{ 
         mb: { xs: 1.5, sm: 2 }, 
@@ -67,7 +72,11 @@ export default function Leaderboard({ tab = 'dashboard' }) {
           ))}
         </Tabs>
       )}
-      <Table size="small">
+      <Table size="small" sx={{ 
+        '@media (max-width: 600px)': {
+          fontSize: '0.75rem'
+        }
+      }}>
         <TableHead>
           <TableRow>
             <TableCell sx={{ 
