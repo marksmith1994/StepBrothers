@@ -1,51 +1,42 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy React app to Azure Web App - stepbrothers-ui
+name: Build and deploy ASP.Net Core app to Azure Web App - stepbrothers-ui
 
 on:
   push:
     branches:
       - main
-    paths: [ 'frontend/**' ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
         with:
-          node-version: '18.x'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          dotnet-version: '8.x'
 
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm ci
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
-      - name: Build with npm
-        run: |
-          cd frontend
-          npm run build
-        env:
-          VITE_API_URL: https://stepbrothers.azurewebsites.net
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: react-app
-          path: frontend/dist
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
@@ -58,14 +49,14 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: react-app
+          name: .net-app
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AE0A5FE58D824127A90F9717FE5CE7A9 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9B898DC3D6F2464E84836B1DA3D7A4EE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7A196C50196749CC85A3CB5F8EC5F38F }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CA23499AA31F46AE827D67AFC40E6303 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_28203B7D238145EA9B6BCEC61498DD4F }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_97FFE2E8E6A142B09EBEA2E7A317745E }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
