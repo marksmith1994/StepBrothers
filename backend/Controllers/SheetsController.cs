@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using StepTracker.Backend;
+using StepTracker.Services;
+using StepTracker.Models;
 
 namespace StepTracker.Controllers
 {
@@ -9,79 +12,133 @@ namespace StepTracker.Controllers
     [Route("api/[controller]")]
     public class SheetsController : ControllerBase
     {
-        private static readonly Dictionary<string, (DateTime date, List<Dictionary<string, object>> data)> _cache = new();
+        private readonly IConfiguration _configuration;
+        private readonly StepService _stepService;
+        private static readonly Dictionary<string, (DateTime date, StepDataResponse data)> _cache = new();
+
+        public SheetsController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _stepService = new StepService();
+        }
 
         [HttpGet("data")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetSheetData([FromQuery] string tab = "dashboard")
+        public async Task<IActionResult> GetSheetData([FromQuery] string tab = "dashboard", [FromQuery] int? year = null)
         {
-            string spreadsheetId = "1BWYUTco2qh4U8GnBvpRFz7WImFbHWq1afomGC86NQNE";
-            string credentialsPath = "credentials.json";
-            string range = tab.ToLower() == "dashboard"
-                ? "dashboard!A1:G22"
-                : $"{tab}!A1:H39";
-
-            // CACHE: If we have data for this tab today, return it
-            var today = DateTime.UtcNow.Date;
-            if (_cache.TryGetValue(tab.ToLower(), out var cached) && cached.date == today)
+            try
             {
-                return Ok(cached.data);
-            }
-
-            var sheetsService = new GoogleSheetsService(credentialsPath, spreadsheetId, range);
-            var data = await sheetsService.GetSheetDataAsync();
-
-            // Robust parsing for multi-row header and valid month rows
-            var result = new List<Dictionary<string, object>>();
-            if (data == null || data.Count < 3)
-                return Ok(result);
-            // Find the actual header row (the one with 'Mark', 'Calum', etc.)
-            int headerRowIdx = -1;
-            for (int i = 0; i < Math.Min(5, data.Count); i++)
-            {
-                if (data[i].Contains("Mark") && data[i].Contains("Total"))
+                var sheetsService = new GoogleSheetsService(_configuration);
+                var rawData = await sheetsService.GetSheetDataAsync();
+                
+                if (rawData == null || rawData.Count == 0)
                 {
-                    headerRowIdx = i;
-                    break;
+                    return NotFound("No data found in the sheet");
                 }
+
+                var stepData = _stepService.ParseStepsData(rawData, tab, year);
+                
+                return Ok(stepData);
             }
-            if (headerRowIdx == -1 || headerRowIdx + 1 >= data.Count)
-                return Ok(result);
-            var headers = data[headerRowIdx];
-            // Data starts after the header row
-            for (int i = headerRowIdx + 1; i < data.Count; i++)
+            catch (Exception ex)
             {
-                var row = data[i];
-                // Skip empty or summary rows
-                if (row.Count == 0 || row[0] == null) continue;
-                string monthRaw = row[0]?.ToString()?.Trim().ToLower() ?? "";
-                if (string.IsNullOrWhiteSpace(monthRaw)) continue;
-                if (monthRaw == "annual" || monthRaw == "daily average" || monthRaw == "") break;
-                if (monthRaw.Length < 3) continue; // skip short/empty
-                // Only process rows with enough columns
-                if (row.Count < headers.Count) continue;
-                var entry = new Dictionary<string, object>();
-                for (int j = 0; j < headers.Count; j++)
-                {
-                    var key = headers[j]?.ToString()?.Trim().ToLower() ?? "col"+j;
-                    if (string.IsNullOrWhiteSpace(key)) continue;
-                    entry[key] = row[j];
-                }
-                entry["month"] = row[0]; // always include original month label
-                result.Add(entry);
+                return StatusCode(500, ex.Message);
             }
-            // CACHE: Save today's data
-            _cache[tab.ToLower()] = (today, result);
-            return Ok(result);
+        }
+
+        [HttpGet("gamification")]
+        public async Task<IActionResult> GetGamificationData()
+        {
+            try
+            {
+                var sheetsService = new GoogleSheetsService(_configuration);
+                var rawData = await sheetsService.GetSheetDataAsync();
+                
+                if (rawData == null || rawData.Count == 0)
+                {
+                    return NotFound("No data found in the sheet");
+                }
+
+                var stepData = _stepService.ParseStepsData(rawData, null, null);
+                var gamificationData = _stepService.CalculateGamificationData(stepData.DailyData, stepData.Participants);
+                return Ok(gamificationData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("tabs")]
         public async Task<ActionResult<List<string>>> GetSheetTabs()
         {
-            string spreadsheetId = "1BWYUTco2qh4U8GnBvpRFz7WImFbHWq1afomGC86NQNE";
-            string credentialsPath = "credentials.json";
-            var sheetsService = new GoogleSheetsService(credentialsPath, spreadsheetId, null);
+            try
+            {
+                var sheetsService = new GoogleSheetsService(_configuration);
             var tabNames = await sheetsService.GetSheetNamesAsync();
             return Ok(tabNames);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("participant/{name}")]
+        public async Task<IActionResult> GetParticipantData(string name)
+        {
+            try
+            {
+                var sheetsService = new GoogleSheetsService(_configuration);
+                var rawData = await sheetsService.GetSheetDataAsync();
+                
+                if (rawData == null || rawData.Count == 0)
+                {
+                    return NotFound("No data found in the sheet");
+                }
+
+                var stepData = _stepService.ParseStepsData(rawData, null, null);
+                
+                // Debug: Log available participants
+                Console.WriteLine($"Looking for participant: '{name}'");
+                Console.WriteLine($"Available participants: {string.Join(", ", stepData.Participants)}");
+                
+                var participantData = stepData.ParticipantData.FirstOrDefault(p => 
+                    p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                
+                if (participantData == null)
+                {
+                    return NotFound($"Participant '{name}' not found. Available participants: {string.Join(", ", stepData.Participants)}");
+                }
+
+                return Ok(participantData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("totals")]
+        public async Task<IActionResult> GetTotals()
+        {
+            try
+            {
+                var sheetsService = new GoogleSheetsService(_configuration);
+                var rawData = await sheetsService.GetSheetDataAsync();
+                
+                if (rawData == null || rawData.Count == 0)
+                {
+                    return NotFound("No data found in the sheet");
+                }
+
+                var stepData = _stepService.ParseStepsData(rawData, null, null);
+                var totals = _stepService.GetTotals(stepData.DailyData);
+                return Ok(totals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

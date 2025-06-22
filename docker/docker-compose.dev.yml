@@ -1,0 +1,48 @@
+name: steptracker-dev
+
+services:
+  backend:
+    container_name: steptracker-backend-dev
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend.dev
+    ports:
+      - "5120:5120"
+    volumes:
+      - ../backend:/app/backend
+      - /app/backend/bin
+      - /app/backend/obj
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5120
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+      - GoogleSheets__ApiKey=${GOOGLE_SHEETS_API_KEY}
+      - GoogleSheets__SpreadsheetId=${GOOGLE_SHEETS_SPREADSHEET_ID}
+      - GoogleSheets__SheetRange=${GOOGLE_SHEETS_SHEET_RANGE:-Sheet1!A:Z}
+    command: ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5120", "--project", "/app/backend/backend.csproj"]
+    restart: unless-stopped
+
+  frontend:
+    container_name: steptracker-frontend-dev
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/app/frontend
+      - /app/frontend/node_modules
+      - /app/frontend/dist
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - VITE_HOST=0.0.0.0
+      - VITE_PORT=5173
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+networks:
+  default:
+    name: steptracker-dev-network 

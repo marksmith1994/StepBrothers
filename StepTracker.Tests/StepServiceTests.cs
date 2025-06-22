@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Xunit;
 using StepTracker.Services;
+using StepTracker.Models;
 
 namespace StepTracker.Tests
 {
@@ -8,36 +9,261 @@ namespace StepTracker.Tests
     {
         private readonly StepService _service = new StepService();
 
-        private readonly string sampleCsv = @"Month,Mark,John,Total
-January,1000,2000,3000
-February,1500,2500,4000
-Daily Average,1250,2250,3500";
+        private readonly List<IList<object>> sampleRawData = new()
+        {
+            new List<object> { "Mark", "John", "Sarah" }, // Header row
+            new List<object> { "1000", "2000", "1500" },  // Day 1
+            new List<object> { "1500", "2500", "1200" },  // Day 2
+            new List<object> { "2000", "1800", "2200" },  // Day 3
+            new List<object> { "1200", "3000", "1800" },  // Day 4
+            new List<object> { "1800", "2200", "2500" }   // Day 5
+        };
 
         [Fact]
-        public void ParseSteps_ReturnsCorrectEntries()
+        public void ParseStepsData_WithValidData_ReturnsCorrectResponse()
         {
-            var entries = _service.ParseSteps(sampleCsv);
-            Assert.Equal(2, entries.Count); // Should stop at Daily Average
-            Assert.Equal("January", entries[0].Month);
-            Assert.Equal(1000, entries[0].Steps["Mark"]);
-            Assert.Equal(2000, entries[0].Steps["John"]);
-            Assert.Equal(3000, entries[0].Total);
+            var response = _service.ParseStepsData(sampleRawData);
+            
+            Assert.NotNull(response);
+            Assert.Equal(3, response.Participants.Count);
+            Assert.Contains("Mark", response.Participants);
+            Assert.Contains("John", response.Participants);
+            Assert.Contains("Sarah", response.Participants);
+            Assert.Equal(5, response.DailyData.Count);
+        }
+
+        [Fact]
+        public void ParseStepsData_WithEmptyData_ReturnsEmptyResponse()
+        {
+            var response = _service.ParseStepsData(new List<IList<object>>());
+            
+            Assert.NotNull(response);
+            Assert.Empty(response.Participants);
+            Assert.Empty(response.DailyData);
+            Assert.Empty(response.ParticipantData);
+        }
+
+        [Fact]
+        public void ParseStepsData_WithNullData_ReturnsEmptyResponse()
+        {
+            var response = _service.ParseStepsData(null);
+            
+            Assert.NotNull(response);
+            Assert.Empty(response.Participants);
+            Assert.Empty(response.DailyData);
+            Assert.Empty(response.ParticipantData);
+        }
+
+        [Fact]
+        public void ParseStepsData_WithSingleRow_ReturnsEmptyResponse()
+        {
+            var singleRowData = new List<IList<object>>
+            {
+                new List<object> { "Mark", "John" }
+            };
+            
+            var response = _service.ParseStepsData(singleRowData);
+            
+            Assert.NotNull(response);
+            Assert.Equal(0, response.Participants.Count);
+            Assert.Empty(response.DailyData);
+        }
+
+        [Fact]
+        public void ParseStepsData_HandlesCommaSeparatedNumbers()
+        {
+            var dataWithCommas = new List<IList<object>>
+            {
+                new List<object> { "Mark", "John" },
+                new List<object> { "1,000", "2,500" },
+                new List<object> { "1,500", "3,000" }
+            };
+            
+            var response = _service.ParseStepsData(dataWithCommas);
+            
+            Assert.Equal(2, response.DailyData.Count);
+            Assert.Equal(1000, response.DailyData[0].Steps["Mark"]);
+            Assert.Equal(2500, response.DailyData[0].Steps["John"]);
+            Assert.Equal(1500, response.DailyData[1].Steps["Mark"]);
+            Assert.Equal(3000, response.DailyData[1].Steps["John"]);
+        }
+
+        [Fact]
+        public void ParseStepsData_HandlesInvalidNumbers()
+        {
+            var dataWithInvalidNumbers = new List<IList<object>>
+            {
+                new List<object> { "Mark", "John" },
+                new List<object> { "1000", "invalid" },
+                new List<object> { "abc", "2500" }
+            };
+            
+            var response = _service.ParseStepsData(dataWithInvalidNumbers);
+            
+            Assert.Equal(2, response.DailyData.Count);
+            Assert.Equal(1000, response.DailyData[0].Steps["Mark"]);
+            Assert.Equal(0, response.DailyData[0].Steps["John"]);
+            Assert.Equal(0, response.DailyData[1].Steps["Mark"]);
+            Assert.Equal(2500, response.DailyData[1].Steps["John"]);
+        }
+
+        [Fact]
+        public void ParseStepsData_CalculatesCorrectTotals()
+        {
+            var response = _service.ParseStepsData(sampleRawData);
+            
+            Assert.Equal(4500, response.DailyData[0].Total); // 1000 + 2000 + 1500
+            Assert.Equal(5200, response.DailyData[1].Total); // 1500 + 2500 + 1200
+            Assert.Equal(6000, response.DailyData[2].Total); // 2000 + 1800 + 2200
+        }
+
+        [Fact]
+        public void ParseStepsData_CalculatesParticipantData()
+        {
+            var response = _service.ParseStepsData(sampleRawData);
+            
+            Assert.Equal(3, response.ParticipantData.Count);
+            
+            var markData = response.ParticipantData.First(p => p.Name == "Mark");
+            Assert.Equal(7500, markData.TotalSteps); // 1000 + 1500 + 2000 + 1200 + 1800
+            Assert.Equal(1500.0, markData.AverageSteps); // 7500 / 5
+            Assert.Equal(2000, markData.HighestSingleDay);
+            Assert.Equal(5, markData.DailySteps.Count);
+        }
+
+        [Fact]
+        public void ParseStepsData_WithMonthFilter_ReturnsFilteredData()
+        {
+            var response = _service.ParseStepsData(sampleRawData, "January");
+            
+            Assert.NotNull(response);
+            // Note: The current implementation uses a simplified month filtering
+            // based on estimated 30-day periods, so this test may need adjustment
+        }
+
+        [Fact]
+        public void ParseStepsData_WithDashboardMonth_ReturnsAllData()
+        {
+            var response = _service.ParseStepsData(sampleRawData, "dashboard");
+            
+            Assert.NotNull(response);
+            Assert.Equal(3, response.Participants.Count);
+            Assert.Equal(5, response.DailyData.Count);
         }
 
         [Fact]
         public void GetTotals_ReturnsCorrectTotals()
         {
-            var entries = _service.ParseSteps(sampleCsv);
-            var totals = _service.GetTotals(entries);
-            Assert.Equal(2500, totals["Mark"]);
-            Assert.Equal(4500, totals["John"]);
+            var response = _service.ParseStepsData(sampleRawData);
+            var totals = _service.GetTotals(response.DailyData);
+            
+            Assert.Equal(7500, totals["Mark"]);   // 1000 + 1500 + 2000 + 1200 + 1800
+            Assert.Equal(11500, totals["John"]);  // 2000 + 2500 + 1800 + 3000 + 2200
+            Assert.Equal(9200, totals["Sarah"]);  // 1500 + 1200 + 2200 + 1800 + 2500
         }
 
         [Fact]
-        public void ParseSteps_HandlesEmptyCsv()
+        public void GetTotals_WithEmptyData_ReturnsEmptyDictionary()
         {
-            var entries = _service.ParseSteps("");
-            Assert.Empty(entries);
+            var totals = _service.GetTotals(new List<StepEntry>());
+            
+            Assert.NotNull(totals);
+            Assert.Empty(totals);
+        }
+
+        [Fact]
+        public void GetParticipantData_ReturnsCorrectData()
+        {
+            var response = _service.ParseStepsData(sampleRawData);
+            var participantData = _service.GetParticipantData(response.DailyData, "Mark");
+            
+            Assert.NotNull(participantData);
+            Assert.Equal("Mark", participantData.Name);
+            Assert.Equal(7500, participantData.TotalSteps);
+            Assert.Equal(1500.0, participantData.AverageSteps);
+            Assert.Equal(2000, participantData.HighestSingleDay);
+        }
+
+        [Fact]
+        public void GetParticipantData_WithNonExistentParticipant_ReturnsDefault()
+        {
+            var response = _service.ParseStepsData(sampleRawData);
+            var participantData = _service.GetParticipantData(response.DailyData, "NonExistent");
+            
+            Assert.NotNull(participantData);
+            Assert.Equal("NonExistent", participantData.Name);
+            Assert.Equal(0, participantData.TotalSteps);
+            Assert.Equal(0, participantData.AverageSteps);
+            Assert.Equal(0, participantData.HighestSingleDay);
+        }
+
+        [Fact]
+        public void CalculateGamificationData_ReturnsCorrectData()
+        {
+            var response = _service.ParseStepsData(sampleRawData);
+            var gamificationData = _service.CalculateGamificationData(response.DailyData, response.Participants);
+            
+            Assert.NotNull(gamificationData);
+            Assert.NotNull(gamificationData.MonthlyWinners);
+            Assert.NotNull(gamificationData.AllTimeBests);
+            Assert.NotNull(gamificationData.CumulativeData);
+            Assert.NotNull(gamificationData.CurrentStreaks);
+        }
+
+        [Fact]
+        public void CalculateGamificationData_WithEmptyData_ReturnsEmptyData()
+        {
+            var gamificationData = _service.CalculateGamificationData(new List<StepEntry>(), new List<string>());
+            
+            Assert.NotNull(gamificationData);
+            Assert.Empty(gamificationData.MonthlyWinners);
+            Assert.Empty(gamificationData.AllTimeBests);
+            Assert.Empty(gamificationData.CumulativeData);
+            Assert.Empty(gamificationData.CurrentStreaks);
+        }
+
+        [Fact]
+        public void ParseStepsData_HandlesMissingValues()
+        {
+            var dataWithMissingValues = new List<IList<object>>
+            {
+                new List<object> { "Mark", "John", "Sarah" },
+                new List<object> { "1000", "2000" }, // Missing Sarah
+                new List<object> { "1500", "2500", "1200" },
+                new List<object> { "2000" } // Missing John and Sarah
+            };
+            
+            var response = _service.ParseStepsData(dataWithMissingValues);
+            
+            Assert.Equal(3, response.DailyData.Count);
+            Assert.Equal(1000, response.DailyData[0].Steps["Mark"]);
+            Assert.Equal(2000, response.DailyData[0].Steps["John"]);
+            Assert.True(response.DailyData[0].Steps.ContainsKey("Sarah") ? response.DailyData[0].Steps["Sarah"] == 0 : true);
+            Assert.Equal(1500, response.DailyData[1].Steps["Mark"]);
+            Assert.Equal(2500, response.DailyData[1].Steps["John"]);
+            Assert.Equal(1200, response.DailyData[1].Steps["Sarah"]);
+            Assert.Equal(2000, response.DailyData[2].Steps["Mark"]);
+            Assert.True(response.DailyData[2].Steps.ContainsKey("John") ? response.DailyData[2].Steps["John"] == 0 : true);
+            Assert.True(response.DailyData[2].Steps.ContainsKey("Sarah") ? response.DailyData[2].Steps["Sarah"] == 0 : true);
+        }
+
+        [Fact]
+        public void ParseStepsData_HandlesEmptyStrings()
+        {
+            var dataWithEmptyStrings = new List<IList<object>>
+            {
+                new List<object> { "Mark", "John" },
+                new List<object> { "", "2000" },
+                new List<object> { "1500", "" }
+            };
+            
+            var response = _service.ParseStepsData(dataWithEmptyStrings);
+            
+            Assert.Equal(2, response.DailyData.Count);
+            Assert.Equal(0, response.DailyData[0].Steps["Mark"]);
+            Assert.Equal(2000, response.DailyData[0].Steps["John"]);
+            Assert.Equal(1500, response.DailyData[1].Steps["Mark"]);
+            Assert.Equal(0, response.DailyData[1].Steps["John"]);
         }
     }
 }

@@ -1,44 +1,167 @@
 import { useState, useEffect } from 'react';
+import { API_CONFIG } from '../constants';
 
-export function useStepsData({ filterDailyAverage = true, person = null, totals = false, tab = 'dashboard' } = {}) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+// Cache instance for storing data
+const cache = new Map();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+export const useStepsData = (options = {}) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Backend API endpoint for Google Sheets data
-    let url = `http://localhost:5120/api/sheets/data?tab=${tab}`;
-    setLoading(true);
-    fetch(url)
-      .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then(json => {
-        // Backend now returns array of objects, not a 2D array
-        if (!Array.isArray(json)) {
-          setData([]);
-          return;
-        }
-        let result = json;
-        if (!totals && filterDailyAverage) {
-          const filtered = [];
-          for (const entry of json) {
-            const month = (entry.month || '').toString().trim().toLowerCase();
-            if (month === 'daily average') break;
-            if (month === 'annual') continue;
-            filtered.push(entry);
-          }
-          result = filtered;
-        }
-        if (person && !totals) {
-          result = result.filter(entry => entry[person.toLowerCase()] !== undefined);
-        }
-        setData(result);
-      })
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false));
-  }, [filterDailyAverage, person, totals, tab]);
+  const fetchData = async (url, cacheKey) => {
+    try {
+      const cached = cache.get(cacheKey);
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+        return cached.data;
+      }
 
-  return { data, loading, error };
-}
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      // Cache the result
+      cache.set(cacheKey, {
+        data: result,
+        timestamp: Date.now()
+      });
+      
+      return result;
+    } catch (e) {
+      setError(e.message);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        let url;
+        let cacheKey;
+
+        if (options.totals) {
+          // Fetch totals data
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_TOTALS}`;
+          cacheKey = 'totals';
+        } else if (options.gamification) {
+          // Fetch gamification data
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_GAMIFICATION}`;
+          cacheKey = 'gamification';
+        } else if (options.person) {
+          // Fetch data for specific person using the participant endpoint
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(options.person)}`;
+          cacheKey = `person-${options.person}`;
+        } else {
+          // Fetch regular step data with optional tab parameter
+          const tabParam = options.tab ? `?tab=${encodeURIComponent(options.tab)}` : '?tab=dashboard';
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_DATA}${tabParam}`;
+          cacheKey = `steps-${options.tab || 'dashboard'}`;
+        }
+
+        const result = await fetchData(url, cacheKey);
+        
+        if (result) {
+          setData(result);
+        } else {
+          setError('Failed to fetch data');
+        }
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [options.tab, options.totals, options.gamification, options.person]);
+
+  const refreshData = () => {
+    cache.clear();
+    setData(null);
+    setLoading(true);
+    setError(null);
+    
+    const loadData = async () => {
+      try {
+        let url;
+        let cacheKey;
+
+        if (options.totals) {
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_TOTALS}`;
+          cacheKey = 'totals';
+        } else if (options.gamification) {
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_GAMIFICATION}`;
+          cacheKey = 'gamification';
+        } else if (options.person) {
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(options.person)}`;
+          cacheKey = `person-${options.person}`;
+        } else {
+          const tabParam = options.tab ? `?tab=${encodeURIComponent(options.tab)}` : '?tab=dashboard';
+          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_DATA}${tabParam}`;
+          cacheKey = `steps-${options.tab || 'dashboard'}`;
+        }
+
+        const result = await fetchData(url, cacheKey);
+        
+        if (result) {
+          setData(result);
+        } else {
+          setError('Failed to fetch data');
+        }
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  };
+
+  return { data, loading, error, refreshData };
+};
+
+// Export cache stats and refresh function for CacheManager
+export const useCacheStats = () => {
+  const [stats, setStats] = useState({
+    totalSize: 0,
+    memorySize: 0,
+    localStorageSize: 0,
+    entries: []
+  });
+
+  const updateStats = () => {
+    setStats({
+      totalSize: cache.size,
+      memorySize: cache.size,
+      localStorageSize: 0, // We're only using memory cache for now
+      entries: Array.from(cache.keys())
+    });
+  };
+
+  const clearCache = () => {
+    cache.clear();
+    updateStats();
+  };
+
+  useEffect(() => {
+    updateStats();
+    const interval = setInterval(updateStats, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return { stats, updateStats, clearCache };
+};
+
+export const useRefreshData = () => {
+  return () => {
+    cache.clear();
+  };
+}; 

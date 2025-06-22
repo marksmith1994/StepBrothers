@@ -31,6 +31,48 @@ TestResults/
 StepTracker.Tests/bin/
 StepTracker.Tests/obj/
 
-# Misc
+# Environment and Secrets
 .env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+appsettings.Production.json
+appsettings.Staging.json
+secrets.json
+config.json
+
+# IDE
 .idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
