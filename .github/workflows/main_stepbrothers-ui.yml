@@ -38,6 +38,10 @@ jobs:
         env:
           VITE_API_URL: https://stepbrothers.azurewebsites.net
 
+      - name: Copy web.config to dist
+        run: |
+          cp frontend/web.config frontend/dist/
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
