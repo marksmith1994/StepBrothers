@@ -1,42 +1,51 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - stepbrothers-ui
+name: Build and deploy React app to Azure Web App - stepbrothers-ui
 
 on:
   push:
     branches:
       - main
+    paths: [ 'frontend/**' ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          dotnet-version: '8.x'
+          node-version: '18.x'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: Build with npm
+        run: |
+          cd frontend
+          npm run build
+        env:
+          VITE_API_URL: https://stepbrothers.azurewebsites.net
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: react-app
+          path: frontend/dist
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
@@ -49,7 +58,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: react-app
       
       - name: Login to Azure
         uses: azure/login@v2
