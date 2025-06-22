@@ -1,19 +1,28 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    'process.env': {}
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          mui: ['@mui/material', '@mui/icons-material', '@mui/x-data-grid'],
+          charts: ['recharts']
+        }
+      }
+    }
+  },
   server: {
-    host: '0.0.0.0',
     port: 5173,
-    watch: {
-      usePolling: true,
-      interval: 1000,
-    },
-    hmr: {
-      port: 5173,
-    },
+    host: true
   },
   preview: {
     host: '0.0.0.0',

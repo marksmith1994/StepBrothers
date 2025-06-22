@@ -4,7 +4,7 @@
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:5120',
+  BASE_URL: import.meta.env.VITE_API_URL || 'https://stepbrothers.azurewebsites.net',
   ENDPOINTS: {
     SHEETS_DATA: '/api/sheets/data',
     SHEETS_TOTALS: '/api/sheets/totals',
