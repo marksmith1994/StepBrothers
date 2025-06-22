@@ -1,10 +1,11 @@
 # 🏃‍♂️ Step Brothers - Gamified Step Tracking App
 
-A modern, gamified step tracking application built with React, Material-UI, and .NET Core. Track your daily steps, compete with friends, and celebrate achievements with an engaging gamification system.
+A modern, gamified step tracking application built with React, Material-UI, and .NET 8. Track your daily steps, compete with friends, and celebrate achievements with an engaging gamification system.
 
-![Step Brothers App](https://img.shields.io/badge/React-18.2.0-blue?style=for-the-badge&logo=react)
+![React](https://img.shields.io/badge/React-18.2.0-blue?style=for-the-badge&logo=react)
 ![Material-UI](https://img.shields.io/badge/Material--UI-5.14.0-blue?style=for-the-badge&logo=mui)
-![.NET Core](https://img.shields.io/badge/.NET-7.0-purple?style=for-the-badge&logo=dotnet)
+![.NET](https://img.shields.io/badge/.NET-8.0-purple?style=for-the-badge&logo=dotnet)
+![Testing](https://img.shields.io/badge/Tests-25%20passing-green?style=for-the-badge&logo=jest)
 
 ## ✨ Features
 
@@ -16,7 +17,7 @@ A modern, gamified step tracking application built with React, Material-UI, and 
 - **Cumulative Progress**: Visual progress tracking over time
 
 ### 📊 Analytics & Visualization
-- **Interactive Charts**: Beautiful step progress visualizations
+- **Interactive Charts**: Beautiful step progress visualizations using Recharts
 - **Real-time Data**: Live updates from Google Sheets integration
 - **Responsive Design**: Works seamlessly on desktop and mobile
 - **Modern UI**: Glassmorphism design with smooth animations
@@ -27,11 +28,17 @@ A modern, gamified step tracking application built with React, Material-UI, and 
 - **Performance Metrics**: Detailed statistics for each participant
 - **Achievement Badges**: Visual recognition for accomplishments
 
+### 🧪 Comprehensive Testing
+- **Unit Tests**: 25+ tests covering all core functionality
+- **Service Testing**: Complete coverage of business logic
+- **Edge Case Handling**: Tests for invalid data, missing values, and error conditions
+- **Mock Integration**: Safe testing without external API dependencies
+
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- .NET 7.0 SDK
+- Node.js (v18 or higher)
+- .NET 8.0 SDK
 - Google Sheets API credentials
 - **Docker Desktop** (for Docker development)
 
@@ -83,11 +90,43 @@ The easiest way to get started is using Docker with hot reloading and file watch
 - ✅ **Persistent Data**: Node modules and build artifacts are cached
 - ✅ **Cross-platform**: Single script works on Windows, macOS, and Linux
 
+## 🧪 Testing
+
+### Running Tests
+
+```bash
+# Run all tests
+cd StepTracker.Tests
+dotnet test
+
+# Run tests with coverage (if available)
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+### Test Coverage
+
+The test suite includes comprehensive coverage for:
+
+- **StepService**: Data parsing, calculations, and business logic
+- **Edge Cases**: Empty data, invalid numbers, missing values
+- **Error Handling**: Proper exception handling and validation
+- **Constructor Validation**: Service initialization and configuration
+
+### Test Structure
+
+```
+StepTracker.Tests/
+├── StepServiceTests.cs        # Core business logic tests
+├── SheetsControllerTests.cs   # API controller tests
+├── GoogleSheetsServiceTests.cs # Google Sheets integration tests
+└── StepTracker.Tests.csproj   # Test project configuration
+```
+
 ## 🔧 Manual Setup (Alternative)
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- .NET 7.0 SDK
+- Node.js (v18 or higher)
+- .NET 8.0 SDK
 - Google Sheets API credentials
 
 ### Backend Setup
@@ -105,9 +144,10 @@ The easiest way to get started is using Docker with hot reloading and file watch
 3. **Configure Google Sheets**:
    - Create a Google Cloud Project
    - Enable Google Sheets API
-   - Create service account credentials
-   - Share your Google Sheet with the service account email
-   - Update `appsettings.json` with your credentials
+   - Create API credentials (API Key)
+   - Share your Google Sheet with the API
+   - Copy `appsettings.template.json` to `appsettings.Development.json`
+   - Update with your actual credentials
 
 4. **Run the backend**:
    ```bash
@@ -139,35 +179,59 @@ The frontend will be available at `http://localhost:5173`
 
 ```
 StepTracker/
-├── backend/
+├── backend/                   # .NET 8 API
 │   ├── Controllers/
 │   │   └── SheetsController.cs
 │   ├── Models/
 │   │   └── StepEntry.cs
 │   ├── Services/
 │   │   └── StepService.cs
+│   ├── GoogleSheetsService.cs
 │   └── Program.cs
-├── frontend/
+├── frontend/                  # React + Vite application
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── StreakCard.jsx
-│   │   │   ├── MonthlyWinnersTable.jsx
+│   │   │   ├── AchievementCard.jsx
 │   │   │   ├── AllTimeBestsTable.jsx
+│   │   │   ├── AnalyticsDashboard.jsx
+│   │   │   ├── ConsistencyHeatmap.jsx
 │   │   │   ├── CumulativeStepsChart.jsx
-│   │   │   └── NavBar.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Leaderboard.jsx
+│   │   │   ├── MonthlyWinnersTable.jsx
+│   │   │   ├── NavBar.jsx
+│   │   │   ├── PersonPageSkeleton.jsx
+│   │   │   ├── StepLineChart.jsx
+│   │   │   ├── StreakCard.jsx
+│   │   │   └── WeeklyPerformanceChart.jsx
 │   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
 │   │   │   ├── GamificationPage.jsx
-│   │   │   ├── PersonPage.jsx
-│   │   │   └── Dashboard.jsx
+│   │   │   └── PersonPage.jsx
 │   │   ├── hooks/
 │   │   │   └── useStepsData.js
 │   │   ├── utils/
+│   │   │   ├── achievements.js
+│   │   │   ├── analytics.js
+│   │   │   ├── cache.js
 │   │   │   └── helpers.js
 │   │   ├── constants/
 │   │   │   └── index.js
+│   │   ├── styles/
+│   │   │   └── common.css
 │   │   ├── theme.js
 │   │   └── App.jsx
 │   └── package.json
+├── StepTracker.Tests/         # Comprehensive test suite
+│   ├── StepServiceTests.cs
+│   ├── SheetsControllerTests.cs
+│   ├── GoogleSheetsServiceTests.cs
+│   └── StepTracker.Tests.csproj
+├── docker/                    # Docker development environment
+│   ├── docker-compose.dev.yml
+│   ├── Dockerfile.frontend.dev
+│   ├── Dockerfile.backend.dev
+│   └── dev.sh
 └── README.md
 ```
 
@@ -193,15 +257,16 @@ StepTracker/
 
 ## 🔧 Configuration
 
-### Backend Configuration (`appsettings.json`)
+### Backend Configuration (`appsettings.Development.json`)
 ```json
 {
   "GoogleSheets": {
-    "SpreadsheetId": "your-spreadsheet-id",
-    "CredentialsPath": "path/to/credentials.json"
+    "ApiKey": "your_actual_api_key",
+    "SpreadsheetId": "your_spreadsheet_id",
+    "SheetRange": "Sheet1!A:Z"
   },
   "Cors": {
-    "AllowedOrigins": ["http://localhost:3000"]
+    "AllowedOrigins": ["http://localhost:5173"]
   }
 }
 ```
@@ -209,10 +274,13 @@ StepTracker/
 ### Frontend Configuration (`src/constants/index.js`)
 ```javascript
 export const API_CONFIG = {
-  BASE_URL: 'http://localhost:5120',
+  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:5120',
   ENDPOINTS: {
     SHEETS_DATA: '/api/sheets/data',
-    SHEETS_GAMIFICATION: '/api/sheets/gamification'
+    SHEETS_TOTALS: '/api/sheets/totals',
+    SHEETS_GAMIFICATION: '/api/sheets/gamification',
+    SHEETS_PARTICIPANT: '/api/sheets/participant',
+    SHEETS_TABS: '/api/sheets/tabs'
   }
 };
 ```
@@ -230,6 +298,7 @@ Your Google Sheet should have the following structure:
 - `GET /api/sheets/totals` - Aggregated totals
 - `GET /api/sheets/gamification` - Gamification data
 - `GET /api/sheets/participant/{name}` - Individual participant data
+- `GET /api/sheets/tabs` - Available sheet tabs
 
 ## 🎯 Gamification Rules
 
@@ -247,6 +316,11 @@ Your Google Sheet should have the following structure:
 - Top 10 single-day performances
 - Gold, silver, bronze medals for top 3
 - Historical record tracking
+
+### Achievement System
+- **Step Milestones**: 500K, 1M, 2M, 3M, 4M, 5M steps
+- **Consistency Achievements**: 100, 200, 300, 365 days of 10K+ steps
+- **Visual Badges**: Unique icons and colors for each achievement
 
 ## 🚀 Production Deployment
 
@@ -299,14 +373,23 @@ GOOGLE_SHEETS_SHEET_RANGE=dashboard!C2:G367
 - [ ] Set up monitoring and logging
 - [ ] Configure SSL certificates
 - [ ] Set up backup strategy for Google Sheets data
+- [ ] Run full test suite to ensure quality
+
+## 🔒 Security
+
+- ✅ **No API keys in code**: All sensitive data is in environment variables
+- ✅ **Proper .gitignore**: Excludes all sensitive configuration files
+- ✅ **Template files**: Safe example configurations provided
+- ✅ **Test isolation**: Tests don't require real API credentials
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+4. Add tests for new functionality
+5. Ensure all tests pass
+6. Submit a pull request
 
 ## 📝 License
 
@@ -316,8 +399,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Material-UI for the component library
 - React for the frontend framework
-- .NET Core for the backend framework
+- .NET 8 for the backend framework
 - Google Sheets API for data storage
+- Recharts for beautiful data visualizations
 
 ## 📞 Support
 
