@@ -137,186 +137,192 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
           </Typography>
 
           {/* Navigation Items */}
-          {people.length > 0 && (
-            isMobile ? (
-              <Menu
-                id="mobile-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                PaperProps={{
-                  sx: {
-                    mt: 1.5,
-                    minWidth: 280,
-                    maxWidth: 320,
-                    borderRadius: 3,
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                    backdropFilter: 'blur(20px)',
-                    background: 'rgba(255,255,255,0.95)',
-                    border: '1px solid rgba(255,255,255,0.2)'
-                  }
-                }}
-              >
-                {/* Navigation Items */}
-                {navItems.map((item) => (
-                  <MenuItem
-                    key={item.path}
-                    onClick={() => {
-                      navigate(item.path);
-                      handleClose();
-                    }}
-                    sx={{ 
-                      fontWeight: 600, 
-                      letterSpacing: 0.5, 
-                      fontSize: '1rem', 
-                      py: 2,
-                      px: 3,
-                      borderRadius: 1,
-                      mx: 1,
-                      my: 0.5,
-                      background: isActiveRoute(item.path) 
-                        ? 'rgba(102, 126, 234, 0.1)' 
-                        : 'transparent',
-                      '&:hover': {
-                        background: 'rgba(102, 126, 234, 0.05)'
-                      }
-                    }}
-                  >
-                    <Box sx={{ mr: 2, color: isActiveRoute(item.path) ? theme.palette.primary.main : 'inherit' }}>
-                      {item.icon}
-                    </Box>
-                    <Box>
-                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                        {item.label}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {item.description}
-                      </Typography>
-                    </Box>
-                  </MenuItem>
-                ))}
-                
-                <Divider sx={{ my: 1 }} />
-                
-                {/* People */}
-                <Box sx={{ px: 2, py: 1 }}>
-                  <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 600 }}>
-                    Participants
-                  </Typography>
-                </Box>
-                
-                {people.slice(0, 6).map((person) => (
-                  <MenuItem
-                    key={person}
-                    onClick={() => {
-                      navigate(`/person/${encodeURIComponent(person)}`);
-                      handleClose();
-                    }}
-                    aria-label={`Go to ${person}'s page`}
-                    sx={{ 
-                      fontWeight: 600, 
-                      letterSpacing: 0.5, 
-                      fontSize: '0.9rem', 
-                      py: 1.5,
-                      px: 3,
-                      borderRadius: 1,
-                      mx: 1,
-                      my: 0.25,
-                      background: isActiveRoute(`/person/${encodeURIComponent(person)}`) 
-                        ? 'rgba(102, 126, 234, 0.1)' 
-                        : 'transparent',
-                      '&:hover': {
-                        background: 'rgba(102, 126, 234, 0.05)'
-                      }
-                    }}
-                  >
-                    <Avatar 
+          {isMobile ? (
+            <Menu
+              id="mobile-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              PaperProps={{
+                sx: {
+                  mt: 1.5,
+                  minWidth: 280,
+                  maxWidth: 320,
+                  borderRadius: 3,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                  backdropFilter: 'blur(20px)',
+                  background: 'rgba(255,255,255,0.95)',
+                  border: '1px solid rgba(255,255,255,0.2)'
+                }
+              }}
+            >
+              {/* Main Navigation Items */}
+              {navItems.map((item) => (
+                <MenuItem
+                  key={item.path}
+                  onClick={() => {
+                    navigate(item.path);
+                    handleClose();
+                  }}
+                  sx={{ 
+                    fontWeight: 600, 
+                    letterSpacing: 0.5, 
+                    fontSize: '1rem', 
+                    py: 2,
+                    px: 3,
+                    borderRadius: 1,
+                    mx: 1,
+                    my: 0.5,
+                    background: isActiveRoute(item.path) 
+                      ? 'rgba(102, 126, 234, 0.1)' 
+                      : 'transparent',
+                    '&:hover': {
+                      background: 'rgba(102, 126, 234, 0.05)'
+                    }
+                  }}
+                >
+                  <Box sx={{ mr: 2, color: isActiveRoute(item.path) ? theme.palette.primary.main : 'inherit' }}>
+                    {item.icon}
+                  </Box>
+                  <Box>
+                    <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                      {item.label}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </Box>
+                </MenuItem>
+              ))}
+              
+              {/* Participants Section - Only show if people exist */}
+              {people.length > 0 && (
+                <>
+                  <Divider sx={{ my: 1 }} />
+                  
+                  <Box sx={{ px: 2, py: 1 }}>
+                    <Typography variant="overline" color="text.secondary" sx={{ fontWeight: 600 }}>
+                      Participants
+                    </Typography>
+                  </Box>
+                  
+                  {people.slice(0, 6).map((person) => (
+                    <MenuItem
+                      key={person}
+                      onClick={() => {
+                        navigate(`/person/${encodeURIComponent(person)}`);
+                        handleClose();
+                      }}
+                      aria-label={`Go to ${person}'s page`}
                       sx={{ 
-                        width: 28, 
-                        height: 28, 
-                        mr: 2, 
-                        fontSize: '0.75rem',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        fontWeight: 600, 
+                        letterSpacing: 0.5, 
+                        fontSize: '0.9rem', 
+                        py: 1.5,
+                        px: 3,
+                        borderRadius: 1,
+                        mx: 1,
+                        my: 0.25,
+                        background: isActiveRoute(`/person/${encodeURIComponent(person)}`) 
+                          ? 'rgba(102, 126, 234, 0.1)' 
+                          : 'transparent',
+                        '&:hover': {
+                          background: 'rgba(102, 126, 234, 0.05)'
+                        }
                       }}
                     >
-                      {getInitials(person)}
-                    </Avatar>
-                    <Typography variant="body2" sx={{ 
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {person}
-                    </Typography>
-                  </MenuItem>
-                ))}
-                
-                {people.length > 6 && (
-                  <MenuItem
-                    sx={{ 
-                      textAlign: 'center',
-                      py: 1,
-                      px: 3,
-                      mx: 1,
-                      my: 0.25,
-                      color: 'text.secondary',
-                      fontSize: '0.8rem'
-                    }}
-                  >
-                    +{people.length - 6} more participants
-                  </MenuItem>
-                )}
-              </Menu>
-            ) : (
-              <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                {/* Main Navigation */}
-                {navItems.map((item) => (
-                  <Tooltip key={item.path} title={item.description} arrow>
-                    <Button
-                      color="inherit"
-                      onClick={() => navigate(item.path)}
-                      sx={buttonStyle(isActiveRoute(item.path))}
-                      startIcon={item.icon}
-                    >
-                      {item.label}
-                    </Button>
-                  </Tooltip>
-                ))}
-                
-                <Divider orientation="vertical" flexItem sx={{ 
-                  background: 'rgba(255,255,255,0.2)', 
-                  mx: 1,
-                  height: 32
-                }} />
-                
-                {/* People */}
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  {people.map((person) => (
-                    <Tooltip key={person} title={`View ${person}'s stats`} arrow>
-                      <Button
-                        color="inherit"
-                        onClick={() => navigate(`/person/${encodeURIComponent(person)}`)}
-                        sx={buttonStyle(isActiveRoute(`/person/${encodeURIComponent(person)}`))}
-                        aria-label={`Go to ${person}'s page`}
+                      <Avatar 
+                        sx={{ 
+                          width: 28, 
+                          height: 28, 
+                          mr: 2, 
+                          fontSize: '0.75rem',
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        }}
                       >
-                        <Avatar 
-                          sx={{
-                            width: 28, 
-                            height: 28, 
-                            mr: 1.5, 
-                            fontSize: '0.75rem',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                          }}
-                        >
-                          {getInitials(person)}
-                        </Avatar>
+                        {getInitials(person)}
+                      </Avatar>
+                      <Typography variant="body2" sx={{ 
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
                         {person}
-                      </Button>
-                    </Tooltip>
+                      </Typography>
+                    </MenuItem>
                   ))}
-                </Box>
-              </Box>
-            )
+                  
+                  {people.length > 6 && (
+                    <MenuItem
+                      sx={{ 
+                        textAlign: 'center',
+                        py: 1,
+                        px: 3,
+                        mx: 1,
+                        my: 0.25,
+                        color: 'text.secondary',
+                        fontSize: '0.8rem'
+                      }}
+                    >
+                      +{people.length - 6} more participants
+                    </MenuItem>
+                  )}
+                </>
+              )}
+            </Menu>
+          ) : (
+            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+              {/* Main Navigation */}
+              {navItems.map((item) => (
+                <Tooltip key={item.path} title={item.description} arrow>
+                  <Button
+                    color="inherit"
+                    onClick={() => navigate(item.path)}
+                    sx={buttonStyle(isActiveRoute(item.path))}
+                    startIcon={item.icon}
+                  >
+                    {item.label}
+                  </Button>
+                </Tooltip>
+              ))}
+              
+              {/* People - Only show if people exist */}
+              {people.length > 0 && (
+                <>
+                  <Divider orientation="vertical" flexItem sx={{ 
+                    background: 'rgba(255,255,255,0.2)', 
+                    mx: 1,
+                    height: 32
+                  }} />
+                  
+                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                    {people.map((person) => (
+                      <Tooltip key={person} title={`View ${person}'s stats`} arrow>
+                        <Button
+                          color="inherit"
+                          onClick={() => navigate(`/person/${encodeURIComponent(person)}`)}
+                          sx={buttonStyle(isActiveRoute(`/person/${encodeURIComponent(person)}`))}
+                          aria-label={`Go to ${person}'s page`}
+                        >
+                          <Avatar 
+                            sx={{
+                              width: 28, 
+                              height: 28, 
+                              mr: 1.5, 
+                              fontSize: '0.75rem',
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                            }}
+                          >
+                            {getInitials(person)}
+                          </Avatar>
+                          {person}
+                        </Button>
+                      </Tooltip>
+                    ))}
+                  </Box>
+                </>
+              )}
+            </Box>
           )}
         </Box>
       </Toolbar>
