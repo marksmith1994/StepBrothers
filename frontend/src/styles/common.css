@@ -119,22 +119,22 @@
 
 /* Mobile-specific spacing */
 @media (max-width: 600px) {
-  .mb-1 { margin-bottom: 4px !important; }
-  .mb-2 { margin-bottom: 8px !important; }
-  .mb-3 { margin-bottom: 12px !important; }
-  .mb-4 { margin-bottom: 16px !important; }
-  .mb-5 { margin-bottom: 20px !important; }
-  .mb-6 { margin-bottom: 24px !important; }
+  .mb-1 { margin-bottom: 8px !important; }
+  .mb-2 { margin-bottom: 12px !important; }
+  .mb-3 { margin-bottom: 16px !important; }
+  .mb-4 { margin-bottom: 20px !important; }
+  .mb-5 { margin-bottom: 24px !important; }
+  .mb-6 { margin-bottom: 28px !important; }
 
-  .mt-1 { margin-top: 4px !important; }
-  .mt-2 { margin-top: 8px !important; }
-  .mt-3 { margin-top: 12px !important; }
-  .mt-4 { margin-top: 16px !important; }
+  .mt-1 { margin-top: 8px !important; }
+  .mt-2 { margin-top: 12px !important; }
+  .mt-3 { margin-top: 16px !important; }
+  .mt-4 { margin-top: 20px !important; }
 
-  .p-1 { padding: 4px !important; }
-  .p-2 { padding: 8px !important; }
-  .p-3 { padding: 12px !important; }
-  .p-4 { padding: 16px !important; }
+  .p-1 { padding: 8px !important; }
+  .p-2 { padding: 12px !important; }
+  .p-3 { padding: 16px !important; }
+  .p-4 { padding: 20px !important; }
 }
 
 /* Border Radius */
@@ -146,11 +146,11 @@
 
 /* Mobile-specific border radius */
 @media (max-width: 600px) {
-  .rounded-sm { border-radius: 3px !important; }
-  .rounded { border-radius: 6px !important; }
-  .rounded-md { border-radius: 8px !important; }
-  .rounded-lg { border-radius: 12px !important; }
-  .rounded-xl { border-radius: 16px !important; }
+  .rounded-sm { border-radius: 4px !important; }
+  .rounded { border-radius: 8px !important; }
+  .rounded-md { border-radius: 12px !important; }
+  .rounded-lg { border-radius: 16px !important; }
+  .rounded-xl { border-radius: 20px !important; }
 }
 
 /* Flexbox Utilities */
@@ -217,42 +217,9 @@
   }
 }
 
-/* Performance Card Animations */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 /* Performance Cards */
 .performance-card {
+  height: 100% !important;
   animation: slideInUp 0.6s ease-out;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -602,22 +569,22 @@
   }
   
   /* Mobile-specific padding */
-  .p-mobile-1 { padding: 4px !important; }
-  .p-mobile-2 { padding: 8px !important; }
-  .p-mobile-3 { padding: 12px !important; }
-  .p-mobile-4 { padding: 16px !important; }
+  .p-mobile-1 { padding: 8px !important; }
+  .p-mobile-2 { padding: 12px !important; }
+  .p-mobile-3 { padding: 16px !important; }
+  .p-mobile-4 { padding: 20px !important; }
   
   /* Mobile-specific margins */
-  .m-mobile-1 { margin: 4px !important; }
-  .m-mobile-2 { margin: 8px !important; }
-  .m-mobile-3 { margin: 12px !important; }
-  .m-mobile-4 { margin: 16px !important; }
+  .m-mobile-1 { margin: 8px !important; }
+  .m-mobile-2 { margin: 12px !important; }
+  .m-mobile-3 { margin: 16px !important; }
+  .m-mobile-4 { margin: 20px !important; }
   
   /* Mobile-specific gaps */
-  .gap-mobile-1 { gap: 4px !important; }
-  .gap-mobile-2 { gap: 8px !important; }
-  .gap-mobile-3 { gap: 12px !important; }
-  .gap-mobile-4 { gap: 16px !important; }
+  .gap-mobile-1 { gap: 8px !important; }
+  .gap-mobile-2 { gap: 12px !important; }
+  .gap-mobile-3 { gap: 16px !important; }
+  .gap-mobile-4 { gap: 20px !important; }
   
   /* Mobile table optimizations */
   .table-mobile-compact {
@@ -626,7 +593,8 @@
   
   .table-mobile-compact th,
   .table-mobile-compact td {
-    padding: 6px 4px !important;
+    padding: 10px 6px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
   }
   
   /* Mobile grid optimizations */
@@ -640,32 +608,32 @@
   
   /* Mobile container optimizations */
   .container-mobile {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
   
   /* Mobile card optimizations */
   .card-mobile-compact {
-    padding: 12px !important;
-    margin-bottom: 12px !important;
+    padding: 16px !important;
+    margin-bottom: 16px !important;
   }
   
   /* Mobile button optimizations */
   .btn-mobile-full {
     width: 100% !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
   }
   
   /* Mobile form optimizations */
   .form-mobile-stacked {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
+    gap: 16px !important;
   }
   
   /* Mobile navigation optimizations */
   .nav-mobile-compact {
-    padding: 8px 12px !important;
+    padding: 12px 16px !important;
   }
   
   /* Mobile chart optimizations */
@@ -783,5 +751,39 @@
   
   .shadow-mobile-strong {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16) !important;
+  }
+}
+
+/* Performance Card Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 } 

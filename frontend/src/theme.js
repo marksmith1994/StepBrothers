@@ -178,7 +178,11 @@ const components = {
   MuiPaper: {
     styleOverrides: {
       root: {
-        borderRadius: 16
+        borderRadius: 16,
+        '@media (max-width: 600px)': {
+          borderRadius: 12,
+          padding: '16px'
+        }
       }
     }
   },
@@ -196,9 +200,12 @@ const components = {
           fontWeight: 700,
           fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
           color: colors.grey[700],
+          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          borderBottom: '2px solid rgba(0, 0, 0, 0.12)',
           '@media (max-width: 600px)': {
             fontSize: '0.75rem',
-            padding: '8px 4px'
+            padding: '10px 6px',
+            borderBottom: '2px solid rgba(0, 0, 0, 0.12)'
           }
         }
       }
@@ -210,8 +217,20 @@ const components = {
         borderBottom: `1px solid ${colors.grey[200]}`,
         padding: '16px',
         '@media (max-width: 600px)': {
-          padding: '8px 4px',
-          fontSize: '0.75rem'
+          padding: '10px 6px',
+          fontSize: '0.75rem',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.08)'
+        }
+      }
+    }
+  },
+  MuiTableRow: {
+    styleOverrides: {
+      root: {
+        '@media (max-width: 600px)': {
+          '&:last-child .MuiTableCell-root': {
+            borderBottom: 'none'
+          }
         }
       }
     }
@@ -297,8 +316,22 @@ const components = {
     styleOverrides: {
       root: {
         '@media (max-width: 600px)': {
-          paddingLeft: '12px',
-          paddingRight: '12px'
+          paddingLeft: '16px',
+          paddingRight: '16px'
+        }
+      }
+    }
+  },
+  MuiGrid: {
+    styleOverrides: {
+      container: {
+        '@media (max-width: 600px)': {
+          gap: '12px'
+        }
+      },
+      item: {
+        '@media (max-width: 600px)': {
+          padding: '6px'
         }
       }
     }

@@ -272,4 +272,78 @@ function calculateBestStreak(dailySteps) {
   }
   
   return bestStreak;
-} 
+}
+
+// Helper function to get proper calendar month dates
+const getMonthDateRange = (monthName, year = new Date().getFullYear()) => {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  const monthIndex = months.indexOf(monthName);
+  if (monthIndex === -1) return null;
+  
+  const startDate = new Date(year, monthIndex, 1);
+  const endDate = new Date(year, monthIndex + 1, 0); // Last day of the month
+  
+  return { startDate, endDate };
+};
+
+// Helper function to check if a day falls within a specific month
+const isDayInMonth = (dayNumber, monthName, year = new Date().getFullYear()) => {
+  const dateRange = getMonthDateRange(monthName, year);
+  if (!dateRange) return false;
+  
+  const dayDate = new Date(year, 0, dayNumber); // Convert day number to date
+  return dayDate >= dateRange.startDate && dayDate <= dateRange.endDate;
+};
+
+// Calculate monthly winners using proper calendar months
+export const calculateMonthlyWinners = (dailyData, participants) => {
+  if (!dailyData || !participants || dailyData.length === 0) {
+    return [];
+  }
+
+  const currentYear = new Date().getFullYear();
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const monthlyWinners = [];
+
+  months.forEach(monthName => {
+    // Filter data for this specific month
+    const monthData = dailyData.filter(entry => {
+      if (!entry.day) return false;
+      return isDayInMonth(entry.day, monthName, currentYear);
+    });
+
+    if (monthData.length === 0) return; // Skip months with no data
+
+    // Calculate monthly totals for each participant
+    const monthlyTotals = {};
+    participants.forEach(participant => {
+      monthlyTotals[participant] = monthData.reduce((total, dayEntry) => {
+        return total + (dayEntry.steps[participant] || 0);
+      }, 0);
+    });
+
+    // Find the winner (highest total steps)
+    const winner = Object.entries(monthlyTotals).reduce((max, [name, steps]) => 
+      steps > max.steps ? { name, steps } : max, { name: '', steps: 0 }
+    );
+
+    if (winner.name && winner.steps > 0) {
+      monthlyWinners.push({
+        month: monthName,
+        winner: winner.name,
+        steps: winner.steps,
+        daysInMonth: monthData.length
+      });
+    }
+  });
+
+  return monthlyWinners.sort((a, b) => b.steps - a.steps);
+}; 

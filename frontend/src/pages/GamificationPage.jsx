@@ -24,10 +24,12 @@ import CumulativeStepsChart from '../components/CumulativeStepsChart';
 import WeeklyPerformanceChart from '../components/WeeklyPerformanceChart';
 import ConsistencyHeatmap from '../components/ConsistencyHeatmap';
 import Leaderboard from '../components/Leaderboard';
+import DailyRankTable from '../components/DailyRankTable';
 import { NAV_CONFIG, BREAKPOINTS } from '../constants';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import { getInitials } from '../utils/helpers';
+import { calculateMonthlyWinners } from '../utils/analytics';
 
 export default function GamificationPage() {
   const theme = useTheme();
@@ -37,6 +39,14 @@ export default function GamificationPage() {
 
   const loading = stepLoading || gamificationLoading;
   const error = stepError || gamificationError;
+
+  // Calculate proper monthly winners using calendar months
+  const properMonthlyWinners = React.useMemo(() => {
+    if (!stepData || !stepData.dailyData || !stepData.participants) {
+      return [];
+    }
+    return calculateMonthlyWinners(stepData.dailyData, stepData.participants);
+  }, [stepData]);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -116,7 +126,7 @@ export default function GamificationPage() {
                 fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' }
               }}
             >
-              🏆 StepTracker Gamification
+              🏆 Step Brothers Gamification
             </Typography>
             <Typography 
               variant="h6" 
@@ -193,6 +203,25 @@ export default function GamificationPage() {
                     🏆 Overall Leaderboard
                   </Typography>
                   <Leaderboard />
+                  
+                  <Typography 
+                    variant="h3" 
+                    sx={{ 
+                      mb: 4, 
+                      mt: 6,
+                      fontWeight: 800,
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}
+                  >
+                    📊 Daily Performance Rankings
+                  </Typography>
+                  <DailyRankTable 
+                    dailyData={stepData?.dailyData || []} 
+                    participants={stepData?.participants || []} 
+                  />
                 </Box>
               )}
 
@@ -1164,7 +1193,7 @@ export default function GamificationPage() {
                     🏅 Monthly Champions
                   </Typography>
                   {gamificationData && (
-                    <MonthlyWinnersTable monthlyWinners={gamificationData.monthlyWinners} />
+                    <MonthlyWinnersTable monthlyWinners={properMonthlyWinners} />
                   )}
                 </Box>
               )}

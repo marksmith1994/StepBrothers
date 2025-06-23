@@ -43,7 +43,7 @@ const getCurrentMonth = () => {
   return now.toLocaleString('default', { month: 'long' });
 };
 
-// Helper function to format date
+// Helper function to format date properly
 const formatDate = (dayString) => {
   if (!dayString) return 'N/A';
   
@@ -62,7 +62,7 @@ const formatDate = (dayString) => {
     }
   }
   
-  // If it's a day number, convert to a date (assuming current year)
+  // If it's a day number, convert to a proper calendar date
   const dayNumber = parseInt(dayStr);
   if (!isNaN(dayNumber)) {
     const currentYear = new Date().getFullYear();
@@ -77,9 +77,55 @@ const formatDate = (dayString) => {
   return dayStr;
 };
 
+// Helper function to get proper calendar month dates
+const getMonthDateRange = (monthName, year = new Date().getFullYear()) => {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  const monthIndex = months.indexOf(monthName);
+  if (monthIndex === -1) return null;
+  
+  const startDate = new Date(year, monthIndex, 1);
+  const endDate = new Date(year, monthIndex + 1, 0); // Last day of the month
+  
+  return { startDate, endDate };
+};
+
+// Helper function to check if a day falls within a specific month
+const isDayInMonth = (dayNumber, monthName, year = new Date().getFullYear()) => {
+  const dateRange = getMonthDateRange(monthName, year);
+  if (!dateRange) return false;
+  
+  const dayDate = new Date(year, 0, dayNumber); // Convert day number to date
+  return dayDate >= dateRange.startDate && dayDate <= dateRange.endDate;
+};
+
+// Get proper calendar months with correct day counts
+const getCalendarMonths = () => {
+  const currentYear = new Date().getFullYear();
+  const months = [
+    { name: 'January', days: 31 },
+    { name: 'February', days: new Date(currentYear, 2, 0).getDate() }, // Accounts for leap years
+    { name: 'March', days: 31 },
+    { name: 'April', days: 30 },
+    { name: 'May', days: 31 },
+    { name: 'June', days: 30 },
+    { name: 'July', days: 31 },
+    { name: 'August', days: 31 },
+    { name: 'September', days: 30 },
+    { name: 'October', days: 31 },
+    { name: 'November', days: 30 },
+    { name: 'December', days: 31 }
+  ];
+  
+  return months;
+};
+
 const MONTHS = [
-  'dashboard', 'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'dashboard', 
+  ...getCalendarMonths().map(month => month.name)
 ];
 
 export default function Dashboard() {
@@ -88,6 +134,53 @@ export default function Dashboard() {
   const [selectedMonth, setSelectedMonth] = React.useState('dashboard');
   
   const { data: stepData, loading, error } = useStepsData({ tab: selectedMonth });
+
+  // Filter data by proper calendar month on frontend
+  const filteredStepData = React.useMemo(() => {
+    if (!stepData || selectedMonth === 'dashboard') {
+      return stepData;
+    }
+
+    // Filter daily data by proper calendar month
+    const filteredDailyData = stepData.dailyData?.filter(entry => {
+      if (!entry.day) return false;
+      return isDayInMonth(entry.day, selectedMonth);
+    }) || [];
+
+    // Recalculate participant data for filtered data
+    const filteredParticipantData = stepData.participants?.map(participant => {
+      const participantData = {
+        name: participant,
+        totalSteps: 0,
+        averageSteps: 0,
+        highestSingleDay: 0,
+        dailySteps: [],
+        currentStreak: 0,
+        bestStreak: 0,
+        wins: 0,
+        monthlyWins: 0
+      };
+
+      filteredDailyData.forEach(dayEntry => {
+        const steps = dayEntry.steps[participant] || 0;
+        participantData.dailySteps.push(steps);
+        participantData.totalSteps += steps;
+        participantData.highestSingleDay = Math.max(participantData.highestSingleDay, steps);
+      });
+
+      participantData.averageSteps = participantData.dailySteps.length > 0 
+        ? participantData.totalSteps / participantData.dailySteps.length 
+        : 0;
+
+      return participantData;
+    }) || [];
+
+    return {
+      ...stepData,
+      dailyData: filteredDailyData,
+      participantData: filteredParticipantData
+    };
+  }, [stepData, selectedMonth]);
 
   let columns = [
     { field: 'id', headerName: 'ID', flex: 0.3, minWidth: 50, hide: true },
@@ -108,8 +201,8 @@ export default function Dashboard() {
   ];
   let rows = [];
 
-  if (stepData && stepData.participants && stepData.dailyData && stepData.dailyData.length > 0) {
-    const participants = stepData.participants;
+  if (filteredStepData && filteredStepData.participants && filteredStepData.dailyData && filteredStepData.dailyData.length > 0) {
+    const participants = filteredStepData.participants;
     
     columns = [
       { field: 'id', headerName: 'ID', flex: 0.3, minWidth: 50, hide: true },
@@ -165,7 +258,7 @@ export default function Dashboard() {
       },
     ];
 
-    rows = stepData.dailyData.map((entry, idx) => {
+    rows = filteredStepData.dailyData.map((entry, idx) => {
       const row = {
         id: idx + 1,
         day: entry.day,
@@ -183,10 +276,10 @@ export default function Dashboard() {
 
   // Calculate quick stats
   const quickStats = React.useMemo(() => {
-    if (!stepData || !stepData.participantData || !stepData.dailyData) return null;
+    if (!filteredStepData || !filteredStepData.participantData || !filteredStepData.dailyData) return null;
 
-    const participants = stepData.participantData;
-    const dailyData = stepData.dailyData;
+    const participants = filteredStepData.participantData;
+    const dailyData = filteredStepData.dailyData;
 
     // Total team steps
     const totalTeamSteps = participants.reduce((sum, p) => sum + (p.totalSteps || 0), 0);
@@ -229,7 +322,7 @@ export default function Dashboard() {
       totalParticipants: participants.length,
       totalDays
     };
-  }, [stepData]);
+  }, [filteredStepData]);
 
   return (
     <Container maxWidth="xl" sx={{ 
@@ -273,10 +366,10 @@ export default function Dashboard() {
 
           {/* Quick Stats Cards */}
           {!isLoading && !hasError && quickStats && (
-            <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} sx={{ mb: { xs: 3, sm: 4, md: 6 } }}>
+            <Grid container spacing={2} sx={{ mb: { xs: 3, sm: 4, md: 6 } }}>
               <Grid item xs={12} sm={6} md={4}>
-                <Card className="stat-card">
-                  <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+                <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
+                  <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
                       width: { xs: 50, sm: 60 }, 
                       height: { xs: 50, sm: 60 }, 
@@ -306,8 +399,8 @@ export default function Dashboard() {
               </Grid>
 
               <Grid item xs={12} sm={6} md={4}>
-                <Card className="stat-card">
-                  <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+                <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
+                  <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
                       width: { xs: 50, sm: 60 }, 
                       height: { xs: 50, sm: 60 }, 
@@ -337,8 +430,8 @@ export default function Dashboard() {
               </Grid>
 
               <Grid item xs={12} sm={6} md={4}>
-                <Card className="stat-card">
-                  <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+                <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
+                  <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
                       width: { xs: 50, sm: 60 }, 
                       height: { xs: 50, sm: 60 }, 
@@ -489,7 +582,7 @@ export default function Dashboard() {
                         color: '#f59e0b',
                         fontSize: { xs: '0.875rem', sm: '1.25rem' }
                       }}>
-                        {stepData?.participants?.length || 0}
+                        {filteredStepData?.participants?.length || 0}
                       </Typography>
                       <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '0.625rem', sm: '0.75rem' } }}>
                         Participants
@@ -510,7 +603,7 @@ export default function Dashboard() {
                         color: '#8b5cf6',
                         fontSize: { xs: '0.875rem', sm: '1.25rem' }
                       }}>
-                        {stepData?.dailyData?.length > 0 ? formatNumber(stepData.dailyData[stepData.dailyData.length - 1]?.total || 0) : '0'}
+                        {filteredStepData?.dailyData?.length > 0 ? formatNumber(filteredStepData.dailyData[filteredStepData.dailyData.length - 1]?.total || 0) : '0'}
                       </Typography>
                       <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '0.625rem', sm: '0.75rem' } }}>
                         Latest Total
@@ -567,11 +660,11 @@ export default function Dashboard() {
             <Fade in timeout={600}>
               <Box>
                 {/* Top Performers */}
-                <Grid container spacing={{ xs: 2, sm: 3 }} sx={{ mb: { xs: 4, sm: 6 } }}>
+                <Grid container spacing={2} sx={{ mb: { xs: 4, sm: 6 } }}>
                   {/* Most Active Participant */}
-                  <Grid item xs={12} md={6}>
-                    <Card className="performer-card">
-                      <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+                  <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
+                    <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
+                      <CardContent sx={{ p: { xs: 3, sm: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                           <Box sx={{ 
                             width: { xs: 50, sm: 60 }, 
@@ -629,9 +722,9 @@ export default function Dashboard() {
                   </Grid>
 
                   {/* Yesterday's Winner */}
-                  <Grid item xs={12} md={6}>
-                    <Card className="performer-card">
-                      <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+                  <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
+                    <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
+                      <CardContent sx={{ p: { xs: 3, sm: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                           <Box sx={{ 
                             width: { xs: 50, sm: 60 }, 
@@ -723,20 +816,37 @@ export default function Dashboard() {
                       '& .MuiDataGrid-cell': {
                         borderBottom: '1px solid rgba(102, 126, 234, 0.1)',
                         fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                        padding: { xs: '8px 4px', sm: '16px' }
+                        padding: { xs: '8px 4px', sm: '16px' },
+                        minHeight: { xs: '40px', sm: '52px' },
+                        maxHeight: { xs: '40px', sm: '52px' },
+                        lineHeight: { xs: '1.2', sm: '1.4' }
                       },
                       '& .MuiDataGrid-columnHeaders': {
                         backgroundColor: 'rgba(102, 126, 234, 0.05)',
                         borderBottom: '2px solid rgba(102, 126, 234, 0.2)',
+                        minHeight: { xs: '48px', sm: '56px' },
+                        maxHeight: { xs: '48px', sm: '56px' },
                       },
                       '& .MuiDataGrid-columnHeader': {
                         fontWeight: 700,
                         color: theme.palette.primary.main,
                         fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                        padding: { xs: '8px 4px', sm: '16px' }
+                        padding: { xs: '8px 4px', sm: '16px' },
+                        minHeight: { xs: '48px', sm: '56px' },
+                        maxHeight: { xs: '48px', sm: '56px' },
+                        lineHeight: { xs: '1.2', sm: '1.4' }
                       },
                       '& .MuiDataGrid-footerContainer': {
-                        fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                        fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                        minHeight: { xs: '40px', sm: '52px' },
+                        maxHeight: { xs: '40px', sm: '52px' },
+                      },
+                      '& .MuiDataGrid-row': {
+                        minHeight: { xs: '40px', sm: '52px' },
+                        maxHeight: { xs: '40px', sm: '52px' },
+                      },
+                      '& .MuiDataGrid-virtualScroller': {
+                        minHeight: { xs: '200px', sm: '300px' }
                       }
                     }}
                   />

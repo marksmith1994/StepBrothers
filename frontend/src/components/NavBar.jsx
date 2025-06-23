@@ -26,7 +26,9 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
   const location = useLocation();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down(BREAKPOINTS.MOBILE));
+  
+  // More reliable mobile detection - use 'sm' breakpoint (600px) instead of 'xs'
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -101,7 +103,7 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
           alignItems: 'center', 
           px: { xs: 2, sm: 4, md: 6 } 
         }}>
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Always show on mobile */}
           {isMobile && (
             <IconButton
               edge="start"
@@ -145,166 +147,8 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
             {isMobile ? 'Step Bros' : 'Step Brothers'}
           </Typography>
 
-          {/* Navigation Items */}
-          {isMobile ? (
-            <Menu
-              id="mobile-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              PaperProps={{
-                sx: {
-                  mt: 1.5,
-                  minWidth: 280,
-                  maxWidth: 320,
-                  borderRadius: 3,
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                  backdropFilter: 'blur(20px)',
-                  background: 'rgba(255,255,255,0.95)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  '@media (max-width: 600px)': {
-                    minWidth: 260,
-                    maxWidth: 300,
-                    borderRadius: 2
-                  }
-                }
-              }}
-            >
-              {/* Main Navigation Items */}
-              {navItems.map((item) => (
-                <MenuItem
-                  key={item.path}
-                  onClick={() => {
-                    navigate(item.path);
-                    handleClose();
-                  }}
-                  sx={{ 
-                    fontWeight: 600, 
-                    letterSpacing: 0.5, 
-                    fontSize: '1rem', 
-                    py: 2,
-                    px: 3,
-                    borderRadius: 1,
-                    mx: 1,
-                    my: 0.5,
-                    background: isActiveRoute(item.path) 
-                      ? 'rgba(102, 126, 234, 0.1)' 
-                      : 'transparent',
-                    '&:hover': {
-                      background: 'rgba(102, 126, 234, 0.05)'
-                    },
-                    '@media (max-width: 600px)': {
-                      fontSize: '0.875rem',
-                      py: 1.5,
-                      px: 2,
-                      minHeight: '44px'
-                    }
-                  }}
-                >
-                  <Box sx={{ mr: 2, color: isActiveRoute(item.path) ? theme.palette.primary.main : 'inherit' }}>
-                    {item.icon}
-                  </Box>
-                  <Box>
-                    <Typography variant="body1" sx={{ 
-                      fontWeight: 600,
-                      fontSize: { xs: '0.875rem', sm: '1rem' }
-                    }}>
-                      {item.label}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary" sx={{ 
-                      fontSize: { xs: '0.75rem', sm: '0.75rem' }
-                    }}>
-                      {item.description}
-                    </Typography>
-                  </Box>
-                </MenuItem>
-              ))}
-              
-              {/* Participants Section - Only show if people exist */}
-              {people.length > 0 && (
-                <>
-                  <Divider sx={{ my: 1 }} />
-                  
-                  <Box sx={{ px: 2, py: 1 }}>
-                    <Typography variant="overline" color="text.secondary" sx={{ 
-                      fontWeight: 600,
-                      fontSize: { xs: '0.7rem', sm: '0.75rem' }
-                    }}>
-                      Participants
-                    </Typography>
-                  </Box>
-                  
-                  {people.slice(0, 6).map((person) => (
-                    <MenuItem
-                      key={person}
-                      onClick={() => {
-                        navigate(`/person/${encodeURIComponent(person)}`);
-                        handleClose();
-                      }}
-                      aria-label={`Go to ${person}'s page`}
-                      sx={{ 
-                        fontWeight: 600, 
-                        letterSpacing: 0.5, 
-                        fontSize: '0.9rem', 
-                        py: 1.5,
-                        px: 3,
-                        borderRadius: 1,
-                        mx: 1,
-                        my: 0.25,
-                        background: isActiveRoute(`/person/${encodeURIComponent(person)}`) 
-                          ? 'rgba(102, 126, 234, 0.1)' 
-                          : 'transparent',
-                        '&:hover': {
-                          background: 'rgba(102, 126, 234, 0.05)'
-                        },
-                        '@media (max-width: 600px)': {
-                          fontSize: '0.8rem',
-                          py: 1,
-                          px: 2,
-                          minHeight: '44px'
-                        }
-                      }}
-                    >
-                      <Avatar 
-                        sx={{ 
-                          width: { xs: 24, sm: 28 }, 
-                          height: { xs: 24, sm: 28 }, 
-                          fontSize: { xs: '0.7rem', sm: '0.75rem' },
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                        }}
-                      >
-                        {getInitials(person)}
-                      </Avatar>
-                      <Typography variant="body2" sx={{ 
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        fontSize: { xs: '0.8rem', sm: '0.875rem' }
-                      }}>
-                        {person}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                  
-                  {people.length > 6 && (
-                    <MenuItem
-                      sx={{ 
-                        textAlign: 'center',
-                        py: 1,
-                        px: 3,
-                        mx: 1,
-                        my: 0.25,
-                        color: 'text.secondary',
-                        fontSize: { xs: '0.75rem', sm: '0.8rem' }
-                      }}
-                    >
-                      +{people.length - 6} more participants
-                    </MenuItem>
-                  )}
-                </>
-              )}
-            </Menu>
-          ) : (
+          {/* Navigation Items - Only show on desktop */}
+          {!isMobile && (
             <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
               {/* Main Navigation */}
               {navItems.map((item) => (
@@ -358,6 +202,164 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
               )}
             </Box>
           )}
+
+          {/* Mobile Menu - Always render but only show when anchorEl is set */}
+          <Menu
+            id="mobile-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            PaperProps={{
+              sx: {
+                mt: 1.5,
+                minWidth: 280,
+                maxWidth: 320,
+                borderRadius: 3,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                backdropFilter: 'blur(20px)',
+                background: 'rgba(255,255,255,0.95)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                '@media (max-width: 600px)': {
+                  minWidth: 260,
+                  maxWidth: 300,
+                  borderRadius: 2
+                }
+              }
+            }}
+          >
+            {/* Main Navigation Items */}
+            {navItems.map((item) => (
+              <MenuItem
+                key={item.path}
+                onClick={() => {
+                  navigate(item.path);
+                  handleClose();
+                }}
+                sx={{ 
+                  fontWeight: 600, 
+                  letterSpacing: 0.5, 
+                  fontSize: '1rem', 
+                  py: 2,
+                  px: 3,
+                  borderRadius: 1,
+                  mx: 1,
+                  my: 0.5,
+                  background: isActiveRoute(item.path) 
+                    ? 'rgba(102, 126, 234, 0.1)' 
+                    : 'transparent',
+                  '&:hover': {
+                    background: 'rgba(102, 126, 234, 0.05)'
+                  },
+                  '@media (max-width: 600px)': {
+                    fontSize: '0.875rem',
+                    py: 1.5,
+                    px: 2,
+                    minHeight: '44px'
+                  }
+                }}
+              >
+                <Box sx={{ mr: 2, color: isActiveRoute(item.path) ? theme.palette.primary.main : 'inherit' }}>
+                  {item.icon}
+                </Box>
+                <Box>
+                  <Typography variant="body1" sx={{ 
+                    fontWeight: 600,
+                    fontSize: { xs: '0.875rem', sm: '1rem' }
+                  }}>
+                    {item.label}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ 
+                    fontSize: { xs: '0.75rem', sm: '0.75rem' }
+                  }}>
+                    {item.description}
+                  </Typography>
+                </Box>
+              </MenuItem>
+            ))}
+            
+            {/* Participants Section - Only show if people exist */}
+            {people.length > 0 && [
+              <Divider key="divider" sx={{ my: 1 }} />,
+              
+              <Box key="participants-header" sx={{ px: 2, py: 1 }}>
+                <Typography variant="overline" color="text.secondary" sx={{ 
+                  fontWeight: 600,
+                  fontSize: { xs: '0.7rem', sm: '0.75rem' }
+                }}>
+                  Participants
+                </Typography>
+              </Box>,
+              
+              ...people.slice(0, 6).map((person) => (
+                <MenuItem
+                  key={person}
+                  onClick={() => {
+                    navigate(`/person/${encodeURIComponent(person)}`);
+                    handleClose();
+                  }}
+                  aria-label={`Go to ${person}'s page`}
+                  sx={{ 
+                    fontWeight: 600, 
+                    letterSpacing: 0.5, 
+                    fontSize: '0.9rem', 
+                    py: 1.5,
+                    px: 3,
+                    borderRadius: 1,
+                    mx: 1,
+                    my: 0.25,
+                    background: isActiveRoute(`/person/${encodeURIComponent(person)}`) 
+                      ? 'rgba(102, 126, 234, 0.1)' 
+                      : 'transparent',
+                    '&:hover': {
+                      background: 'rgba(102, 126, 234, 0.05)'
+                    },
+                    '@media (max-width: 600px)': {
+                      fontSize: '0.8rem',
+                      py: 1,
+                      px: 2,
+                      minHeight: '44px'
+                    }
+                  }}
+                >
+                  <Avatar 
+                    sx={{ 
+                      width: { xs: 24, sm: 28 }, 
+                      height: { xs: 24, sm: 28 }, 
+                      fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    }}
+                  >
+                    {getInitials(person)}
+                  </Avatar>
+                  <Typography variant="body2" sx={{ 
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    fontSize: { xs: '0.8rem', sm: '0.875rem' }
+                  }}>
+                    {person}
+                  </Typography>
+                </MenuItem>
+              )),
+              
+              ...(people.length > 6 ? [
+                <MenuItem
+                  key="more-participants"
+                  sx={{ 
+                    textAlign: 'center',
+                    py: 1,
+                    px: 3,
+                    mx: 1,
+                    my: 0.25,
+                    color: 'text.secondary',
+                    fontSize: { xs: '0.75rem', sm: '0.8rem' }
+                  }}
+                >
+                  +{people.length - 6} more participants
+                </MenuItem>
+              ] : [])
+            ]}
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>

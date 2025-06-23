@@ -17,32 +17,60 @@
     min-width: 44px !important;
   }
   
-  /* Mobile-specific spacing */
-  .mb-1 { margin-bottom: 4px !important; }
-  .mb-2 { margin-bottom: 8px !important; }
-  .mb-3 { margin-bottom: 12px !important; }
-  .mb-4 { margin-bottom: 16px !important; }
-  .mb-5 { margin-bottom: 20px !important; }
-  .mb-6 { margin-bottom: 24px !important; }
+  /* Navigation bar mobile fixes */
+  .MuiAppBar-root {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+  
+  .MuiToolbar-root {
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  /* Ensure navigation content doesn't overflow */
+  .MuiBox-root {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  /* Mobile menu positioning */
+  .MuiMenu-paper {
+    max-width: calc(100vw - 32px) !important;
+    width: auto !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
+  
+  /* Mobile-specific spacing - Improved consistency */
+  .mb-1 { margin-bottom: 8px !important; }
+  .mb-2 { margin-bottom: 12px !important; }
+  .mb-3 { margin-bottom: 16px !important; }
+  .mb-4 { margin-bottom: 20px !important; }
+  .mb-5 { margin-bottom: 24px !important; }
+  .mb-6 { margin-bottom: 28px !important; }
 
-  .mt-1 { margin-top: 4px !important; }
-  .mt-2 { margin-top: 8px !important; }
-  .mt-3 { margin-top: 12px !important; }
-  .mt-4 { margin-top: 16px !important; }
+  .mt-1 { margin-top: 8px !important; }
+  .mt-2 { margin-top: 12px !important; }
+  .mt-3 { margin-top: 16px !important; }
+  .mt-4 { margin-top: 20px !important; }
 
-  .p-1 { padding: 4px !important; }
-  .p-2 { padding: 8px !important; }
-  .p-3 { padding: 12px !important; }
-  .p-4 { padding: 16px !important; }
+  .p-1 { padding: 8px !important; }
+  .p-2 { padding: 12px !important; }
+  .p-3 { padding: 16px !important; }
+  .p-4 { padding: 20px !important; }
   
   /* Mobile-specific border radius */
-  .rounded-sm { border-radius: 3px !important; }
-  .rounded { border-radius: 6px !important; }
-  .rounded-md { border-radius: 8px !important; }
-  .rounded-lg { border-radius: 12px !important; }
-  .rounded-xl { border-radius: 16px !important; }
+  .rounded-sm { border-radius: 4px !important; }
+  .rounded { border-radius: 8px !important; }
+  .rounded-md { border-radius: 12px !important; }
+  .rounded-lg { border-radius: 16px !important; }
+  .rounded-xl { border-radius: 20px !important; }
   
-  /* Mobile card optimizations */
+  /* Mobile card optimizations - Improved spacing */
   .glass-card,
   .stat-card,
   .achievement-card {
@@ -50,6 +78,7 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
+    margin-bottom: 12px !important;
   }
   
   .glass-card:hover,
@@ -64,7 +93,7 @@
   .btn-gradient {
     border-radius: 8px !important;
     font-size: 0.875rem !important;
-    padding: 8px 16px !important;
+    padding: 10px 16px !important;
     min-height: 44px !important;
   }
   
@@ -188,22 +217,22 @@
     line-height: 1.4 !important;
   }
   
-  .p-mobile-1 { padding: 4px !important; }
-  .p-mobile-2 { padding: 8px !important; }
-  .p-mobile-3 { padding: 12px !important; }
-  .p-mobile-4 { padding: 16px !important; }
+  .p-mobile-1 { padding: 8px !important; }
+  .p-mobile-2 { padding: 12px !important; }
+  .p-mobile-3 { padding: 16px !important; }
+  .p-mobile-4 { padding: 20px !important; }
   
-  .m-mobile-1 { margin: 4px !important; }
-  .m-mobile-2 { margin: 8px !important; }
-  .m-mobile-3 { margin: 12px !important; }
-  .m-mobile-4 { margin: 16px !important; }
+  .m-mobile-1 { margin: 8px !important; }
+  .m-mobile-2 { margin: 12px !important; }
+  .m-mobile-3 { margin: 16px !important; }
+  .m-mobile-4 { margin: 20px !important; }
   
-  .gap-mobile-1 { gap: 4px !important; }
-  .gap-mobile-2 { gap: 8px !important; }
-  .gap-mobile-3 { gap: 12px !important; }
-  .gap-mobile-4 { gap: 16px !important; }
+  .gap-mobile-1 { gap: 8px !important; }
+  .gap-mobile-2 { gap: 12px !important; }
+  .gap-mobile-3 { gap: 16px !important; }
+  .gap-mobile-4 { gap: 20px !important; }
   
-  /* Mobile flex utilities */
+  /* Mobile flex utilities - Improved centering */
   .flex-column-mobile {
     flex-direction: column !important;
   }
@@ -217,14 +246,15 @@
     flex-wrap: wrap !important;
   }
   
-  /* Mobile table optimizations */
+  /* Mobile table optimizations - Fixed border alignment */
   .table-mobile-compact {
     font-size: 0.75rem !important;
   }
   
   .table-mobile-compact th,
   .table-mobile-compact td {
-    padding: 6px 4px !important;
+    padding: 10px 6px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
   }
   
   /* Mobile grid optimizations */
@@ -236,34 +266,34 @@
     grid-template-columns: repeat(2, 1fr) !important;
   }
   
-  /* Mobile container optimizations */
+  /* Mobile container optimizations - Improved padding */
   .container-mobile {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
   
   /* Mobile card optimizations */
   .card-mobile-compact {
-    padding: 12px !important;
-    margin-bottom: 12px !important;
+    padding: 16px !important;
+    margin-bottom: 16px !important;
   }
   
   /* Mobile button optimizations */
   .btn-mobile-full {
     width: 100% !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
   }
   
   /* Mobile form optimizations */
   .form-mobile-stacked {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px !important;
+    gap: 16px !important;
   }
   
   /* Mobile navigation optimizations */
   .nav-mobile-compact {
-    padding: 8px 12px !important;
+    padding: 12px 16px !important;
   }
   
   /* Mobile chart optimizations */
@@ -325,6 +355,104 @@
   .paper-glass {
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
+  }
+  
+  /* Mobile Card Consistency - Improved spacing */
+  .stat-card,
+  .performance-card,
+  .achievement-card {
+    margin-bottom: 12px !important;
+  }
+  
+  /* Ensure card content has consistent padding */
+  .stat-card .MuiCardContent-root,
+  .performance-card .MuiCardContent-root {
+    padding: 16px !important;
+  }
+  
+  /* Ensure Grid containers use full width and proper spacing */
+  .MuiGrid-container {
+    width: 100% !important;
+    margin: 0 !important;
+    gap: 12px !important;
+  }
+  
+  /* Ensure Grid items take full width with proper spacing */
+  .MuiGrid-item {
+    width: 100% !important;
+    padding: 6px !important;
+  }
+  
+  /* Ensure cards fill their containers */
+  .MuiCard-root {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  /* Center single cards when there's only one in a row */
+  .MuiGrid-item:only-child {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  /* Ensure proper spacing between cards */
+  .MuiGrid-container > .MuiGrid-item {
+    margin-bottom: 12px !important;
+  }
+  
+  /* Mobile table border fixes */
+  .MuiTable-root {
+    border-collapse: collapse !important;
+  }
+  
+  .MuiTableHead-root .MuiTableRow-root {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
+  }
+  
+  .MuiTableBody-root .MuiTableRow-root {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  .MuiTableBody-root .MuiTableRow-root:last-child {
+    border-bottom: none !important;
+  }
+  
+  .MuiTableCell-root {
+    border-bottom: none !important;
+    padding: 10px 6px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .MuiTableCell-head {
+    font-weight: 700 !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+  
+  /* Mobile container centering fixes */
+  .MuiContainer-root {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  /* Mobile paper padding fixes */
+  .MuiPaper-root {
+    padding: 16px !important;
+  }
+  
+  /* Mobile spacing consistency */
+  .MuiBox-root {
+    gap: 12px !important;
+  }
+  
+  /* Mobile button spacing */
+  .MuiButton-root {
+    margin: 4px !important;
+  }
+  
+  /* Mobile chip spacing */
+  .MuiChip-root {
+    margin: 4px !important;
   }
 }
 

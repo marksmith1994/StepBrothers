@@ -25,11 +25,16 @@ export default function StepLineChart({ data, title }) {
           background: 'rgba(255, 255, 255, 0.95)',
           border: '1px solid rgba(0, 0, 0, 0.1)',
           borderRadius: 2,
-          p: 2,
+          p: { xs: 1.5, sm: 2 },
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-          backdropFilter: 'blur(10px)'
+          backdropFilter: 'blur(10px)',
+          fontSize: { xs: '0.75rem', sm: '0.875rem' }
         }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+          <Typography variant="body2" sx={{ 
+            fontWeight: 600, 
+            mb: 1,
+            fontSize: { xs: '0.75rem', sm: '0.875rem' }
+          }}>
             Day {label}
           </Typography>
           {payload.map((entry, index) => (
@@ -38,7 +43,8 @@ export default function StepLineChart({ data, title }) {
               variant="body2" 
               sx={{ 
                 color: entry.color,
-                fontWeight: 500
+                fontWeight: 500,
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
               }}
             >
               {entry.name}: {entry.value?.toLocaleString()} steps
@@ -60,7 +66,8 @@ export default function StepLineChart({ data, title }) {
           sx={{ 
             fontWeight: 600,
             color: theme.palette.text.primary,
-            mb: 2
+            mb: 2,
+            fontSize: { xs: '1rem', sm: '1.25rem' }
           }}
         >
           {title}
@@ -69,7 +76,12 @@ export default function StepLineChart({ data, title }) {
       <ResponsiveContainer width="100%" height="100%">
         <LineChart 
           data={data} 
-          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+          margin={{ 
+            top: { xs: 10, sm: 20 }, 
+            right: { xs: 10, sm: 30 }, 
+            left: { xs: 10, sm: 20 }, 
+            bottom: { xs: 10, sm: 20 } 
+          }}
         >
           <CartesianGrid 
             strokeDasharray="3 3" 
@@ -79,22 +91,24 @@ export default function StepLineChart({ data, title }) {
           <XAxis 
             dataKey="day" 
             stroke={theme.palette.text.secondary}
-            fontSize={12}
+            fontSize={{ xs: 10, sm: 12 }}
             tickLine={false}
             axisLine={false}
+            tick={{ fontSize: { xs: 10, sm: 12 } }}
           />
           <YAxis 
             stroke={theme.palette.text.secondary}
-            fontSize={12}
+            fontSize={{ xs: 10, sm: 12 }}
             tickLine={false}
             axisLine={false}
             tickFormatter={(value) => value.toLocaleString()}
+            tick={{ fontSize: { xs: 10, sm: 12 } }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend 
             wrapperStyle={{
-              paddingTop: 10,
-              fontSize: 12
+              paddingTop: { xs: 5, sm: 10 },
+              fontSize: { xs: 10, sm: 12 }
             }}
           />
           <Line 
@@ -102,14 +116,14 @@ export default function StepLineChart({ data, title }) {
             dataKey="steps" 
             name="Daily Steps" 
             stroke={theme.palette.primary.main} 
-            strokeWidth={3}
+            strokeWidth={{ xs: 2, sm: 3 }}
             dot={{ 
               fill: theme.palette.primary.main, 
               strokeWidth: 2, 
-              r: 4 
+              r: { xs: 3, sm: 4 }
             }}
             activeDot={{ 
-              r: 6, 
+              r: { xs: 5, sm: 6 }, 
               stroke: theme.palette.primary.main, 
               strokeWidth: 2 
             }}
@@ -120,15 +134,15 @@ export default function StepLineChart({ data, title }) {
               dataKey="total" 
               name="Total Steps" 
               stroke={theme.palette.success.main} 
-              strokeWidth={2}
+              strokeWidth={{ xs: 1.5, sm: 2 }}
               strokeDasharray="5 5"
               dot={{ 
                 fill: theme.palette.success.main, 
                 strokeWidth: 2, 
-                r: 3 
+                r: { xs: 2, sm: 3 }
               }}
               activeDot={{ 
-                r: 5, 
+                r: { xs: 4, sm: 5 }, 
                 stroke: theme.palette.success.main, 
                 strokeWidth: 2 
               }}
