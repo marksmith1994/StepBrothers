@@ -64,25 +64,37 @@ export default function AnalyticsDashboard({ analytics }) {
       {/* Records Section */}
       <Typography 
         variant="h4" 
-        className="text-gradient-primary text-bolder mb-3"
+        sx={{ 
+          fontWeight: 800,
+          mb: 3,
+          background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+        }}
       >
         🏆 Personal Records
       </Typography>
       
-      <Grid container spacing={3} className="mb-4">
+      <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Box className="flex-center mb-2">
-                <EmojiEventsIcon sx={{ color: theme.palette.warning.main, fontSize: 40 }} />
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <EmojiEventsIcon sx={{ color: theme.palette.warning.main, fontSize: { xs: 32, sm: 40 } }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.warning.main }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.warning.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
                 {formatNumber(records.bestDay?.steps || 0)}
               </Typography>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Best Single Day
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {records.bestDay?.date || 'No data'}
               </Typography>
             </CardContent>
@@ -90,18 +102,22 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Box className="flex-center mb-2">
-                <CalendarMonthIcon sx={{ color: theme.palette.primary.main, fontSize: 40 }} />
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <CalendarMonthIcon sx={{ color: theme.palette.primary.main, fontSize: { xs: 32, sm: 40 } }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.primary.main }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.primary.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
                 {records.bestMonth ? `Month ${records.bestMonth.month}` : 'N/A'}
               </Typography>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Best Month
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {records.bestMonth ? `${formatNumber(records.bestMonth.total)} steps` : 'No data'}
               </Typography>
             </CardContent>
@@ -109,18 +125,22 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Box className="flex-center mb-2">
-                <LocalFireDepartmentIcon sx={{ color: theme.palette.success.main, fontSize: 40 }} />
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <LocalFireDepartmentIcon sx={{ color: theme.palette.success.main, fontSize: { xs: 32, sm: 40 } }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.success.main }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.success.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
                 {stats.bestStreak}
               </Typography>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Best Active Streak
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {stats.currentStreak} days current
               </Typography>
             </CardContent>
@@ -128,18 +148,22 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Box className="flex-center mb-2">
-                <TrendingUpIcon sx={{ color: theme.palette.info.main, fontSize: 40 }} />
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <TrendingUpIcon sx={{ color: theme.palette.info.main, fontSize: { xs: 32, sm: 40 } }} />
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.info.main }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.info.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
                 {formatNumber(records.totalRecords?.totalSteps || 0)}
               </Typography>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Total Steps
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {records.totalRecords?.daysTracked || 0} days tracked
               </Typography>
             </CardContent>
@@ -150,19 +174,27 @@ export default function AnalyticsDashboard({ analytics }) {
       {/* Trends Section */}
       <Typography 
         variant="h4" 
-        className="text-gradient-primary text-bolder mb-3"
+        sx={{ 
+          fontWeight: 800,
+          mb: 3,
+          background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+        }}
       >
         📈 Performance Trends
       </Typography>
       
-      <Grid container spacing={3} className="mb-4">
+      <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} md={4}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Box className="flex-center mb-2">
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 {getTrendIcon()}
               </Box>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Weekly Trend
               </Typography>
               <Typography 
@@ -170,13 +202,14 @@ export default function AnalyticsDashboard({ analytics }) {
                 sx={{ 
                   color: getTrendColor(),
                   fontWeight: 600,
-                  mb: 1
+                  mb: 1,
+                  fontSize: { xs: '0.875rem', sm: '1rem' }
                 }}
               >
                 {trends.weeklyTrend === 'improving' ? 'Improving' : 
                  trends.weeklyTrend === 'declining' ? 'Declining' : 'Stable'}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {getTrendText()}
               </Typography>
             </CardContent>
@@ -184,15 +217,20 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Typography variant="h3" sx={{ fontWeight: 900, mb: 1, color: theme.palette.primary.main }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h3" sx={{ 
+                fontWeight: 900, 
+                mb: 1, 
+                color: theme.palette.primary.main,
+                fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }
+              }}>
                 {stats.activityRate}%
               </Typography>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Activity Rate
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {stats.activeDays} of {stats.totalDays} days active
               </Typography>
             </CardContent>
@@ -200,15 +238,20 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-3">
-              <Typography variant="h3" sx={{ fontWeight: 900, mb: 1, color: theme.palette.success.main }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h3" sx={{ 
+                fontWeight: 900, 
+                mb: 1, 
+                color: theme.palette.success.main,
+                fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }
+              }}>
                 {trends.consistency}%
               </Typography>
-              <Typography variant="h6" className="text-bold mb-1">
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Consistency
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 Days within 20% of your average
               </Typography>
             </CardContent>
@@ -221,27 +264,39 @@ export default function AnalyticsDashboard({ analytics }) {
         <>
           <Typography 
             variant="h4" 
-            className="text-gradient-primary text-bolder mb-3"
+            sx={{ 
+              fontWeight: 800,
+              mb: 3,
+              background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+            }}
           >
             📅 Monthly Performance
           </Typography>
           
-          <Paper className="paper-glass p-4 mb-4">
+          <Paper sx={{ p: { xs: 2, sm: 3, md: 4 }, mb: 4, borderRadius: 3 }}>
             <Grid container spacing={2}>
               {Object.entries(monthlyData).map(([month, data]) => (
                 <Grid item xs={12} sm={6} md={3} key={month}>
-                  <Card className="glass-card">
-                    <CardContent className="text-center p-2">
-                      <Typography variant="h6" className="text-bold mb-1">
+                  <Card sx={{ height: '100%' }}>
+                    <CardContent sx={{ textAlign: 'center', p: { xs: 1.5, sm: 2 } }}>
+                      <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '0.875rem', sm: '1.25rem' } }}>
                         Month {month}
                       </Typography>
-                      <Typography variant="h5" sx={{ fontWeight: 900, color: theme.palette.primary.main }}>
+                      <Typography variant="h5" sx={{ 
+                        fontWeight: 900, 
+                        color: theme.palette.primary.main,
+                        fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }
+                      }}>
                         {formatNumber(data.total)}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                         {data.daysOver10k} days over 10K
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
                         Avg: {formatNumber(data.average)}/day
                       </Typography>
                     </CardContent>
@@ -256,19 +311,31 @@ export default function AnalyticsDashboard({ analytics }) {
       {/* Additional Stats */}
       <Typography 
         variant="h4" 
-        className="text-gradient-primary text-bolder mb-3"
+        sx={{ 
+          fontWeight: 800,
+          mb: 3,
+          background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+        }}
       >
         📊 Detailed Statistics
       </Typography>
 
-      <Grid container spacing={3} className="mb-4">
+      <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-2">
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.warning.main }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.warning.main,
+                fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }
+              }}>
                 {formatNumber(stats.highestDay)}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 Highest Single Day
               </Typography>
             </CardContent>
@@ -276,12 +343,16 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-2">
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.info.main }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.info.main,
+                fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }
+              }}>
                 {stats.daysOver10k}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 Days Over 10K Steps
               </Typography>
             </CardContent>
@@ -289,12 +360,16 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-2">
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.success.main }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.success.main,
+                fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }
+              }}>
                 {stats.daysOver5k}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 Days Over 5K Steps
               </Typography>
             </CardContent>
@@ -302,12 +377,16 @@ export default function AnalyticsDashboard({ analytics }) {
         </Grid>
 
         <Grid item xs={12} sm={6} md={3}>
-          <Card className="glass-card">
-            <CardContent className="text-center p-2">
-              <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.secondary.main }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.secondary.main,
+                fontSize: { xs: '2rem', sm: '3rem', md: '3.75rem' }
+              }}>
                 {formatNumber(stats.lowestDay)}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 Lowest Active Day
               </Typography>
             </CardContent>
@@ -320,12 +399,20 @@ export default function AnalyticsDashboard({ analytics }) {
         <>
           <Typography 
             variant="h4" 
-            className="text-gradient-primary text-bolder mb-3"
+            sx={{ 
+              fontWeight: 800,
+              mb: 3,
+              background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+            }}
           >
             💡 Smart Insights
           </Typography>
 
-          <Paper className="paper-glass p-3">
+          <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>
             <List>
               {insights.map((insight, index) => (
                 <React.Fragment key={index}>
@@ -337,7 +424,7 @@ export default function AnalyticsDashboard({ analytics }) {
                       primary={insight}
                       primaryTypographyProps={{
                         variant: 'body1',
-                        className: 'text-bold'
+                        sx: { fontWeight: 600, fontSize: { xs: '0.875rem', sm: '1rem' } }
                       }}
                     />
                   </ListItem>

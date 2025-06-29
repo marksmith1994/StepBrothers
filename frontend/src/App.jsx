@@ -9,9 +9,6 @@ import GamificationPage from './pages/GamificationPage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStepsData } from './hooks/useStepsData';
 import { Container } from '@mui/material';
-import './App.css';
-import './styles/common.css';
-import './styles/mobile.css';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
@@ -31,14 +28,26 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            minHeight: '100vh',
+            backgroundColor: 'background.default'
+          }}>
             <NavBar people={people} />
-            <Container maxWidth={false} disableGutters style={{ 
-              marginTop: 0, 
-              padding: 0, 
-              flex: 1,
-              minHeight: 'calc(100vh - 64px)' // Account for mobile navbar height
-            }}>
+            <Container 
+              maxWidth={false} 
+              disableGutters 
+              sx={{ 
+                flex: 1,
+                px: { xs: 2, sm: 3, md: 4 },
+                py: { xs: 2, sm: 3 },
+                minHeight: 'calc(100vh - 64px)',
+                '@media (min-width: 600px)': {
+                  minHeight: 'calc(100vh - 80px)'
+                }
+              }}
+            >
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />

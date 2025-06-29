@@ -1,136 +1,172 @@
 import { createTheme } from '@mui/material/styles';
 
-// Color palette
+// Modern masculine color palette: blue, indigo, teal, deep gray
 const colors = {
   primary: {
-    main: '#2563eb',
-    light: '#3b82f6',
-    dark: '#1d4ed8',
+    main: '#314755', // Deep blue/indigo
+    light: '#547085',
+    dark: '#232526',
     contrastText: '#ffffff'
   },
   secondary: {
-    main: '#7c3aed',
-    light: '#8b5cf6',
-    dark: '#6d28d9',
+    main: '#06b6d4', // Teal/cyan
+    light: '#22d3ee',
+    dark: '#0891b2',
     contrastText: '#ffffff'
   },
   success: {
-    main: '#10b981',
+    main: '#10b981', // Emerald
     light: '#34d399',
     dark: '#059669'
   },
   warning: {
-    main: '#f59e0b',
-    light: '#fbbf24',
-    dark: '#d97706'
+    main: '#2563eb', // Blue (instead of amber)
+    light: '#3b82f6',
+    dark: '#1e40af'
   },
   error: {
-    main: '#ef4444',
+    main: '#ef4444', // Red
     light: '#f87171',
     dark: '#dc2626'
   },
   info: {
-    main: '#3b82f6',
-    light: '#60a5fa',
-    dark: '#2563eb'
+    main: '#0ea5e9', // Sky blue
+    light: '#38bdf8',
+    dark: '#0369a1'
   },
   grey: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827'
+    50: '#f8fafc',
+    100: '#f1f5f9',
+    200: '#e2e8f0',
+    300: '#cbd5e1',
+    400: '#94a3b8',
+    500: '#64748b',
+    600: '#475569',
+    700: '#334155',
+    800: '#1e293b',
+    900: '#0f172a'
   }
 };
 
-// Typography with mobile-first responsive design
+// Mobile-first typography with fluid scaling
 const typography = {
-  fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+  fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
   h1: {
     fontWeight: 800,
-    fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-    lineHeight: 1.2,
-    letterSpacing: '-0.02em'
+    fontSize: 'clamp(1.75rem, 5vw, 3rem)',
+    lineHeight: 1.1,
+    letterSpacing: '-0.025em',
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(1.5rem, 6vw, 2.25rem)',
+    }
   },
   h2: {
     fontWeight: 700,
-    fontSize: 'clamp(1.25rem, 3.5vw, 2rem)',
-    lineHeight: 1.3,
-    letterSpacing: '-0.01em'
+    fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+    lineHeight: 1.2,
+    letterSpacing: '-0.02em',
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(1.25rem, 5vw, 2rem)',
+    }
   },
   h3: {
     fontWeight: 700,
-    fontSize: 'clamp(1.125rem, 3vw, 1.75rem)',
+    fontSize: 'clamp(1.25rem, 3.5vw, 2rem)',
     lineHeight: 1.3,
-    letterSpacing: '-0.01em'
+    letterSpacing: '-0.015em',
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(1.125rem, 4vw, 1.75rem)',
+    }
   },
   h4: {
     fontWeight: 600,
-    fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
-    lineHeight: 1.4
+    fontSize: 'clamp(1.125rem, 3vw, 1.75rem)',
+    lineHeight: 1.4,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(1rem, 3.5vw, 1.5rem)',
+    }
   },
   h5: {
     fontWeight: 600,
-    fontSize: 'clamp(0.875rem, 2vw, 1.25rem)',
-    lineHeight: 1.4
+    fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+    lineHeight: 1.4,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.875rem, 3vw, 1.25rem)',
+    }
   },
   h6: {
     fontWeight: 600,
-    fontSize: 'clamp(0.8rem, 1.8vw, 1.125rem)',
-    lineHeight: 1.4
+    fontSize: 'clamp(0.875rem, 2vw, 1.25rem)',
+    lineHeight: 1.4,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.8rem, 2.5vw, 1.125rem)',
+    }
   },
   body1: {
     fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
-    lineHeight: 1.6
+    lineHeight: 1.6,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.8rem, 2vw, 0.875rem)',
+    }
   },
   body2: {
     fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
-    lineHeight: 1.5
+    lineHeight: 1.5,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+    }
   },
   button: {
     fontWeight: 600,
     textTransform: 'none',
     letterSpacing: '0.025em',
-    fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)'
+    fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+    }
   },
   caption: {
     fontSize: 'clamp(0.7rem, 1vw, 0.75rem)',
-    lineHeight: 1.4
+    lineHeight: 1.4,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.65rem, 1.2vw, 0.7rem)',
+    }
   },
   overline: {
     fontSize: 'clamp(0.65rem, 0.9vw, 0.7rem)',
     lineHeight: 1.4,
-    fontWeight: 600
+    fontWeight: 600,
+    '@media (max-width: 600px)': {
+      fontSize: 'clamp(0.6rem, 1vw, 0.65rem)',
+    }
   }
 };
 
-// Component overrides
+// Modern component overrides with mobile-first design
 const components = {
   MuiButton: {
     styleOverrides: {
       root: {
         borderRadius: 12,
-        padding: '10px 24px',
+        padding: '12px 24px',
         fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
         fontWeight: 600,
         textTransform: 'none',
         boxShadow: 'none',
-        transition: 'all 0.2s ease-in-out',
-        minHeight: '44px',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        minHeight: '48px',
         '&:hover': {
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
           transform: 'translateY(-1px)'
         },
+        '&:active': {
+          transform: 'translateY(0)'
+        },
         '@media (max-width: 600px)': {
-          borderRadius: 8,
-          padding: '8px 16px',
+          borderRadius: 10,
+          padding: '10px 20px',
           minHeight: '44px',
-          fontSize: '0.875rem'
+          fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)'
         }
       },
       contained: {
@@ -138,18 +174,30 @@ const components = {
           boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)'
         }
       },
+      outlined: {
+        borderWidth: '2px',
+        '&:hover': {
+          borderWidth: '2px'
+        }
+      },
       sizeSmall: {
+        padding: '8px 16px',
+        minHeight: '36px',
+        fontSize: 'clamp(0.7rem, 1vw, 0.8rem)',
         '@media (max-width: 600px)': {
-          minHeight: '36px',
           padding: '6px 12px',
-          fontSize: '0.8rem'
+          minHeight: '32px',
+          fontSize: 'clamp(0.65rem, 1.2vw, 0.75rem)'
         }
       },
       sizeLarge: {
+        padding: '16px 32px',
+        minHeight: '56px',
+        fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
         '@media (max-width: 600px)': {
+          padding: '14px 28px',
           minHeight: '48px',
-          padding: '12px 20px',
-          fontSize: '0.9rem'
+          fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)'
         }
       }
     }
@@ -158,18 +206,35 @@ const components = {
     styleOverrides: {
       root: {
         borderRadius: 16,
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-        transition: 'all 0.3s ease-in-out',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        border: '1px solid rgba(0, 0, 0, 0.05)',
         '&:hover': {
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+          boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
           transform: 'translateY(-2px)'
         },
         '@media (max-width: 600px)': {
           borderRadius: 12,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2)',
           '&:hover': {
-            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12)',
             transform: 'translateY(-1px)'
+          }
+        }
+      }
+    }
+  },
+  MuiCardContent: {
+    styleOverrides: {
+      root: {
+        padding: '24px',
+        '&:last-child': {
+          paddingBottom: '24px'
+        },
+        '@media (max-width: 600px)': {
+          padding: '16px',
+          '&:last-child': {
+            paddingBottom: '16px'
           }
         }
       }
@@ -180,8 +245,13 @@ const components = {
       root: {
         borderRadius: 16,
         '@media (max-width: 600px)': {
-          borderRadius: 12,
-          padding: '16px'
+          borderRadius: 12
+        }
+      },
+      elevation1: {
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+        '@media (max-width: 600px)': {
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2)'
         }
       }
     }
@@ -189,7 +259,21 @@ const components = {
   MuiAppBar: {
     styleOverrides: {
       root: {
-        boxShadow: '0 2px 20px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 2px 20px rgba(0, 0, 0, 0.1)',
+        backdropFilter: 'blur(20px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        '@media (max-width: 600px)': {
+          boxShadow: '0 1px 10px rgba(0, 0, 0, 0.08)'
+        }
+      }
+    }
+  },
+  MuiToolbar: {
+    styleOverrides: {
+      root: {
+        '@media (max-width: 600px)': {
+          minHeight: '64px !important'
+        }
       }
     }
   },
@@ -199,13 +283,9 @@ const components = {
         '& .MuiTableCell-head': {
           fontWeight: 700,
           fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
-          color: colors.grey[700],
-          backgroundColor: 'rgba(0, 0, 0, 0.04)',
-          borderBottom: '2px solid rgba(0, 0, 0, 0.12)',
           '@media (max-width: 600px)': {
-            fontSize: '0.75rem',
-            padding: '10px 6px',
-            borderBottom: '2px solid rgba(0, 0, 0, 0.12)'
+            fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+            padding: '8px 4px'
           }
         }
       }
@@ -214,43 +294,10 @@ const components = {
   MuiTableCell: {
     styleOverrides: {
       root: {
-        borderBottom: `1px solid ${colors.grey[200]}`,
-        padding: '16px',
+        fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
         '@media (max-width: 600px)': {
-          padding: '10px 6px',
-          fontSize: '0.75rem',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.08)'
-        }
-      }
-    }
-  },
-  MuiTableRow: {
-    styleOverrides: {
-      root: {
-        '@media (max-width: 600px)': {
-          '&:last-child .MuiTableCell-root': {
-            borderBottom: 'none'
-          }
-        }
-      }
-    }
-  },
-  MuiAvatar: {
-    styleOverrides: {
-      root: {
-        fontWeight: 700,
-        '@media (max-width: 600px)': {
-          fontSize: '0.75rem'
-        }
-      }
-    }
-  },
-  MuiIconButton: {
-    styleOverrides: {
-      root: {
-        '@media (max-width: 600px)': {
-          minWidth: '44px',
-          minHeight: '44px'
+          fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+          padding: '8px 4px'
         }
       }
     }
@@ -258,9 +305,12 @@ const components = {
   MuiChip: {
     styleOverrides: {
       root: {
+        borderRadius: 8,
+        fontSize: 'clamp(0.7rem, 1vw, 0.8rem)',
+        height: '28px',
         '@media (max-width: 600px)': {
-          fontSize: '0.75rem',
-          height: '28px'
+          fontSize: 'clamp(0.65rem, 1.2vw, 0.75rem)',
+          height: '24px'
         }
       }
     }
@@ -269,7 +319,7 @@ const components = {
     styleOverrides: {
       root: {
         '@media (max-width: 600px)': {
-          minHeight: '40px'
+          minHeight: '48px'
         }
       }
     }
@@ -277,9 +327,13 @@ const components = {
   MuiTab: {
     styleOverrides: {
       root: {
+        fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
+        fontWeight: 600,
+        textTransform: 'none',
+        minHeight: '48px',
         '@media (max-width: 600px)': {
-          fontSize: '0.75rem',
-          minHeight: '40px',
+          fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+          minHeight: '44px',
           padding: '8px 12px'
         }
       }
@@ -289,54 +343,72 @@ const components = {
     styleOverrides: {
       root: {
         '@media (max-width: 600px)': {
-          marginBottom: '12px'
+          '& .MuiInputLabel-root': {
+            fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)'
+          },
+          '& .MuiSelect-select': {
+            fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+            padding: '12px 14px'
+          }
         }
       }
     }
   },
-  MuiSelect: {
+  MuiDataGrid: {
     styleOverrides: {
       root: {
         '@media (max-width: 600px)': {
-          fontSize: '0.875rem'
+          fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+          '& .MuiDataGrid-cell': {
+            padding: '4px 8px'
+          },
+          '& .MuiDataGrid-columnHeader': {
+            padding: '8px 4px'
+          }
         }
       }
     }
   },
-  MuiInputLabel: {
+  MuiAlert: {
+    styleOverrides: {
+      root: {
+        borderRadius: 12,
+        fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
+        '@media (max-width: 600px)': {
+          borderRadius: 8,
+          fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+          padding: '8px 12px'
+        }
+      }
+    }
+  },
+  MuiCircularProgress: {
     styleOverrides: {
       root: {
         '@media (max-width: 600px)': {
-          fontSize: '0.875rem'
-        }
-      }
-    }
-  },
-  MuiContainer: {
-    styleOverrides: {
-      root: {
-        '@media (max-width: 600px)': {
-          paddingLeft: '16px',
-          paddingRight: '16px'
-        }
-      }
-    }
-  },
-  MuiGrid: {
-    styleOverrides: {
-      container: {
-        '@media (max-width: 600px)': {
-          gap: '12px'
-        }
-      },
-      item: {
-        '@media (max-width: 600px)': {
-          padding: '6px'
+          '&.MuiCircularProgress-sizeLarge': {
+            width: '40px !important',
+            height: '40px !important'
+          }
         }
       }
     }
   }
 };
+
+// Breakpoints for mobile-first design
+const breakpoints = {
+  values: {
+    xs: 0,
+    sm: 600,
+    md: 960,
+    lg: 1280,
+    xl: 1920,
+  },
+};
+
+// Spacing system
+const spacing = 8;
 
 export function getTheme(darkMode = false) {
   return createTheme({
@@ -350,18 +422,20 @@ export function getTheme(darkMode = false) {
       info: colors.info,
       grey: colors.grey,
       background: {
-        default: darkMode ? colors.grey[900] : colors.grey[50],
-        paper: darkMode ? colors.grey[800] : '#ffffff'
+        default: darkMode ? '#0f172a' : '#f8fafc',
+        paper: darkMode ? '#1e293b' : '#ffffff',
       },
       text: {
-        primary: darkMode ? colors.grey[100] : colors.grey[900],
-        secondary: darkMode ? colors.grey[400] : colors.grey[600]
-      }
+        primary: darkMode ? '#f1f5f9' : '#0f172a',
+        secondary: darkMode ? '#94a3b8' : '#475569',
+      },
     },
     typography,
     components,
+    breakpoints,
+    spacing,
     shape: {
-      borderRadius: 12
+      borderRadius: 12,
     },
     shadows: [
       'none',
@@ -370,7 +444,28 @@ export function getTheme(darkMode = false) {
       '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
       '0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)',
       '0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22)',
-      ...Array(19).fill('none')
-    ]
+      '0 25px 50px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15)',
+      '0 32px 64px rgba(0, 0, 0, 0.25), 0 24px 24px rgba(0, 0, 0, 0.15)',
+      '0 40px 80px rgba(0, 0, 0, 0.25), 0 32px 32px rgba(0, 0, 0, 0.15)',
+      '0 48px 96px rgba(0, 0, 0, 0.25), 0 40px 40px rgba(0, 0, 0, 0.15)',
+      '0 56px 112px rgba(0, 0, 0, 0.25), 0 48px 48px rgba(0, 0, 0, 0.15)',
+      '0 64px 128px rgba(0, 0, 0, 0.25), 0 56px 56px rgba(0, 0, 0, 0.15)',
+      '0 72px 144px rgba(0, 0, 0, 0.25), 0 64px 64px rgba(0, 0, 0, 0.15)',
+      '0 80px 160px rgba(0, 0, 0, 0.25), 0 72px 72px rgba(0, 0, 0, 0.15)',
+      '0 88px 176px rgba(0, 0, 0, 0.25), 0 80px 80px rgba(0, 0, 0, 0.15)',
+      '0 96px 192px rgba(0, 0, 0, 0.25), 0 88px 88px rgba(0, 0, 0, 0.15)',
+      '0 104px 208px rgba(0, 0, 0, 0.25), 0 96px 96px rgba(0, 0, 0, 0.15)',
+      '0 112px 224px rgba(0, 0, 0, 0.25), 0 104px 104px rgba(0, 0, 0, 0.15)',
+      '0 120px 240px rgba(0, 0, 0, 0.25), 0 112px 112px rgba(0, 0, 0, 0.15)',
+      '0 128px 256px rgba(0, 0, 0, 0.25), 0 120px 120px rgba(0, 0, 0, 0.15)',
+      '0 136px 272px rgba(0, 0, 0, 0.25), 0 128px 128px rgba(0, 0, 0, 0.15)',
+      '0 144px 288px rgba(0, 0, 0, 0.25), 0 136px 136px rgba(0, 0, 0, 0.15)',
+      '0 152px 304px rgba(0, 0, 0, 0.25), 0 144px 144px rgba(0, 0, 0, 0.15)',
+      '0 160px 320px rgba(0, 0, 0, 0.25), 0 152px 152px rgba(0, 0, 0, 0.15)',
+      '0 168px 336px rgba(0, 0, 0, 0.25), 0 160px 160px rgba(0, 0, 0, 0.15)',
+      '0 176px 352px rgba(0, 0, 0, 0.25), 0 168px 168px rgba(0, 0, 0, 0.15)',
+      '0 184px 368px rgba(0, 0, 0, 0.25), 0 176px 176px rgba(0, 0, 0, 0.15)',
+      '0 192px 384px rgba(0, 0, 0, 0.25), 0 184px 184px rgba(0, 0, 0, 0.15)',
+    ],
   });
 }

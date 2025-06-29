@@ -94,43 +94,55 @@ export default function PersonPage() {
   }, [personData]);
 
   const getStatCard = (title, value, icon, color, subtitle = null) => (
-    <Card className="stat-card">
-      <CardContent className="text-center p-3">
-        <Box className="flex-center mb-2">
-          {React.cloneElement(icon, { 
-            sx: { 
-              color: color, 
+    <Card sx={{
+      height: '100%',
+      textAlign: 'center',
+      borderRadius: 3,
+      boxShadow: 3,
+      p: { xs: 2, sm: 3 },
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <CardContent sx={{ p: 0, width: '100%' }}>
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+          {React.cloneElement(icon, {
+            sx: {
+              color: color,
               fontSize: 48,
-              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-            } 
+              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+            },
           })}
         </Box>
-        <Typography 
-          variant="h3" 
-          sx={{ 
-            fontWeight: 900, 
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 900,
             color: color,
             mb: 1,
-            textShadow: `0 2px 8px ${color}30`
+            textShadow: `0 2px 8px ${color}30`,
+            fontSize: { xs: '2rem', sm: '2.5rem' },
           }}
         >
           {formatNumber(value)}
         </Typography>
-        <Typography 
-          variant="h6" 
-          className="text-bold"
-          sx={{ 
-            color: theme.palette.text.primary,
-            mb: subtitle ? 0.5 : 0
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'text.primary',
+            mb: subtitle ? 0.5 : 0,
+            fontWeight: 700,
+            fontSize: { xs: '1rem', sm: '1.25rem' },
           }}
         >
           {title}
         </Typography>
         {subtitle && (
-          <Typography 
-            variant="body2" 
+          <Typography
+            variant="body2"
             color="text.secondary"
-            className="text-bold"
+            sx={{ fontWeight: 600 }}
           >
             {subtitle}
           </Typography>
@@ -144,43 +156,64 @@ export default function PersonPage() {
       <Fade in timeout={800}>
         <Box>
           {/* Header */}
-          <Box className="mb-4" sx={{ mb: { xs: 3, sm: 4 } }}>
-            <Box className="gradient-primary-light rounded-lg p-4 mb-3" sx={{ 
-              p: { xs: 3, sm: 4 },
-              mb: { xs: 2, sm: 3 }
-            }}>
-              <Box className="flex" sx={{ 
-                alignItems: 'center', 
-                gap: { xs: 2, sm: 3 },
-                flexDirection: { xs: 'column', sm: 'row' },
-                textAlign: { xs: 'center', sm: 'left' }
-              }}>
-                <Avatar 
-                  className="avatar-gradient"
-                  sx={{ 
-                    width: { xs: 60, sm: 80 }, 
-                    height: { xs: 60, sm: 80 }, 
+          <Box sx={{ mb: { xs: 3, sm: 4 } }}>
+            <Box
+              sx={{
+                background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                borderRadius: 3,
+                p: { xs: 3, sm: 4 },
+                mb: { xs: 2, sm: 3 },
+                color: 'white',
+                position: 'relative',
+                overflow: 'hidden',
+                boxShadow: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: { xs: 2, sm: 3 },
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  textAlign: { xs: 'center', sm: 'left' },
+                }}
+              >
+                <Avatar
+                  sx={{
+                    width: { xs: 60, sm: 80 },
+                    height: { xs: 60, sm: 80 },
                     fontSize: { xs: 24, sm: 32 },
-                    fontWeight: 700
+                    fontWeight: 700,
+                    background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                    color: 'white',
+                    boxShadow: 2,
                   }}
                 >
                   {getInitials(name)}
                 </Avatar>
                 <Box>
-                  <Typography 
-                    variant="h2" 
-                    className="text-gradient-primary text-boldest mb-1"
-                    sx={{ 
+                  <Typography
+                    variant="h2"
+                    sx={{
                       fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
-                      mb: { xs: 0.5, sm: 1 }
+                      mb: { xs: 0.5, sm: 1 },
+                      fontWeight: 900,
+                      color: 'white',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                      letterSpacing: '-0.02em',
                     }}
                   >
                     {name}
                   </Typography>
                   <Chip
                     label="Step Brother"
-                    className="chip-gradient"
-                    sx={{ fontSize: { xs: '0.75rem', sm: '0.9rem' } }}
+                    sx={{
+                      fontSize: { xs: '0.75rem', sm: '0.9rem' },
+                      background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                      color: 'white',
+                      fontWeight: 700,
+                      mt: 1,
+                    }}
                   />
                 </Box>
               </Box>
@@ -206,7 +239,11 @@ export default function PersonPage() {
             <Fade in timeout={600}>
               <Box>
                 {/* Tabs */}
-                <Paper className="paper-glass mb-4">
+                <Paper sx={{ 
+                  mb: 4, 
+                  borderRadius: 3,
+                  boxShadow: 2
+                }}>
                   <Tabs 
                     value={tabValue} 
                     onChange={handleTabChange}
@@ -239,7 +276,15 @@ export default function PersonPage() {
                     {/* Basic Stats */}
                     <Typography 
                       variant="h3" 
-                      className="text-gradient-primary text-bolder mb-3"
+                      sx={{ 
+                        mb: 3,
+                        fontWeight: 800,
+                        background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                      }}
                     >
                       📊 Basic Statistics
                     </Typography>
@@ -283,14 +328,21 @@ export default function PersonPage() {
                     </Grid>
 
                     {/* Gamification Stats */}
-                    <Paper className="paper-gradient p-4 mb-6">
+                    <Paper sx={{ 
+                      p: { xs: 3, sm: 4 }, 
+                      mb: 6,
+                      background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                      borderRadius: 3,
+                      color: 'white'
+                    }}>
                       <Typography 
                         variant="h3" 
                         sx={{ 
                           mb: 4, 
                           fontWeight: 800, 
                           color: 'white',
-                          textAlign: 'center'
+                          textAlign: 'center',
+                          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                         }}
                       >
                         🏆 Achievement Stats
@@ -342,43 +394,72 @@ export default function PersonPage() {
                     {/* Achievement Overview */}
                     <Typography 
                       variant="h3" 
-                      className="text-gradient-primary text-bolder mb-3"
+                      sx={{ 
+                        mb: 3,
+                        fontWeight: 800,
+                        background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                      }}
                     >
                       🏆 Achievements
                     </Typography>
 
                     {/* Achievement Stats */}
-                    <Paper className="paper-glass p-3 mb-4">
+                    <Paper sx={{ 
+                      p: { xs: 2, sm: 3 }, 
+                      mb: 4,
+                      borderRadius: 3,
+                      boxShadow: 2
+                    }}>
                       <Grid container spacing={3} alignItems="center">
                         <Grid item xs={12} sm={6} md={3}>
-                          <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.success.main }}>
+                          <Typography variant="h4" sx={{ 
+                            fontWeight: 900, 
+                            color: theme.palette.success.main,
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                          }}>
                             {achievementStats.earned}
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             Achievements Earned
                           </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                          <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.primary.main }}>
+                          <Typography variant="h4" sx={{ 
+                            fontWeight: 900, 
+                            color: theme.palette.primary.main,
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                          }}>
                             {achievementStats.completionRate}%
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             Completion Rate
                           </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                          <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.warning.main }}>
+                          <Typography variant="h4" sx={{ 
+                            fontWeight: 900, 
+                            color: theme.palette.warning.main,
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                          }}>
                             {achievementStats.progress}
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             In Progress
                           </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                          <Typography variant="h4" sx={{ fontWeight: 900, color: theme.palette.info.main }}>
+                          <Typography variant="h4" sx={{ 
+                            fontWeight: 900, 
+                            color: theme.palette.info.main,
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                          }}>
                             {achievementStats.total}
                           </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             Total Available
                           </Typography>
                         </Grid>
@@ -431,7 +512,12 @@ export default function PersonPage() {
                         {/* Step Milestone Achievements */}
                         {achievements.progress.filter(a => a.type === 'step_milestone').length > 0 && (
                           <>
-                            <Typography variant="h6" className="text-bold mb-2" color="text.secondary">
+                            <Typography variant="h6" sx={{ 
+                              fontWeight: 700, 
+                              mb: 2,
+                              color: 'text.secondary',
+                              fontSize: { xs: '1rem', sm: '1.25rem' }
+                            }}>
                               Step Milestones
                             </Typography>
                             <Grid container spacing={3} sx={{ mb: 4 }}>
@@ -451,7 +537,12 @@ export default function PersonPage() {
                         {/* Consistency Achievements */}
                         {achievements.progress.filter(a => a.type === 'consistency').length > 0 && (
                           <>
-                            <Typography variant="h6" className="text-bold mb-2" color="text.secondary">
+                            <Typography variant="h6" sx={{ 
+                              fontWeight: 700, 
+                              mb: 2,
+                              color: 'text.secondary',
+                              fontSize: { xs: '1rem', sm: '1.25rem' }
+                            }}>
                               10K+ Consistency
                             </Typography>
                             <Grid container spacing={3}>
@@ -477,11 +568,23 @@ export default function PersonPage() {
                     {/* Analytics Dashboard */}
                     <Typography 
                       variant="h3" 
-                      className="text-gradient-primary text-bolder mb-3"
+                      sx={{ 
+                        mb: 3,
+                        fontWeight: 800,
+                        background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                      }}
                     >
                       📊 Analytics
                     </Typography>
-                    <Box className="paper-glass p-4">
+                    <Box sx={{ 
+                      p: { xs: 2, sm: 3, md: 4 },
+                      borderRadius: 3,
+                      boxShadow: 2
+                    }}>
                       <AnalyticsDashboard analytics={analytics} />
                     </Box>
                   </Box>
@@ -492,7 +595,15 @@ export default function PersonPage() {
                     {/* Progress Overview */}
                     <Typography 
                       variant="h3" 
-                      className="text-gradient-primary text-bolder mb-4"
+                      sx={{ 
+                        mb: 4,
+                        fontWeight: 800,
+                        background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                      }}
                     >
                       📈 Progress Tracking
                     </Typography>
@@ -500,76 +611,88 @@ export default function PersonPage() {
                     {/* Progress Stats Cards */}
                     <Grid container spacing={3} sx={{ mb: 4 }}>
                       <Grid item xs={12} sm={6} md={3}>
-                        <Card className="stat-card" sx={{ 
+                        <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-                          border: '1px solid rgba(102, 126, 234, 0.2)'
+                          border: '1px solid rgba(102, 126, 234, 0.2)',
+                          borderRadius: 3,
+                          height: '100%'
                         }}>
-                          <CardContent className="text-center p-3">
+                          <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
                             <Typography variant="h4" sx={{ 
                               fontWeight: 900, 
                               color: theme.palette.primary.main,
-                              mb: 1
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                             }}>
                               {personData.dailySteps?.length || 0}
                             </Typography>
-                            <Typography variant="body1" className="text-bold">
+                            <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                               Days Tracked
                             </Typography>
                           </CardContent>
                         </Card>
                       </Grid>
                       <Grid item xs={12} sm={6} md={3}>
-                        <Card className="stat-card" sx={{ 
+                        <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)',
-                          border: '1px solid rgba(16, 185, 129, 0.2)'
+                          border: '1px solid rgba(16, 185, 129, 0.2)',
+                          borderRadius: 3,
+                          height: '100%'
                         }}>
-                          <CardContent className="text-center p-3">
+                          <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
                             <Typography variant="h4" sx={{ 
                               fontWeight: 900, 
                               color: theme.palette.success.main,
-                              mb: 1
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                             }}>
                               {Math.round(personData.averageSteps || 0)}
                             </Typography>
-                            <Typography variant="body1" className="text-bold">
+                            <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                               Avg Steps/Day
                             </Typography>
                           </CardContent>
                         </Card>
                       </Grid>
                       <Grid item xs={12} sm={6} md={3}>
-                        <Card className="stat-card" sx={{ 
+                        <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%)',
-                          border: '1px solid rgba(245, 158, 11, 0.2)'
+                          border: '1px solid rgba(245, 158, 11, 0.2)',
+                          borderRadius: 3,
+                          height: '100%'
                         }}>
-                          <CardContent className="text-center p-3">
+                          <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
                             <Typography variant="h4" sx={{ 
                               fontWeight: 900, 
                               color: theme.palette.warning.main,
-                              mb: 1
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                             }}>
                               {personData.highestSingleDay || 0}
                             </Typography>
-                            <Typography variant="body1" className="text-bold">
+                            <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                               Best Single Day
                             </Typography>
                           </CardContent>
                         </Card>
                       </Grid>
                       <Grid item xs={12} sm={6} md={3}>
-                        <Card className="stat-card" sx={{ 
+                        <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
-                          border: '1px solid rgba(139, 92, 246, 0.2)'
+                          border: '1px solid rgba(139, 92, 246, 0.2)',
+                          borderRadius: 3,
+                          height: '100%'
                         }}>
-                          <CardContent className="text-center p-3">
+                          <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
                             <Typography variant="h4" sx={{ 
                               fontWeight: 900, 
                               color: theme.palette.secondary.main,
-                              mb: 1
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
                             }}>
                               {personData.totalSteps || 0}
                             </Typography>
-                            <Typography variant="body1" className="text-bold">
+                            <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                               Total Steps
                             </Typography>
                           </CardContent>
@@ -578,14 +701,11 @@ export default function PersonPage() {
                     </Grid>
 
                     {/* Main Progress Chart */}
-                    <Paper className="paper-glass" sx={{ 
+                    <Paper sx={{ 
                       p: { xs: 2, sm: 3, md: 4 }, 
                       mb: 4,
                       borderRadius: 3,
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                      boxShadow: 2
                     }}>
                       <Typography 
                         variant="h4" 
@@ -593,7 +713,8 @@ export default function PersonPage() {
                           mb: 3, 
                           fontWeight: 700,
                           color: theme.palette.text.primary,
-                          textAlign: 'center'
+                          textAlign: 'center',
+                          fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }
                         }}
                       >
                         📊 Daily Step Progress
@@ -612,20 +733,19 @@ export default function PersonPage() {
                     {/* Progress Insights */}
                     <Grid container spacing={3}>
                       <Grid item xs={12} md={6}>
-                        <Paper className="paper-glass" sx={{ 
+                        <Paper sx={{ 
                           p: { xs: 2, sm: 3 }, 
                           height: '100%',
                           borderRadius: 3,
-                          background: 'rgba(255, 255, 255, 0.9)',
-                          backdropFilter: 'blur(20px)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)'
+                          boxShadow: 2
                         }}>
                           <Typography 
                             variant="h5" 
                             sx={{ 
                               mb: 3, 
                               fontWeight: 700,
-                              color: theme.palette.primary.main
+                              color: theme.palette.primary.main,
+                              fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' }
                             }}
                           >
                             🎯 Progress Insights
@@ -640,7 +760,7 @@ export default function PersonPage() {
                               background: 'rgba(16, 185, 129, 0.1)',
                               border: '1px solid rgba(16, 185, 129, 0.2)'
                             }}>
-                              <Typography variant="body1" className="text-bold">
+                              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                                 Days Above 10K
                               </Typography>
                               <Typography variant="h6" sx={{ fontWeight: 700, color: theme.palette.success.main }}>
@@ -656,7 +776,7 @@ export default function PersonPage() {
                               background: 'rgba(245, 158, 11, 0.1)',
                               border: '1px solid rgba(245, 158, 11, 0.2)'
                             }}>
-                              <Typography variant="body1" className="text-bold">
+                              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                                 Days Above 15K
                               </Typography>
                               <Typography variant="h6" sx={{ fontWeight: 700, color: theme.palette.warning.main }}>
@@ -672,7 +792,7 @@ export default function PersonPage() {
                               background: 'rgba(139, 92, 246, 0.1)',
                               border: '1px solid rgba(139, 92, 246, 0.2)'
                             }}>
-                              <Typography variant="body1" className="text-bold">
+                              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                                 Days Above 20K
                               </Typography>
                               <Typography variant="h6" sx={{ fontWeight: 700, color: theme.palette.secondary.main }}>
@@ -683,20 +803,19 @@ export default function PersonPage() {
                         </Paper>
                       </Grid>
                       <Grid item xs={12} md={6}>
-                        <Paper className="paper-glass" sx={{ 
+                        <Paper sx={{ 
                           p: { xs: 2, sm: 3 }, 
                           height: '100%',
                           borderRadius: 3,
-                          background: 'rgba(255, 255, 255, 0.9)',
-                          backdropFilter: 'blur(20px)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)'
+                          boxShadow: 2
                         }}>
                           <Typography 
                             variant="h5" 
                             sx={{ 
                               mb: 3, 
                               fontWeight: 700,
-                              color: theme.palette.primary.main
+                              color: theme.palette.primary.main,
+                              fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' }
                             }}
                           >
                             📈 Performance Metrics
@@ -711,7 +830,7 @@ export default function PersonPage() {
                               background: 'rgba(102, 126, 234, 0.1)',
                               border: '1px solid rgba(102, 126, 234, 0.2)'
                             }}>
-                              <Typography variant="body1" className="text-bold">
+                              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                                 Consistency Rate
                               </Typography>
                               <Typography variant="h6" sx={{ fontWeight: 700, color: theme.palette.primary.main }}>
@@ -729,7 +848,7 @@ export default function PersonPage() {
                               background: 'rgba(16, 185, 129, 0.1)',
                               border: '1px solid rgba(16, 185, 129, 0.2)'
                             }}>
-                              <Typography variant="body1" className="text-bold">
+                              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                                 Best Week Avg
                               </Typography>
                               <Typography variant="h6" sx={{ fontWeight: 700, color: theme.palette.success.main }}>
@@ -753,7 +872,7 @@ export default function PersonPage() {
                               background: 'rgba(245, 158, 11, 0.1)',
                               border: '1px solid rgba(245, 158, 11, 0.2)'
                             }}>
-                              <Typography variant="body1" className="text-bold">
+                              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                                 Current Streak
                               </Typography>
                               <Typography variant="h6" sx={{ fontWeight: 700, color: theme.palette.warning.main }}>

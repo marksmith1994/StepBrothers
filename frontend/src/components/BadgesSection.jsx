@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Card, 
+  CardContent, 
+  Grid, 
+  Chip, 
+  ToggleButton, 
+  ToggleButtonGroup,
+  Switch,
+  FormControlLabel,
+  Avatar,
+  useTheme
+} from '@mui/material';
 import { BADGES_CONFIG } from '../constants';
 import { calculateBadges, getBadgeStats, getRecentBadges } from '../utils/achievements';
-import '../styles/common.css';
 
 const BadgesSection = ({ participantData, allParticipants = [] }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showEarnedOnly, setShowEarnedOnly] = useState(false);
+  const theme = useTheme();
 
   const badges = calculateBadges(allParticipants);
   const stats = getBadgeStats(badges);
@@ -75,140 +89,291 @@ const BadgesSection = ({ participantData, allParticipants = [] }) => {
   };
 
   const BadgeCard = ({ badge, status }) => (
-    <div className={`badge-card ${status.earned ? 'earned' : status.disabled ? 'disabled' : 'unearned'}`}>
-      <div className="badge-icon" style={{ color: badge.color }}>
-        {badge.icon}
-      </div>
-      <div className="badge-content">
-        <h4 className="badge-name">{badge.name}</h4>
-        <p className="badge-description">{badge.description}</p>
+    <Card sx={{ 
+      height: '100%',
+      position: 'relative',
+      opacity: status.disabled ? 0.6 : 1,
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        transform: status.disabled ? 'none' : 'translateY(-2px)',
+        boxShadow: status.disabled ? 1 : 4
+      }
+    }}>
+      <CardContent sx={{ p: { xs: 2, sm: 3 }, textAlign: 'center', height: '100%' }}>
+        <Box sx={{ 
+          fontSize: { xs: '2rem', sm: '3rem' }, 
+          mb: 2,
+          color: status.earned ? badge.color : theme.palette.text.disabled
+        }}>
+          {badge.icon}
+        </Box>
+        
+        <Typography variant="h6" sx={{ 
+          fontWeight: 700, 
+          mb: 1,
+          fontSize: { xs: '1rem', sm: '1.25rem' }
+        }}>
+          {badge.name}
+        </Typography>
+        
+        <Typography variant="body2" color="text.secondary" sx={{ 
+          mb: 2,
+          fontSize: { xs: '0.75rem', sm: '0.875rem' }
+        }}>
+          {badge.description}
+        </Typography>
         
         {status.earned && (
-          <div className="badge-earned-info">
-            <span className="badge-value">{status.value}</span>
-            <span className="badge-date">
+          <Box sx={{ mb: 1 }}>
+            <Chip 
+              label={status.value} 
+              size="small" 
+              color="primary"
+              sx={{ fontSize: { xs: '0.7rem', sm: '0.8rem' } }}
+            />
+            <Typography variant="caption" color="text.secondary" sx={{ 
+              display: 'block', 
+              mt: 0.5,
+              fontSize: { xs: '0.65rem', sm: '0.75rem' }
+            }}>
               {new Date(status.earnedAt).toLocaleDateString('en-GB')}
-            </span>
-          </div>
+            </Typography>
+          </Box>
         )}
         
         {status.earnedBy && status.earned && (
-          <div className="badge-earned-by">
-            <span className="earned-by-label">Earned by:</span>
-            <span className="earned-by-name">
-              {status.earnedBy}
-            </span>
-          </div>
+          <Box sx={{ mt: 1 }}>
+            <Typography variant="caption" color="text.secondary" sx={{ 
+              fontSize: { xs: '0.65rem', sm: '0.75rem' }
+            }}>
+              Earned by: {status.earnedBy}
+            </Typography>
+          </Box>
         )}
         
         {status.disabled && !status.earned && (
-          <div className="badge-disabled-info">
-            <span className="disabled-label">Already earned by {status.earnedBy}</span>
-          </div>
+          <Box sx={{ mt: 1 }}>
+            <Typography variant="caption" color="text.secondary" sx={{ 
+              fontSize: { xs: '0.65rem', sm: '0.75rem' }
+            }}>
+              Already earned by {status.earnedBy}
+            </Typography>
+          </Box>
         )}
-      </div>
+      </CardContent>
       
       {status.earned && (
-        <div className="badge-earned-indicator">
-          <span className="earned-check">✓</span>
-        </div>
+        <Box sx={{
+          position: 'absolute',
+          top: 8,
+          right: 8,
+          width: 24,
+          height: 24,
+          borderRadius: '50%',
+          backgroundColor: theme.palette.success.main,
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '0.75rem',
+          fontWeight: 'bold'
+        }}>
+          ✓
+        </Box>
       )}
       
       {status.disabled && !status.earned && (
-        <div className="badge-disabled-indicator">
-          <span className="disabled-icon">🔒</span>
-        </div>
+        <Box sx={{
+          position: 'absolute',
+          top: 8,
+          right: 8,
+          width: 24,
+          height: 24,
+          borderRadius: '50%',
+          backgroundColor: theme.palette.grey[400],
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '0.75rem'
+        }}>
+          🔒
+        </Box>
       )}
-    </div>
+    </Card>
   );
 
   return (
-    <div className="badges-section">
+    <Box sx={{ p: { xs: 2, sm: 3 } }}>
       {/* Header with stats */}
-      <div className="badges-header">
-        <div className="badges-title">
-          <h2>🏅 Badges & Achievements</h2>
-          <p>Fun achievements for the friend group</p>
-        </div>
-        <div className="badges-stats">
-          <div className="stat-card">
-            <span className="stat-number">{stats.earned}</span>
-            <span className="stat-label">Earned</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-number">{stats.total}</span>
-            <span className="stat-label">Total</span>
-          </div>
-          <div className="stat-card">
-            <span className="stat-number">{stats.completionRate}%</span>
-            <span className="stat-label">Complete</span>
-          </div>
-        </div>
-      </div>
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h3" sx={{ 
+            fontWeight: 800,
+            mb: 1,
+            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+          }}>
+            🏅 Badges & Achievements
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+            Fun achievements for the friend group
+          </Typography>
+        </Box>
+        
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Card sx={{ textAlign: 'center', p: 2 }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.primary.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
+                {stats.earned}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                Earned
+              </Typography>
+            </Card>
+          </Grid>
+          <Grid item xs={4}>
+            <Card sx={{ textAlign: 'center', p: 2 }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.info.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
+                {stats.total}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                Total
+              </Typography>
+            </Card>
+          </Grid>
+          <Grid item xs={4}>
+            <Card sx={{ textAlign: 'center', p: 2 }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.success.main,
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+              }}>
+                {stats.completionRate}%
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                Complete
+              </Typography>
+            </Card>
+          </Grid>
+        </Grid>
+      </Box>
 
       {/* Recent badges */}
       {recentBadges.length > 0 && (
-        <div className="recent-badges">
-          <h3>🎉 Recently Earned</h3>
-          <div className="recent-badges-grid">
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h5" sx={{ 
+            fontWeight: 700, 
+            mb: 2,
+            fontSize: { xs: '1.25rem', sm: '1.5rem' }
+          }}>
+            🎉 Recently Earned
+          </Typography>
+          <Grid container spacing={1}>
             {recentBadges.slice(0, 5).map((badge, index) => (
-              <div key={index} className="recent-badge">
-                <span className="recent-badge-icon" style={{ color: badge.color }}>
-                  {badge.icon}
-                </span>
-                <span className="recent-badge-name">{badge.name}</span>
-              </div>
+              <Grid item xs={6} sm={4} md={2} key={index}>
+                <Card sx={{ textAlign: 'center', p: 1 }}>
+                  <Box sx={{ 
+                    fontSize: { xs: '1.5rem', sm: '2rem' }, 
+                    mb: 0.5,
+                    color: badge.color
+                  }}>
+                    {badge.icon}
+                  </Box>
+                  <Typography variant="caption" sx={{ 
+                    fontSize: { xs: '0.65rem', sm: '0.75rem' },
+                    fontWeight: 600
+                  }}>
+                    {badge.name}
+                  </Typography>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </div>
+          </Grid>
+        </Box>
       )}
 
       {/* Filters */}
-      <div className="badges-filters">
-        <div className="category-tabs">
-          {categories.map(category => (
-            <button
-              key={category.id}
-              className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(category.id)}
-            >
-              <span className="category-icon">{category.icon}</span>
-              <span className="category-name">{category.name}</span>
-            </button>
-          ))}
-        </div>
-        <div className="filter-toggle">
-          <label className="toggle-label">
-            <input
-              type="checkbox"
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 2 }}>
+          <ToggleButtonGroup
+            value={selectedCategory}
+            exclusive
+            onChange={(e, newValue) => newValue && setSelectedCategory(newValue)}
+            size="small"
+            sx={{ 
+              flexWrap: 'wrap',
+              '& .MuiToggleButton-root': {
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }
+            }}
+          >
+            {categories.map(category => (
+              <ToggleButton key={category.id} value={category.id}>
+                <Box sx={{ mr: 1 }}>{category.icon}</Box>
+                {category.name}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </Box>
+        
+        <FormControlLabel
+          control={
+            <Switch
               checked={showEarnedOnly}
               onChange={(e) => setShowEarnedOnly(e.target.checked)}
+              size="small"
             />
-            <span className="toggle-slider"></span>
-            Show earned only
-          </label>
-        </div>
-      </div>
+          }
+          label="Show earned only"
+          sx={{ 
+            '& .MuiFormControlLabel-label': {
+              fontSize: { xs: '0.75rem', sm: '0.875rem' }
+            }
+          }}
+        />
+      </Box>
 
       {/* Badges grid */}
-      <div className="badges-grid">
+      <Grid container spacing={2}>
         {getFilteredBadges().map((badge, index) => {
           const status = getBadgeStatus(badge.id);
           return (
-            <BadgeCard key={`${badge.id}-${index}`} badge={badge} status={status} />
+            <Grid item xs={12} sm={6} md={4} lg={3} key={`${badge.id}-${index}`}>
+              <BadgeCard badge={badge} status={status} />
+            </Grid>
           );
         })}
-      </div>
+      </Grid>
 
       {/* Empty state */}
       {getFilteredBadges().length === 0 && (
-        <div className="empty-badges">
-          <div className="empty-icon">🏆</div>
-          <h3>No badges found</h3>
-          <p>Try adjusting your filters or keep stepping to earn more badges!</p>
-        </div>
+        <Box sx={{ 
+          textAlign: 'center', 
+          py: 6,
+          color: theme.palette.text.secondary
+        }}>
+          <Box sx={{ fontSize: '4rem', mb: 2 }}>🏆</Box>
+          <Typography variant="h5" sx={{ 
+            fontWeight: 700, 
+            mb: 1,
+            fontSize: { xs: '1.25rem', sm: '1.5rem' }
+          }}>
+            No badges found
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+            Try adjusting your filters or keep stepping to earn more badges!
+          </Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

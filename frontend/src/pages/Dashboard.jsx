@@ -313,43 +313,61 @@ export default function Dashboard() {
       <Fade in timeout={800}>
         <Box>
           {/* Enhanced Header */}
-          <Box className="gradient-primary-light rounded-lg p-4 mb-4" sx={{ 
+          <Box sx={{ 
+            background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+            borderRadius: 3,
             p: { xs: 3, sm: 4, md: 6 },
-            mb: { xs: 3, sm: 4, md: 6 }
+            mb: { xs: 3, sm: 4, md: 6 },
+            textAlign: 'center',
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(10px)'
+            }
           }}>
-            <Typography 
-              variant="h2" 
-              className="text-gradient-primary text-boldest mb-3"
-              sx={{ 
-                fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.5rem', lg: '3rem', xl: '3.5rem' },
-                textAlign: 'center',
-                mb: { xs: 2, sm: 3, md: 4 },
-                lineHeight: { xs: 1.2, sm: 1.3, md: 1.4 }
-              }}
-            >
-              🏃‍♂️ Step Brothers Dashboard
-            </Typography>
-            <Typography 
-              variant="h6" 
-              color="text.secondary"
-              className="text-center"
-              sx={{ 
-                maxWidth: 700, 
-                mx: 'auto',
-                lineHeight: 1.6,
-                fontSize: { xs: '0.875rem', sm: '1rem', md: '1.1rem' },
-                px: { xs: 1, sm: 0 }
-              }}
-            >
-              Track your daily steps, compete with friends, and stay motivated on your fitness journey!
-            </Typography>
+            <Box sx={{ position: 'relative', zIndex: 1 }}>
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                  fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
+                  fontWeight: 900,
+                  mb: { xs: 2, sm: 3 },
+                  lineHeight: 1.1,
+                  textShadow: '0 2px 8px rgba(0,0,0,0.3)'
+                }}
+              >
+                🏃‍♂️ Step Brothers Dashboard
+              </Typography>
+              <Typography 
+                variant="h6" 
+                sx={{ 
+                  maxWidth: 700, 
+                  mx: 'auto',
+                  lineHeight: 1.6,
+                  fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' },
+                  px: { xs: 1, sm: 0 },
+                  opacity: 0.95,
+                  fontWeight: 400
+                }}
+              >
+                Track your daily steps, compete with friends, and stay motivated on your fitness journey!
+              </Typography>
+            </Box>
           </Box>
 
           {/* Quick Stats Cards */}
           {!isLoading && !hasError && quickStats && (
             <Grid container spacing={3} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
               <Grid item xs={12} sm={6} md={4}>
-                <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
+                <Card sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
                       width: { xs: 50, sm: 60 }, 
@@ -379,7 +397,7 @@ export default function Dashboard() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
-                <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
+                <Card sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
                       width: { xs: 50, sm: 60 }, 
@@ -409,7 +427,7 @@ export default function Dashboard() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={4}>
-                <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
+                <Card sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
                       width: { xs: 50, sm: 60 }, 
@@ -440,7 +458,7 @@ export default function Dashboard() {
               </Grid>
               {/* Most Active */}
               <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
+                <Card sx={{ width: '100%', height: '100%' }}>
                   <CardContent sx={{ p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                       <Box sx={{ 
@@ -498,7 +516,7 @@ export default function Dashboard() {
               </Grid>
               {/* Yesterday's Winner */}
               <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
+                <Card sx={{ width: '100%', height: '100%' }}>
                   <CardContent sx={{ p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                       <Box sx={{ 
@@ -558,9 +576,10 @@ export default function Dashboard() {
           )}
 
           {/* Enhanced Filter Section */}
-          <Paper className="paper-glass p-4 mb-4" sx={{ 
+          <Paper sx={{ 
             p: { xs: 2, sm: 3, md: 4, lg: 6 },
-            mb: { xs: 3, sm: 4, md: 6 }
+            mb: { xs: 3, sm: 4, md: 6 },
+            borderRadius: 3
           }}>
             <Box sx={{ 
               display: 'flex', 
@@ -570,9 +589,10 @@ export default function Dashboard() {
             }}>
               {/* Filter Controls */}
               <Box sx={{ flex: { xs: '1', lg: '0 0 auto' }, minWidth: { lg: 300 } }}>
-                <Typography variant="h5" className="text-bold mb-3" sx={{ 
+                <Typography variant="h5" sx={{ 
                   fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' },
-                  mb: { xs: 2, sm: 3 }
+                  mb: { xs: 2, sm: 3 },
+                  fontWeight: 700
                 }}>
                   📅 Filter Data
                 </Typography>
@@ -746,9 +766,14 @@ export default function Dashboard() {
             <Fade in timeout={600}>
               <Box>
                 {/* Leaderboard Section */}
-                <Typography variant="h3" className="text-gradient-primary text-bolder mb-4" sx={{ 
+                <Typography variant="h3" sx={{ 
                   fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
-                  mb: { xs: 3, sm: 4 }
+                  mb: { xs: 3, sm: 4 },
+                  fontWeight: 800,
+                  background: 'linear-gradient(135deg, #314755 0%, #06b6d4 100%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
                 }}>
                   🏆 Overall Leaderboard
                 </Typography>
@@ -772,54 +797,40 @@ export default function Dashboard() {
                 </Typography>
 
                 {/* Data Grid */}
-                <Paper className="paper-glass" sx={{ overflow: 'hidden' }}>
-                  <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSize={GRID_CONFIG.PAGE_SIZE}
-                    rowsPerPageOptions={GRID_CONFIG.PAGE_SIZE_OPTIONS}
-                    disableSelectionOnClick
-                    sx={{
-                      '& .MuiDataGrid-root': {
-                        border: 'none',
-                      },
-                      '& .MuiDataGrid-cell': {
-                        borderBottom: '1px solid rgba(102, 126, 234, 0.1)',
-                        fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                        padding: { xs: '8px 4px', sm: '16px' },
-                        minHeight: { xs: '40px', sm: '52px' },
-                        maxHeight: { xs: '40px', sm: '52px' },
-                        lineHeight: { xs: '1.2', sm: '1.4' }
-                      },
-                      '& .MuiDataGrid-columnHeaders': {
-                        backgroundColor: 'rgba(102, 126, 234, 0.05)',
-                        borderBottom: '2px solid rgba(102, 126, 234, 0.2)',
-                        minHeight: { xs: '48px', sm: '56px' },
-                        maxHeight: { xs: '48px', sm: '56px' },
-                      },
-                      '& .MuiDataGrid-columnHeader': {
-                        fontWeight: 700,
-                        color: theme.palette.primary.main,
-                        fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                        padding: { xs: '8px 4px', sm: '16px' },
-                        minHeight: { xs: '48px', sm: '56px' },
-                        maxHeight: { xs: '48px', sm: '56px' },
-                        lineHeight: { xs: '1.2', sm: '1.4' }
-                      },
-                      '& .MuiDataGrid-footerContainer': {
-                        fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                        minHeight: { xs: '40px', sm: '52px' },
-                        maxHeight: { xs: '40px', sm: '52px' },
-                      },
-                      '& .MuiDataGrid-row': {
-                        minHeight: { xs: '40px', sm: '52px' },
-                        maxHeight: { xs: '40px', sm: '52px' },
-                      },
-                      '& .MuiDataGrid-virtualScroller': {
-                        minHeight: { xs: '200px', sm: '300px' }
-                      }
-                    }}
-                  />
+                <Paper sx={{ p: { xs: 2, sm: 3, md: 4 }, mb: 4, borderRadius: 3 }}>
+                  <Typography variant="h5" sx={{ 
+                    fontWeight: 700, 
+                    mb: 3, 
+                    fontSize: { xs: '1.25rem', sm: '1.5rem' }
+                  }}>
+                    📊 Data Table
+                  </Typography>
+                  <Box sx={{ overflowX: 'auto' }}>
+                    <DataGrid
+                      rows={rows}
+                      columns={columns}
+                      pageSize={10}
+                      rowsPerPageOptions={[10, 25, 50]}
+                      disableSelectionOnClick
+                      autoHeight
+                      sx={{
+                        '& .MuiDataGrid-cell': {
+                          borderBottom: '1px solid rgba(224, 224, 224, 1)',
+                        },
+                        '& .MuiDataGrid-columnHeaders': {
+                          backgroundColor: theme.palette.grey[50],
+                          borderBottom: '2px solid rgba(224, 224, 224, 1)',
+                        },
+                        '& .MuiDataGrid-virtualScroller': {
+                          backgroundColor: theme.palette.background.paper,
+                        },
+                        '& .MuiDataGrid-footerContainer': {
+                          borderTop: '2px solid rgba(224, 224, 224, 1)',
+                          backgroundColor: theme.palette.grey[50],
+                        },
+                      }}
+                    />
+                  </Box>
                 </Paper>
               </Box>
             </Fade>

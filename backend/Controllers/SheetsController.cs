@@ -98,10 +98,6 @@ namespace StepTracker.Controllers
 
                 var stepData = _stepService.ParseStepsData(rawData, null, null);
                 
-                // Debug: Log available participants
-                Console.WriteLine($"Looking for participant: '{name}'");
-                Console.WriteLine($"Available participants: {string.Join(", ", stepData.Participants)}");
-                
                 var participantData = stepData.ParticipantData.FirstOrDefault(p => 
                     p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
                 
