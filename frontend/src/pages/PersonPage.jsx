@@ -4,7 +4,6 @@ import {
   Box, 
   Typography, 
   Alert, 
-  Button, 
   Grid, 
   Card, 
   CardContent, 
@@ -19,24 +18,24 @@ import {
 } from '@mui/material';
 import StepLineChart from '../components/StepLineChart';
 import { useStepsData } from '../hooks/useStepsData';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom';
 import PersonPageSkeleton from '../components/PersonPageSkeleton';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import StarIcon from '@mui/icons-material/Star';
-import { getInitials, formatNumber, formatSteps } from '../utils/helpers';
+import { getInitials, formatNumber } from '../utils/helpers';
 import { STREAK_CONFIG } from '../constants';
 import { calculateAchievements, getAchievementStats } from '../utils/achievements';
 import { calculatePersonalAnalytics } from '../utils/analytics';
 import AchievementCard from '../components/AchievementCard';
 import AnalyticsDashboard from '../components/AnalyticsDashboard';
+import ComparisonTable from '../components/ComparisonTable';
 
 export default function PersonPage() {
   const theme = useTheme();
   const { name } = useParams();
-  const navigate = useNavigate();
+  
+  // Add state for active tab
   const [tabValue, setTabValue] = React.useState(0);
   
   // Fetch data for specific person
@@ -62,6 +61,11 @@ export default function PersonPage() {
       document.title = 'Step Brothers Dashboard';
     };
   }, [name]);
+
+  // Handle tab change
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   // Prepare chart data
   const chartData = React.useMemo(() => {
@@ -135,29 +139,12 @@ export default function PersonPage() {
     </Card>
   );
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
-
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 4 } }}>
+    <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3, md: 4 } }}>
       <Fade in timeout={800}>
         <Box>
           {/* Header */}
           <Box className="mb-4" sx={{ mb: { xs: 3, sm: 4 } }}>
-            <Button 
-              startIcon={<ArrowBackIcon />} 
-              onClick={() => navigate('/')}
-              className="btn-glass mb-3"
-              sx={{ 
-                px: { xs: 2, sm: 3 },
-                py: { xs: 1, sm: 1.5 },
-                fontSize: { xs: '0.875rem', sm: '1rem' }
-              }}
-            >
-              Back to Dashboard
-            </Button>
-            
             <Box className="gradient-primary-light rounded-lg p-4 mb-3" sx={{ 
               p: { xs: 3, sm: 4 },
               mb: { xs: 2, sm: 3 }
@@ -242,6 +229,7 @@ export default function PersonPage() {
                     <Tab label="🏆 Achievements" />
                     <Tab label="📈 Analytics" />
                     <Tab label="📋 Progress" />
+                    <Tab label="⚖️ Comparison" />
                   </Tabs>
                 </Paper>
 
@@ -776,6 +764,15 @@ export default function PersonPage() {
                         </Paper>
                       </Grid>
                     </Grid>
+                  </Box>
+                )}
+
+                {tabValue === 4 && (
+                  <Box>
+                    <ComparisonTable 
+                      currentPerson={name} 
+                      currentPersonData={personData} 
+                    />
                   </Box>
                 )}
               </Box>

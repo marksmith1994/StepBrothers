@@ -124,3 +124,4 @@ C:\Users\Mark\source\StepTracker\backend\obj\Debug\net8.0\backend.pdb
 C:\Users\Mark\source\StepTracker\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
 C:\Users\Mark\source\StepTracker\backend\obj\Debug\net8.0\ref\backend.dll
 C:\Users\Mark\source\StepTracker\backend\bin\Debug\net8.0\appsettings.template.json
+C:\Users\Mark\source\StepTracker\backend\bin\Debug\net8.0\web.config

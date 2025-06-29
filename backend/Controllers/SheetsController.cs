@@ -84,7 +84,7 @@ namespace StepTracker.Controllers
         }
 
         [HttpGet("participant/{name}")]
-        public async Task<IActionResult> GetParticipantData(string name)
+        public async Task<IActionResult> GetParticipantData(string name, [FromQuery] DateTime? fromDate = null)
         {
             try
             {
@@ -108,6 +108,14 @@ namespace StepTracker.Controllers
                 if (participantData == null)
                 {
                     return NotFound($"Participant '{name}' not found. Available participants: {string.Join(", ", stepData.Participants)}");
+                }
+
+                // Filter data from the specified date if provided
+                if (fromDate.HasValue)
+                {
+                    // Extract just the date part (remove time)
+                    var dateOnly = fromDate.Value.Date;
+                    participantData = _stepService.FilterParticipantDataFromDate(participantData, stepData.DailyData, dateOnly);
                 }
 
                 return Ok(participantData);
@@ -134,6 +142,57 @@ namespace StepTracker.Controllers
                 var stepData = _stepService.ParseStepsData(rawData, null, null);
                 var totals = _stepService.GetTotals(stepData.DailyData);
                 return Ok(totals);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("test-filter/{name}")]
+        public async Task<IActionResult> TestFilter(string name, [FromQuery] DateTime fromDate)
+        {
+            try
+            {
+                var sheetsService = new GoogleSheetsService(_configuration);
+                var rawData = await sheetsService.GetSheetDataAsync();
+                
+                if (rawData == null || rawData.Count == 0)
+                {
+                    return NotFound("No data found in the sheet");
+                }
+
+                var stepData = _stepService.ParseStepsData(rawData, null, null);
+                
+                var participantData = stepData.ParticipantData.FirstOrDefault(p => 
+                    p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                
+                if (participantData == null)
+                {
+                    return NotFound($"Participant '{name}' not found");
+                }
+
+                // Test filtering
+                var originalTotal = participantData.TotalSteps;
+                var originalWins = participantData.AllTimeWins;
+                
+                var filteredData = _stepService.FilterParticipantDataFromDate(participantData, stepData.DailyData, fromDate.Date);
+                
+                var result = new
+                {
+                    Participant = name,
+                    FromDate = fromDate.Date.ToString("yyyy-MM-dd"),
+                    OriginalTotalSteps = originalTotal,
+                    OriginalWins = originalWins,
+                    FilteredTotalSteps = filteredData.TotalSteps,
+                    FilteredWins = filteredData.AllTimeWins,
+                    FilteredAverage = filteredData.AverageSteps,
+                    DayOffset = (fromDate.Date - new DateTime(2025, 1, 1)).Days,
+                    TotalDataDays = stepData.DailyData.Count,
+                    FilteredDataDays = stepData.DailyData.Count - (fromDate.Date - new DateTime(2025, 1, 1)).Days
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

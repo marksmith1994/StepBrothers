@@ -57,7 +57,7 @@ export default function StepLineChart({ data, title }) {
   };
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
+    <Box sx={{ width: '100%', height: 400 }}>
       {title && (
         <Typography 
           variant="h6" 
@@ -73,14 +73,14 @@ export default function StepLineChart({ data, title }) {
           {title}
         </Typography>
       )}
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={title ? 350 : 400}>
         <LineChart 
           data={data} 
           margin={{ 
-            top: { xs: 10, sm: 20 }, 
-            right: { xs: 10, sm: 30 }, 
-            left: { xs: 10, sm: 20 }, 
-            bottom: { xs: 10, sm: 20 } 
+            top: 20, 
+            right: 30, 
+            left: 20, 
+            bottom: 20 
           }}
         >
           <CartesianGrid 
@@ -91,24 +91,24 @@ export default function StepLineChart({ data, title }) {
           <XAxis 
             dataKey="day" 
             stroke={theme.palette.text.secondary}
-            fontSize={{ xs: 10, sm: 12 }}
+            fontSize={12}
             tickLine={false}
             axisLine={false}
-            tick={{ fontSize: { xs: 10, sm: 12 } }}
+            tick={{ fontSize: 12 }}
           />
           <YAxis 
             stroke={theme.palette.text.secondary}
-            fontSize={{ xs: 10, sm: 12 }}
+            fontSize={12}
             tickLine={false}
             axisLine={false}
             tickFormatter={(value) => value.toLocaleString()}
-            tick={{ fontSize: { xs: 10, sm: 12 } }}
+            tick={{ fontSize: 12 }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend 
             wrapperStyle={{
-              paddingTop: { xs: 5, sm: 10 },
-              fontSize: { xs: 10, sm: 12 }
+              paddingTop: 10,
+              fontSize: 12
             }}
           />
           <Line 
@@ -116,14 +116,14 @@ export default function StepLineChart({ data, title }) {
             dataKey="steps" 
             name="Daily Steps" 
             stroke={theme.palette.primary.main} 
-            strokeWidth={{ xs: 2, sm: 3 }}
+            strokeWidth={3}
             dot={{ 
               fill: theme.palette.primary.main, 
               strokeWidth: 2, 
-              r: { xs: 3, sm: 4 }
+              r: 4
             }}
             activeDot={{ 
-              r: { xs: 5, sm: 6 }, 
+              r: 6, 
               stroke: theme.palette.primary.main, 
               strokeWidth: 2 
             }}
@@ -134,15 +134,15 @@ export default function StepLineChart({ data, title }) {
               dataKey="total" 
               name="Total Steps" 
               stroke={theme.palette.success.main} 
-              strokeWidth={{ xs: 1.5, sm: 2 }}
+              strokeWidth={2}
               strokeDasharray="5 5"
               dot={{ 
                 fill: theme.palette.success.main, 
                 strokeWidth: 2, 
-                r: { xs: 2, sm: 3 }
+                r: 3
               }}
               activeDot={{ 
-                r: { xs: 4, sm: 5 }, 
+                r: 5, 
                 stroke: theme.palette.success.main, 
                 strokeWidth: 2 
               }}

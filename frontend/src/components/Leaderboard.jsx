@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, Typography, Tabs, Tab, Paper, Table, TableHead, TableRow, TableCell, TableBody, Avatar, useTheme } from '@mui/material';
+import { Box, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Avatar, useTheme } from '@mui/material';
 import EmojiEvents from '@mui/icons-material/EmojiEvents';
-import dayjs from 'dayjs';
 import { useStepsData } from '../hooks/useStepsData';
 
 const medals = [
@@ -15,12 +14,8 @@ function getInitials(name) {
 }
 
 export default function Leaderboard({ tab = 'dashboard' }) {
-  const { data: stepData, loading, error } = useStepsData({ tab });
-  const [periodTab, setPeriodTab] = React.useState(0);
+  const { data: stepData } = useStepsData({ tab });
   const theme = useTheme();
-  const periods = ['day', 'week', 'month', 'all'];
-  const periodLabels = ['Today', 'This Week', 'This Month', 'All Time'];
-  const period = periods[periodTab];
 
   // Get totals from participant data
   let totals = {};
@@ -53,25 +48,6 @@ export default function Leaderboard({ tab = 'dashboard' }) {
       }}>
         Leaderboard
       </Typography>
-      {tab !== 'dashboard' && (
-        <Tabs
-          value={periodTab}
-          onChange={(_, v) => setPeriodTab(v)}
-          sx={{ 
-            mb: 2, 
-            minHeight: { xs: 40, sm: 44 },
-            '& .MuiTab-root': {
-              fontSize: { xs: '0.75rem', sm: '1rem' },
-              minHeight: { xs: 40, sm: 44 }
-            }
-          }}
-          TabIndicatorProps={{ style: { height: 4, borderRadius: 2, background: theme.palette.primary.main } }}
-        >
-          {periodLabels.map((label, i) => (
-            <Tab key={label} label={label} sx={{ fontWeight: 600 }} />
-          ))}
-        </Tabs>
-      )}
       <Table size="small" sx={{ 
         '@media (max-width: 600px)': {
           fontSize: '0.75rem'

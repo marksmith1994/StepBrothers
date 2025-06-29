@@ -115,15 +115,6 @@ export default function DailyRankTable({ dailyData, participants }) {
     }
   };
 
-  const getRankEmoji = (rank) => {
-    switch (rank) {
-      case 1: return '🥇';
-      case 2: return '🥈';
-      case 3: return '🥉';
-      default: return `${rank}`;
-    }
-  };
-
   return (
     <Paper sx={{ 
       p: { xs: 2, sm: 3 }, 

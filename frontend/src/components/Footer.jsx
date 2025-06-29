@@ -1,19 +1,8 @@
 import React from 'react';
-import { Box, Typography, Container, Link, Chip, useTheme } from '@mui/material';
-import { useCacheStats } from '../hooks/useStepsData';
+import { Box, Typography, Container, Link, useTheme } from '@mui/material';
 
 export default function Footer() {
   const theme = useTheme();
-  const stats = useCacheStats();
-
-  const getCacheStatus = () => {
-    if (!stats || stats.size === 0) return { color: 'default', label: 'No cache' };
-    if (stats.size < 5) return { color: 'success', label: 'Light cache' };
-    if (stats.size < 10) return { color: 'warning', label: 'Moderate cache' };
-    return { color: 'info', label: 'Heavy cache' };
-  };
-
-  const cacheStatus = getCacheStatus();
 
   return (
     <Box
@@ -61,22 +50,8 @@ export default function Footer() {
             </Typography>
           </Box>
 
-          {/* Center - Cache status */}
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary" sx={{ 
-              mb: 1,
-              fontSize: { xs: '0.75rem', sm: '0.875rem' }
-            }}>
-              Cache Status
-            </Typography>
-            <Chip
-              label={`${cacheStatus.label} (${stats?.size || 0} items)`}
-              color={cacheStatus.color}
-              size="small"
-              variant="outlined"
-              sx={{ fontSize: { xs: '0.625rem', sm: '0.75rem' } }}
-            />
-          </Box>
+          {/* Center - Placeholder for future UI */}
+          <Box sx={{ textAlign: 'center' }} />
 
           {/* Right side - Links */}
           <Box sx={{ textAlign: { xs: 'center', md: 'right' } }}>

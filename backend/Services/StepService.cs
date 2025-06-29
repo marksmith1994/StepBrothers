@@ -442,5 +442,62 @@ namespace StepTracker.Services
             data.AverageSteps = data.DailySteps.Count > 0 ? (double)data.TotalSteps / data.DailySteps.Count : 0;
             return data;
         }
+
+        // Filter participant data from a specific date
+        public ParticipantData FilterParticipantDataFromDate(ParticipantData participantData, List<StepEntry> dailyData, DateTime fromDate)
+        {
+            if (participantData == null || dailyData == null) return participantData;
+
+            var filteredData = new ParticipantData
+            {
+                Name = participantData.Name
+            };
+
+            // Calculate the day index from the fromDate
+            // The data starts from January 1st, 2025
+            var startOfYear = new DateTime(2025, 1, 1);
+            var dayOffset = (fromDate - startOfYear).Days;
+
+            // Ensure dayOffset is within bounds
+            if (dayOffset < 0)
+            {
+                dayOffset = 0;
+            }
+            
+            if (dayOffset >= dailyData.Count)
+            {
+                dayOffset = Math.Max(0, dailyData.Count - 1);
+            }
+
+            // Filter daily steps from the specified date
+            var filteredDailySteps = new List<int>();
+            var filteredTotalSteps = 0;
+            var filteredHighestSingleDay = 0;
+
+            // Start from the calculated day offset
+            for (int i = dayOffset; i < dailyData.Count && i < participantData.DailySteps.Count; i++)
+            {
+                var steps = participantData.DailySteps[i];
+                filteredDailySteps.Add(steps);
+                filteredTotalSteps += steps;
+                filteredHighestSingleDay = Math.Max(filteredHighestSingleDay, steps);
+            }
+
+            // Set the filtered data
+            filteredData.TotalSteps = filteredTotalSteps;
+            filteredData.AverageSteps = filteredDailySteps.Count > 0 ? (double)filteredTotalSteps / filteredDailySteps.Count : 0;
+            filteredData.HighestSingleDay = filteredHighestSingleDay;
+
+            // Recalculate streaks and wins for the filtered period
+            var filteredDailyData = dailyData.Skip(dayOffset).ToList();
+            // Get all participants from the first daily data entry
+            var allParticipants = dailyData.FirstOrDefault()?.Steps.Keys.ToList() ?? new List<string>();
+            CalculateStreaksAndWins(filteredData, filteredDailyData, allParticipants);
+
+            // Clear the daily steps list since frontend doesn't use it
+            filteredData.DailySteps.Clear();
+
+            return filteredData;
+        }
     }
 }

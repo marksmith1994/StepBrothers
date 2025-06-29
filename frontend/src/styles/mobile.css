@@ -370,69 +370,12 @@
     padding: 16px !important;
   }
   
-  /* Ensure Grid containers use full width and proper spacing */
-  .MuiGrid-container {
-    width: 100% !important;
-    margin: 0 !important;
-    gap: 12px !important;
-  }
-  
-  /* Ensure Grid items take full width with proper spacing */
-  .MuiGrid-item {
-    width: 100% !important;
-    padding: 6px !important;
-  }
-  
-  /* Ensure cards fill their containers */
-  .MuiCard-root {
-    width: 100% !important;
-    height: 100% !important;
-  }
-  
-  /* Center single cards when there's only one in a row */
-  .MuiGrid-item:only-child {
-    display: flex !important;
-    justify-content: center !important;
-  }
-  
-  /* Ensure proper spacing between cards */
-  .MuiGrid-container > .MuiGrid-item {
-    margin-bottom: 12px !important;
-  }
-  
-  /* Mobile table border fixes */
-  .MuiTable-root {
-    border-collapse: collapse !important;
-  }
-  
-  .MuiTableHead-root .MuiTableRow-root {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
-  }
-  
-  .MuiTableBody-root .MuiTableRow-root {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
-  }
-  
-  .MuiTableBody-root .MuiTableRow-root:last-child {
-    border-bottom: none !important;
-  }
-  
-  .MuiTableCell-root {
-    border-bottom: none !important;
-    padding: 10px 6px !important;
-    font-size: 0.75rem !important;
-  }
-  
-  .MuiTableCell-head {
-    font-weight: 700 !important;
-    color: rgba(0, 0, 0, 0.87) !important;
-    background-color: rgba(0, 0, 0, 0.04) !important;
-  }
-  
   /* Mobile container centering fixes */
   .MuiContainer-root {
     padding-left: 16px !important;
     padding-right: 16px !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
   }
   
   /* Mobile paper padding fixes */
@@ -453,6 +396,175 @@
   /* Mobile chip spacing */
   .MuiChip-root {
     margin: 4px !important;
+  }
+  
+  /* Mobile Grid System - Consistent spacing */
+  .MuiGrid-container {
+    width: 100% !important;
+    margin: 0 !important;
+    gap: 16px !important;
+  }
+  
+  /* Ensure Grid items take full width with consistent spacing */
+  .MuiGrid-item {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  /* Ensure cards fill their containers without extra margins */
+  .MuiCard-root {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  .MuiCard-root:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+  
+  /* Consistent card content padding */
+  .MuiCardContent-root {
+    padding: 16px !important;
+  }
+  
+  /* Card header styling */
+  .MuiCardHeader-root {
+    padding: 16px 16px 8px 16px !important;
+  }
+  
+  .MuiCardHeader-title {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .MuiCardHeader-subheader {
+    font-size: 0.875rem !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+  
+  /* Card actions styling */
+  .MuiCardActions-root {
+    padding: 8px 16px 16px 16px !important;
+    gap: 8px !important;
+  }
+  
+  /* Card media styling */
+  .MuiCardMedia-root {
+    border-radius: 12px 12px 0 0 !important;
+  }
+  
+  /* Center single cards when there's only one in a row */
+  .MuiGrid-item:only-child {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  /* Remove extra spacing between grid items since we're using gap */
+  .MuiGrid-container > .MuiGrid-item {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Mobile-specific section spacing */
+  .section-spacing {
+    margin-bottom: 24px !important;
+  }
+  
+  .section-spacing:last-child {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Mobile-specific card spacing for non-grid layouts */
+  .card-spacing {
+    margin-bottom: 16px !important;
+  }
+  
+  .card-spacing:last-child {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Mobile table border fixes */
+  .MuiTable-root {
+    border-collapse: collapse !important;
+  }
+
+  .MuiTableHead-root .MuiTableRow-root {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .MuiTableBody-root .MuiTableRow-root {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .MuiTableBody-root .MuiTableRow-root:last-child {
+    border-bottom: none !important;
+  }
+
+  .MuiTableCell-root {
+    border-bottom: none !important;
+    padding: 10px 6px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .MuiTableCell-head {
+    font-weight: 700 !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  /* Mobile Tabs improvements */
+  .MuiTabs-root {
+    overflow: visible !important;
+  }
+
+  .MuiTabs-scrollButtons {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .MuiTabs-scrollButtons:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    transform: scale(1.1) !important;
+  }
+
+  .MuiTabs-scrollButtons.Mui-disabled {
+    opacity: 0.3 !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    pointer-events: none !important;
+  }
+
+  .MuiTabs-scrollArea {
+    overflow: hidden !important;
+  }
+
+  .MuiTabs-flexContainer {
+    gap: 4px !important;
+  }
+
+  .MuiTab-root {
+    min-width: auto !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .MuiTab-root:hover {
+    background: rgba(102, 126, 234, 0.08) !important;
+  }
+
+  .MuiTab-root.Mui-selected {
+    background: rgba(102, 126, 234, 0.12) !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2) !important;
   }
 }
 

@@ -48,8 +48,8 @@ export const NAV_CONFIG = {
     { label: '🏆 Leaderboard', value: 0 },
     { label: '🔥 Streaks', value: 1 },
     { label: '📊 Progress', value: 2 },
-    { label: '🏅 Monthly Champions', value: 3 },
-    { label: '⭐ All-Time Bests', value: 4 }
+    { label: '⭐ All-Time Bests', value: 3 },
+    { label: '🏅 Badges', value: 4 }
   ]
 };
 
@@ -95,5 +95,180 @@ export const ACHIEVEMENT_CONFIG = {
     { id: '10k_200', name: '200 Days of 10K+', days: 200, icon: '👟👟', color: '#2196F3' },
     { id: '10k_300', name: '300 Days of 10K+', days: 300, icon: '👟👟👟', color: '#FF9800' },
     { id: '10k_365', name: '365 Days of 10K+', days: 365, icon: '👟👟👟👟', color: '#9C27B0' }
+  ]
+};
+
+// Badges Configuration - Fun achievements for the friend group
+export const BADGES_CONFIG = {
+  // Current Best Badges (only one person can hold these)
+  CURRENT_BESTS: [
+    { 
+      id: 'current_win_streak', 
+      name: '🔥 Streak King', 
+      description: 'Current longest win streak',
+      icon: '🔥', 
+      color: '#FF6B35',
+      category: 'current_best'
+    },
+    { 
+      id: 'current_highest_day', 
+      name: '🚀 Step Monster', 
+      description: 'Current highest single day',
+      icon: '🚀', 
+      color: '#FFD700',
+      category: 'current_best'
+    },
+    { 
+      id: 'current_total_steps', 
+      name: '👑 Total Champion', 
+      description: 'Current highest total steps',
+      icon: '👑', 
+      color: '#9C27B0',
+      category: 'current_best'
+    },
+    { 
+      id: 'current_avg_steps', 
+      name: '📊 Consistency King', 
+      description: 'Current highest average steps/day',
+      icon: '📊', 
+      color: '#4CAF50',
+      category: 'current_best'
+    }
+  ],
+
+  // Funny/Quirky Badges
+  FUNNY_BADGES: [
+    { 
+      id: 'back_to_back_same', 
+      name: '🔄 Déjà Vu', 
+      description: 'Two consecutive days with exactly the same steps',
+      icon: '🔄', 
+      color: '#E91E63',
+      category: 'funny'
+    },
+    { 
+      id: 'lowest_day', 
+      name: '🐌 Sloth Mode', 
+      description: 'Lowest single day steps',
+      icon: '🐌', 
+      color: '#795548',
+      category: 'funny'
+    },
+    { 
+      id: 'palindrome_steps', 
+      name: '🔄 Palindrome', 
+      description: 'Steps that read the same forwards and backwards (e.g., 12321)',
+      icon: '🔄', 
+      color: '#00BCD4',
+      category: 'funny'
+    },
+    { 
+      id: 'lucky_seven', 
+      name: '🍀 Lucky 7', 
+      description: 'Steps ending in 777 (e.g., 12777, 20777)',
+      icon: '🍀', 
+      color: '#4CAF50',
+      category: 'funny'
+    },
+    { 
+      id: 'round_number', 
+      name: '🎯 Bullseye', 
+      description: 'Exactly 10,000, 15,000, or 20,000 steps',
+      icon: '🎯', 
+      color: '#FF9800',
+      category: 'funny'
+    },
+    { 
+      id: 'zero_day', 
+      name: '😴 Sleep Day', 
+      description: 'A day with 0 steps',
+      icon: '😴', 
+      color: '#9E9E9E',
+      category: 'funny'
+    },
+    { 
+      id: 'one_step', 
+      name: '🦵 One Leg', 
+      description: 'A day with exactly 1 step',
+      icon: '🦵', 
+      color: '#FF5722',
+      category: 'funny'
+    },
+    { 
+      id: 'repeating_pattern', 
+      name: '🎵 Rhythm Master', 
+      description: 'Steps with repeating digits (e.g., 12121, 99999)',
+      icon: '🎵', 
+      color: '#9C27B0',
+      category: 'funny'
+    }
+  ],
+
+  // Special Milestone Badges
+  SPECIAL_MILESTONES: [
+    { 
+      id: 'first_win', 
+      name: '🥇 First Victory', 
+      description: 'First time winning a day',
+      icon: '🥇', 
+      color: '#FFD700',
+      category: 'milestone'
+    },
+    { 
+      id: 'weekend_warrior', 
+      name: '🏈 Weekend Warrior', 
+      description: 'Won both Saturday and Sunday in the same week',
+      icon: '🏈', 
+      color: '#FF6B35',
+      category: 'milestone'
+    },
+    { 
+      id: 'comeback_king', 
+      name: '💪 Comeback King', 
+      description: 'Won after being last the previous day',
+      icon: '💪', 
+      color: '#4CAF50',
+      category: 'milestone'
+    },
+    { 
+      id: 'consistency_master', 
+      name: '📈 Consistency Master', 
+      description: '7 consecutive days over 10K steps',
+      icon: '📈', 
+      color: '#2196F3',
+      category: 'milestone'
+    },
+    { 
+      id: 'speed_demon', 
+      name: '⚡ Speed Demon', 
+      description: 'Won 3 days in a row',
+      icon: '⚡', 
+      color: '#FF9800',
+      category: 'milestone'
+    },
+    { 
+      id: 'marathon_man', 
+      name: '🏃 Marathon Man', 
+      description: 'A day with 26,000+ steps (marathon distance)',
+      icon: '🏃', 
+      color: '#E91E63',
+      category: 'milestone'
+    },
+    { 
+      id: 'ultra_marathon', 
+      name: '🏃‍♂️ Ultra Runner', 
+      description: 'A day with 50,000+ steps',
+      icon: '🏃‍♂️', 
+      color: '#9C27B0',
+      category: 'milestone'
+    },
+    { 
+      id: 'perfect_week', 
+      name: '⭐ Perfect Week', 
+      description: 'Won every day in a week',
+      icon: '⭐', 
+      color: '#FFD700',
+      category: 'milestone'
+    }
   ]
 }; 

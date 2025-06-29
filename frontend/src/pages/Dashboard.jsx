@@ -1,32 +1,17 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Box, 
-  Typography, 
-  Alert, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem,
-  CircularProgress,
-  Container,
-  Paper,
-  useTheme,
-  Fade,
-  Grid,
-  Card,
-  CardContent,
-  Avatar,
-  Chip,
-  Button,
-  IconButton,
-  Tooltip,
-  Divider
-} from '@mui/material';
+import { Box, Typography, Paper, useTheme, Container, Tabs, Tab, FormControl, Select, MenuItem, Card, CardContent, Grid, Chip, Alert, CircularProgress, InputLabel } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStepsData } from '../hooks/useStepsData';
 import Leaderboard from '../components/Leaderboard';
-import { GRID_CONFIG } from '../constants';
+import StepLineChart from '../components/StepLineChart';
+import CumulativeStepsChart from '../components/CumulativeStepsChart';
+import WeeklyPerformanceChart from '../components/WeeklyPerformanceChart';
+import ConsistencyHeatmap from '../components/ConsistencyHeatmap';
+import DailyRankTable from '../components/DailyRankTable';
+import MonthlyWinnersTable from '../components/MonthlyWinnersTable';
+import AllTimeBestsTable from '../components/AllTimeBestsTable';
+import BadgesSection from '../components/BadgesSection';
+import AnalyticsDashboard from '../components/AnalyticsDashboard';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
@@ -35,13 +20,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import StarIcon from '@mui/icons-material/Star';
-import { getInitials, formatNumber } from '../utils/helpers';
-
-// Get current month and year
-const getCurrentMonth = () => {
-  const now = new Date();
-  return now.toLocaleString('default', { month: 'long' });
-};
+import { formatNumber } from '../utils/helpers';
+import { GRID_CONFIG } from '../constants';
+import Fade from '@mui/material/Fade';
+import { DashboardSkeleton } from '../components/LoadingSkeleton';
 
 // Helper function to format date properly
 const formatDate = (dayString) => {
@@ -130,7 +112,6 @@ const MONTHS = [
 
 export default function Dashboard() {
   const theme = useTheme();
-  const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = React.useState('dashboard');
   
   const { data: stepData, loading, error } = useStepsData({ tab: selectedMonth });
@@ -325,16 +306,16 @@ export default function Dashboard() {
   }, [filteredStepData]);
 
   return (
-    <Container maxWidth="xl" sx={{ 
-      py: { xs: 1, sm: 2, md: 4 },
-      px: { xs: 1, sm: 2, md: 3 }
+    <Container maxWidth="xl" disableGutters sx={{ 
+      py: { xs: 2, sm: 3, md: 4 },
+      px: { xs: 2, sm: 3, md: 4 }
     }}>
       <Fade in timeout={800}>
         <Box>
           {/* Enhanced Header */}
           <Box className="gradient-primary-light rounded-lg p-4 mb-4" sx={{ 
-            p: { xs: 2, sm: 3, md: 4, lg: 6 },
-            mb: { xs: 2, sm: 3, md: 4, lg: 6 }
+            p: { xs: 3, sm: 4, md: 6 },
+            mb: { xs: 3, sm: 4, md: 6 }
           }}>
             <Typography 
               variant="h2" 
@@ -342,7 +323,7 @@ export default function Dashboard() {
               sx={{ 
                 fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.5rem', lg: '3rem', xl: '3.5rem' },
                 textAlign: 'center',
-                mb: { xs: 1, sm: 2, md: 3 },
+                mb: { xs: 2, sm: 3, md: 4 },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.4 }
               }}
             >
@@ -356,7 +337,7 @@ export default function Dashboard() {
                 maxWidth: 700, 
                 mx: 'auto',
                 lineHeight: 1.6,
-                fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem', lg: '1.1rem' },
+                fontSize: { xs: '0.875rem', sm: '1rem', md: '1.1rem' },
                 px: { xs: 1, sm: 0 }
               }}
             >
@@ -366,7 +347,7 @@ export default function Dashboard() {
 
           {/* Quick Stats Cards */}
           {!isLoading && !hasError && quickStats && (
-            <Grid container spacing={2} sx={{ mb: { xs: 3, sm: 4, md: 6 } }}>
+            <Grid container spacing={3} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
               <Grid item xs={12} sm={6} md={4}>
                 <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -397,7 +378,6 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </Grid>
-
               <Grid item xs={12} sm={6} md={4}>
                 <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -428,7 +408,6 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </Grid>
-
               <Grid item xs={12} sm={6} md={4}>
                 <Card className="stat-card" sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -456,6 +435,122 @@ export default function Dashboard() {
                     <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                       Participants
                     </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Most Active */}
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
+                  <CardContent sx={{ p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Box sx={{ 
+                        width: { xs: 40, sm: 50 }, 
+                        height: { xs: 40, sm: 50 }, 
+                        borderRadius: '50%', 
+                        background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mr: { xs: 2, sm: 3 }
+                      }}>
+                        <EmojiEventsIcon sx={{ color: 'white', fontSize: { xs: 20, sm: 24 } }} />
+                      </Box>
+                      <Box>
+                        <Typography variant="h6" sx={{ 
+                          fontWeight: 700, 
+                          color: '#f59e0b',
+                          fontSize: { xs: '1rem', sm: '1.25rem' }
+                        }}>
+                          🏆 Most Active
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                          Highest average steps
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {quickStats.mostActive ? (
+                      <Box>
+                        <Typography variant="h5" sx={{ 
+                          fontWeight: 800, 
+                          mb: 1,
+                          fontSize: { xs: '1.1rem', sm: '1.25rem' }
+                        }}>
+                          {quickStats.mostActive.name}
+                        </Typography>
+                        <Typography variant="h6" sx={{ 
+                          color: '#f59e0b', 
+                          fontWeight: 700,
+                          fontSize: { xs: '0.95rem', sm: '1.1rem' }
+                        }}>
+                          {formatNumber(quickStats.mostActive.averageSteps)} avg steps
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                          Total: {formatNumber(quickStats.mostActive.totalSteps)} steps
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+                        No data available
+                      </Typography>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Yesterday's Winner */}
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
+                  <CardContent sx={{ p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Box sx={{ 
+                        width: { xs: 40, sm: 50 }, 
+                        height: { xs: 40, sm: 50 }, 
+                        borderRadius: '50%', 
+                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mr: { xs: 2, sm: 3 }
+                      }}>
+                        <StarIcon sx={{ color: 'white', fontSize: { xs: 20, sm: 24 } }} />
+                      </Box>
+                      <Box>
+                        <Typography variant="h6" sx={{ 
+                          fontWeight: 700, 
+                          color: '#10b981',
+                          fontSize: { xs: '1rem', sm: '1.25rem' }
+                        }}>
+                          ⭐ Yesterday's Winner
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                          Highest steps yesterday
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {quickStats.yesterdaysWinner ? (
+                      <Box>
+                        <Typography variant="h5" sx={{ 
+                          fontWeight: 800, 
+                          mb: 1,
+                          fontSize: { xs: '1.1rem', sm: '1.25rem' }
+                        }}>
+                          {quickStats.yesterdaysWinner.name}
+                        </Typography>
+                        <Typography variant="h6" sx={{ 
+                          color: '#10b981', 
+                          fontWeight: 700,
+                          fontSize: { xs: '0.95rem', sm: '1.1rem' }
+                        }}>
+                          {formatNumber(quickStats.yesterdaysWinner.steps)} steps
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+                          Date: {quickStats.yesterdaysWinner.day}
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+                        No data available
+                      </Typography>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
@@ -625,16 +720,7 @@ export default function Dashboard() {
               gap: 3,
               py: { xs: 4, sm: 6 }
             }}>
-              <CircularProgress 
-                size={80} 
-                thickness={4}
-                sx={{ 
-                  color: theme.palette.primary.main,
-                  '& .MuiCircularProgress-circle': {
-                    strokeLinecap: 'round',
-                  }
-                }}
-              />
+              <DashboardSkeleton />
               <Typography variant="h6" color="text.secondary" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Loading step data...
               </Typography>
@@ -659,129 +745,6 @@ export default function Dashboard() {
           {!isLoading && !hasError && (
             <Fade in timeout={600}>
               <Box>
-                {/* Top Performers */}
-                <Grid container spacing={2} sx={{ mb: { xs: 4, sm: 6 } }}>
-                  {/* Most Active Participant */}
-                  <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
-                    <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
-                      <CardContent sx={{ p: { xs: 3, sm: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                          <Box sx={{ 
-                            width: { xs: 50, sm: 60 }, 
-                            height: { xs: 50, sm: 60 }, 
-                            borderRadius: '50%', 
-                            background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            mr: { xs: 2, sm: 3 }
-                          }}>
-                            <EmojiEventsIcon sx={{ color: 'white', fontSize: { xs: 24, sm: 30 } }} />
-                          </Box>
-                          <Box>
-                            <Typography variant="h6" sx={{ 
-                              fontWeight: 700, 
-                              color: '#f59e0b',
-                              fontSize: { xs: '1rem', sm: '1.25rem' }
-                            }}>
-                              🏆 Most Active
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                              Highest average steps
-                            </Typography>
-                          </Box>
-                        </Box>
-                        
-                        {quickStats.mostActive ? (
-                          <Box>
-                            <Typography variant="h5" sx={{ 
-                              fontWeight: 800, 
-                              mb: 1,
-                              fontSize: { xs: '1.25rem', sm: '1.5rem' }
-                            }}>
-                              {quickStats.mostActive.name}
-                            </Typography>
-                            <Typography variant="h6" sx={{ 
-                              color: '#f59e0b', 
-                              fontWeight: 700,
-                              fontSize: { xs: '1rem', sm: '1.25rem' }
-                            }}>
-                              {formatNumber(quickStats.mostActive.averageSteps)} avg steps
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                              Total: {formatNumber(quickStats.mostActive.totalSteps)} steps
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
-                            No data available
-                          </Typography>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Grid>
-
-                  {/* Yesterday's Winner */}
-                  <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
-                    <Card className="performer-card" sx={{ width: '100%', height: '100%' }}>
-                      <CardContent sx={{ p: { xs: 3, sm: 4 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                          <Box sx={{ 
-                            width: { xs: 50, sm: 60 }, 
-                            height: { xs: 50, sm: 60 }, 
-                            borderRadius: '50%', 
-                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            mr: { xs: 2, sm: 3 }
-                          }}>
-                            <StarIcon sx={{ color: 'white', fontSize: { xs: 24, sm: 30 } }} />
-                          </Box>
-                          <Box>
-                            <Typography variant="h6" sx={{ 
-                              fontWeight: 700, 
-                              color: '#10b981',
-                              fontSize: { xs: '1rem', sm: '1.25rem' }
-                            }}>
-                              ⭐ Yesterday's Winner
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                              Highest steps yesterday
-                            </Typography>
-                          </Box>
-                        </Box>
-                        
-                        {quickStats.yesterdaysWinner ? (
-                          <Box>
-                            <Typography variant="h5" sx={{ 
-                              fontWeight: 800, 
-                              mb: 1,
-                              fontSize: { xs: '1.25rem', sm: '1.5rem' }
-                            }}>
-                              {quickStats.yesterdaysWinner.name}
-                            </Typography>
-                            <Typography variant="h6" sx={{ 
-                              color: '#10b981', 
-                              fontWeight: 700,
-                              fontSize: { xs: '1rem', sm: '1.25rem' }
-                            }}>
-                              {formatNumber(quickStats.yesterdaysWinner.steps)} steps
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                              Date: {quickStats.yesterdaysWinner.day}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
-                            No data available
-                          </Typography>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                </Grid>
-
                 {/* Leaderboard Section */}
                 <Typography variant="h3" className="text-gradient-primary text-bolder mb-4" sx={{ 
                   fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
@@ -789,9 +752,16 @@ export default function Dashboard() {
                 }}>
                   🏆 Overall Leaderboard
                 </Typography>
-                <Paper className="paper-glass mb-6" sx={{ mb: { xs: 4, sm: 6 } }}>
+                <Box sx={{
+                  mb: { xs: 4, sm: 6 },
+                  background: 'rgba(255,255,255,0.8)',
+                  borderRadius: 3,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+                  border: '1px solid rgba(102, 126, 234, 0.08)',
+                  p: { xs: 1, sm: 2, md: 3 }
+                }}>
                   <Leaderboard tab={selectedMonth} />
-                </Paper>
+                </Box>
 
                 {/* Data Grid Section */}
                 <Typography variant="h3" className="text-gradient-primary text-bolder mb-4" sx={{ 

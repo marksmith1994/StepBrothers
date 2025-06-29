@@ -25,11 +25,13 @@ import WeeklyPerformanceChart from '../components/WeeklyPerformanceChart';
 import ConsistencyHeatmap from '../components/ConsistencyHeatmap';
 import Leaderboard from '../components/Leaderboard';
 import DailyRankTable from '../components/DailyRankTable';
+import BadgesSection from '../components/BadgesSection';
 import { NAV_CONFIG, BREAKPOINTS } from '../constants';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import { getInitials } from '../utils/helpers';
 import { calculateMonthlyWinners } from '../utils/analytics';
+import { GamificationPageSkeleton } from '../components/LoadingSkeleton';
 
 export default function GamificationPage() {
   const theme = useTheme();
@@ -54,37 +56,15 @@ export default function GamificationPage() {
 
   if (loading) {
     return (
-      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 4 } }}>
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          minHeight: '60vh',
-          flexDirection: 'column',
-          gap: 3,
-          py: { xs: 4, sm: 6 }
-        }}>
-          <CircularProgress 
-            size={80} 
-            thickness={4}
-            sx={{ 
-              color: theme.palette.primary.main,
-              '& .MuiCircularProgress-circle': {
-                strokeLinecap: 'round',
-              }
-            }}
-          />
-          <Typography variant="h6" color="text.secondary" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
-            Loading gamification data...
-          </Typography>
-        </Box>
+      <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3, md: 4 } }}>
+        <GamificationPageSkeleton />
       </Container>
     );
   }
 
   if (error) {
     return (
-      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 4 } }}>
+      <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3, md: 4 } }}>
         <Alert 
           severity="error" 
           sx={{ 
@@ -102,43 +82,38 @@ export default function GamificationPage() {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 4 } }}>
+    <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3, md: 4 } }}>
       <Fade in timeout={800}>
         <Box>
           {/* Header */}
-          <Box sx={{ 
-            mb: { xs: 4, sm: 6 }, 
-            textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-            borderRadius: 4,
-            p: { xs: 3, sm: 4 },
-            border: '1px solid rgba(102, 126, 234, 0.2)'
+          <Box className="gradient-primary-light rounded-lg p-4 mb-4" sx={{ 
+            p: { xs: 3, sm: 4, md: 6 },
+            mb: { xs: 3, sm: 4, md: 6 }
           }}>
             <Typography 
               variant="h2" 
+              className="text-gradient-primary text-boldest mb-3"
               sx={{ 
-                fontWeight: 900, 
-                mb: { xs: 1.5, sm: 2 }, 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' }
+                fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.5rem', lg: '3rem' },
+                textAlign: 'center',
+                mb: { xs: 2, sm: 3, md: 4 },
+                lineHeight: { xs: 1.2, sm: 1.3, md: 1.4 }
               }}
             >
-              🏆 Step Brothers Gamification
+              🏆 Gamification Hub
             </Typography>
             <Typography 
               variant="h6" 
               color="text.secondary"
+              className="text-center"
               sx={{ 
-                maxWidth: 600, 
+                maxWidth: 700, 
                 mx: 'auto',
                 lineHeight: 1.6,
                 fontSize: { xs: '0.875rem', sm: '1rem', md: '1.1rem' }
               }}
             >
-              Track your progress, compete with friends, and celebrate achievements!
+              Unlock achievements, earn badges, and compete with your step brothers!
             </Typography>
           </Box>
 
@@ -150,14 +125,18 @@ export default function GamificationPage() {
               background: 'rgba(255, 255, 255, 0.8)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              position: 'relative',
+              overflow: 'visible',
+              px: { xs: 2, sm: 3 }
             }}
           >
             <Tabs 
               value={tabValue} 
               onChange={handleTabChange}
               variant="scrollable"
-              scrollButtons={false}
+              scrollButtons="auto"
+              allowScrollButtonsMobile
               sx={{ 
                 '& .MuiTab-root': { 
                   fontWeight: 700, 
@@ -175,6 +154,21 @@ export default function GamificationPage() {
                   height: 4,
                   borderRadius: 2,
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                },
+                '& .MuiTabs-scrollButtons': {
+                  color: theme.palette.primary.main,
+                  '&.Mui-disabled': {
+                    opacity: 0.3
+                  }
+                },
+                '& .MuiTabs-scrollButtons.MuiTabs-scrollButtonsDesktop': {
+                  display: { xs: 'flex', sm: 'flex' }
+                },
+                '& .MuiTabs-scrollButtons.MuiTabs-scrollButtonsLeft': {
+                  display: { xs: 'flex', sm: 'flex' }
+                },
+                '& .MuiTabs-scrollButtons.MuiTabs-scrollButtonsRight': {
+                  display: { xs: 'flex', sm: 'flex' }
                 }
               }}
             >
@@ -606,7 +600,6 @@ export default function GamificationPage() {
                               }}>
                                 {(() => {
                                   const participantStats = stepData.participants.map(participant => {
-                                    const participantData = stepData.dailyData?.find(day => day.steps[participant]) || { steps: {} };
                                     const dailySteps = stepData.dailyData?.map(day => day.steps[participant] || 0).filter(steps => steps > 0) || [];
                                     const avgSteps = dailySteps.length > 0 ? dailySteps.reduce((sum, steps) => sum + steps, 0) / dailySteps.length : 0;
                                     
@@ -1190,6 +1183,24 @@ export default function GamificationPage() {
                       backgroundClip: 'text'
                     }}
                   >
+                    ⭐ All-Time Best Performances
+                  </Typography>
+                  {gamificationData && (
+                    <AllTimeBestsTable allTimeBests={gamificationData.allTimeBests} />
+                  )}
+                  
+                  <Typography 
+                    variant="h3" 
+                    sx={{ 
+                      mb: 4, 
+                      mt: 6,
+                      fontWeight: 800,
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}
+                  >
                     🏅 Monthly Champions
                   </Typography>
                   {gamificationData && (
@@ -1211,10 +1222,20 @@ export default function GamificationPage() {
                       backgroundClip: 'text'
                     }}
                   >
-                    ⭐ All-Time Best Performances
+                    🏅 Badges & Achievements
                   </Typography>
-                  {gamificationData && (
-                    <AllTimeBestsTable allTimeBests={gamificationData.allTimeBests} />
+                  <Typography 
+                    variant="body1" 
+                    color="text.secondary" 
+                    sx={{ mb: 4 }}
+                  >
+                    Fun achievements for the friend group - only one person can earn each badge!
+                  </Typography>
+                  {stepData && stepData.participantData && (
+                    <BadgesSection 
+                      participantData={stepData.participantData[0]} 
+                      allParticipants={stepData.participantData}
+                    />
                   )}
                 </Box>
               )}

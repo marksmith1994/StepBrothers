@@ -12,30 +12,42 @@ import {
   useMediaQuery,
   Avatar,
   Tooltip,
-  Divider
+  Divider,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import PeopleIcon from '@mui/icons-material/People';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getInitials } from '../utils/helpers';
 import { BREAKPOINTS } from '../constants';
 
-export default function NavBar({ people = [], darkMode, onToggleTheme }) {
+export default function NavBar({ people = [] }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileAnchorEl, setMobileAnchorEl] = React.useState(null);
+  const [participantsAnchorEl, setParticipantsAnchorEl] = React.useState(null);
   const theme = useTheme();
   
   // More reliable mobile detection - use 'sm' breakpoint (600px) instead of 'xs'
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleMobileMenu = (event) => {
+    setMobileAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleMobileClose = () => {
+    setMobileAnchorEl(null);
+  };
+
+  const handleParticipantsMenu = (event) => {
+    setParticipantsAnchorEl(event.currentTarget);
+  };
+
+  const handleParticipantsClose = () => {
+    setParticipantsAnchorEl(null);
   };
 
   const isActiveRoute = (path) => {
@@ -103,25 +115,6 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
           alignItems: 'center', 
           px: { xs: 2, sm: 4, md: 6 } 
         }}>
-          {/* Mobile Menu Button - Always show on mobile */}
-          {isMobile && (
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ 
-                mr: 2,
-                background: 'rgba(255,255,255,0.1)',
-                '&:hover': { background: 'rgba(255,255,255,0.2)' },
-                minWidth: '44px',
-                minHeight: '44px'
-              }}
-              onClick={handleMenu}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-
           {/* Logo/Brand */}
           <Typography
             variant={isMobile ? "h5" : "h4"}
@@ -164,7 +157,7 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                 </Tooltip>
               ))}
               
-              {/* People - Only show if people exist */}
+              {/* Participants Dropdown - Only show if people exist */}
               {people.length > 0 && (
                 <>
                   <Divider orientation="vertical" flexItem sx={{ 
@@ -173,42 +166,114 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                     height: 32
                   }} />
                   
-                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                    {people.map((person) => (
-                      <Tooltip key={person} title={`View ${person}'s stats`} arrow>
-                        <Button
-                          color="inherit"
-                          onClick={() => navigate(`/person/${encodeURIComponent(person)}`)}
-                          sx={buttonStyle(isActiveRoute(`/person/${encodeURIComponent(person)}`))}
-                          aria-label={`Go to ${person}'s page`}
-                        >
-                          <Avatar 
-                            sx={{
-                              width: 28, 
-                              height: 28, 
-                              mr: 1.5, 
-                              fontSize: '0.75rem',
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                            }}
-                          >
-                            {getInitials(person)}
-                          </Avatar>
-                          {person}
-                        </Button>
-                      </Tooltip>
-                    ))}
-                  </Box>
+                  <Tooltip title="View participants" arrow>
+                    <Button
+                      color="inherit"
+                      onClick={handleParticipantsMenu}
+                      onMouseEnter={handleParticipantsMenu}
+                      sx={buttonStyle()}
+                      startIcon={<PeopleIcon />}
+                      endIcon={<span style={{ fontSize: '0.8rem' }}>▼</span>}
+                    >
+                      Participants
+                    </Button>
+                  </Tooltip>
                 </>
               )}
             </Box>
           )}
 
+          {/* Mobile Menu Button - Move to the right */}
+          {isMobile && (
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              sx={{ 
+                ml: 2,
+                background: 'rgba(255,255,255,0.1)',
+                '&:hover': { background: 'rgba(255,255,255,0.2)' },
+                minWidth: '44px',
+                minHeight: '44px'
+              }}
+              onClick={handleMobileMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+
+          {/* Desktop Participants Dropdown Menu */}
+          <Menu
+            id="participants-menu"
+            anchorEl={participantsAnchorEl}
+            open={Boolean(participantsAnchorEl)}
+            onClose={handleParticipantsClose}
+            onMouseLeave={handleParticipantsClose}
+            PaperProps={{
+              sx: {
+                mt: 1.5,
+                minWidth: 200,
+                maxWidth: 300,
+                borderRadius: 3,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                backdropFilter: 'blur(20px)',
+                background: 'rgba(255,255,255,0.95)',
+                border: '1px solid rgba(255,255,255,0.2)'
+              }
+            }}
+          >
+            {people.map((person) => (
+              <MenuItem
+                key={person}
+                onClick={() => {
+                  navigate(`/person/${encodeURIComponent(person)}`);
+                  handleParticipantsClose();
+                }}
+                sx={{ 
+                  py: 1.5,
+                  px: 2,
+                  borderRadius: 1,
+                  mx: 1,
+                  my: 0.25,
+                  background: isActiveRoute(`/person/${encodeURIComponent(person)}`) 
+                    ? 'rgba(102, 126, 234, 0.1)' 
+                    : 'transparent',
+                  '&:hover': {
+                    background: 'rgba(102, 126, 234, 0.05)'
+                  }
+                }}
+              >
+                <ListItemIcon>
+                  <Avatar 
+                    sx={{
+                      width: 32, 
+                      height: 32, 
+                      fontSize: '0.8rem',
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    }}
+                  >
+                    {getInitials(person)}
+                  </Avatar>
+                </ListItemIcon>
+                <ListItemText 
+                  primary={person}
+                  primaryTypographyProps={{
+                    sx: { 
+                      fontWeight: 600,
+                      fontSize: '0.9rem'
+                    }
+                  }}
+                />
+              </MenuItem>
+            ))}
+          </Menu>
+
           {/* Mobile Menu - Always render but only show when anchorEl is set */}
           <Menu
             id="mobile-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
+            anchorEl={mobileAnchorEl}
+            open={Boolean(mobileAnchorEl)}
+            onClose={handleMobileClose}
             PaperProps={{
               sx: {
                 mt: 1.5,
@@ -233,7 +298,7 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                 key={item.path}
                 onClick={() => {
                   navigate(item.path);
-                  handleClose();
+                  handleMobileClose();
                 }}
                 sx={{ 
                   fontWeight: 600, 
@@ -295,7 +360,7 @@ export default function NavBar({ people = [], darkMode, onToggleTheme }) {
                   key={person}
                   onClick={() => {
                     navigate(`/person/${encodeURIComponent(person)}`);
-                    handleClose();
+                    handleMobileClose();
                   }}
                   aria-label={`Go to ${person}'s page`}
                   sx={{ 

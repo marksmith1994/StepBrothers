@@ -46,7 +46,7 @@ class DailyCache {
     // Store in localStorage for persistence
     try {
       localStorage.setItem(cacheKey, JSON.stringify(cacheData));
-    } catch (error) {
+    } catch {
       // Silently fail in production
     }
   }
@@ -71,7 +71,7 @@ class DailyCache {
           // Restore to memory cache
           this.cache.set(cacheKey, cacheData);
         }
-      } catch (error) {
+      } catch {
         // Silently fail in production
       }
     }
@@ -106,7 +106,7 @@ class DailyCache {
     // Remove from localStorage
     try {
       localStorage.removeItem(cacheKey);
-    } catch (error) {
+    } catch {
       // Silently fail in production
     }
   }
@@ -126,7 +126,7 @@ class DailyCache {
           localStorage.removeItem(key);
         }
       });
-    } catch (error) {
+    } catch {
       // Silently fail in production
     }
   }
@@ -142,7 +142,7 @@ class DailyCache {
     try {
       const keys = Object.keys(localStorage);
       localStorageSize = keys.filter(key => key.startsWith(this.prefix)).length;
-    } catch (error) {
+    } catch {
       // Silently fail in production
     }
 
@@ -182,7 +182,7 @@ class DailyCache {
           keys.push(key.replace(this.prefix, ''));
         }
       });
-    } catch (error) {
+    } catch {
       // Silently fail in production
     }
 
