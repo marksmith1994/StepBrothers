@@ -416,14 +416,17 @@ namespace StepTracker.Services
         }
 
         // Get participant data for a specific person
-        public ParticipantData? GetParticipantData(List<StepEntry> entries, string participantName)
+        public ParticipantData GetParticipantData(List<StepEntry> entries, string participantName)
         {
-            if (entries == null || entries.Count == 0) return null;
-
             var data = new ParticipantData
             {
                 Name = participantName
             };
+
+            if (entries == null || entries.Count == 0)
+            {
+                return data;
+            }
 
             foreach (var entry in entries)
             {
@@ -446,7 +449,10 @@ namespace StepTracker.Services
         // Filter participant data from a specific date
         public ParticipantData FilterParticipantDataFromDate(ParticipantData participantData, List<StepEntry> dailyData, DateTime fromDate)
         {
-            if (participantData == null || dailyData == null) return participantData;
+            if (participantData == null)
+                throw new ArgumentNullException(nameof(participantData));
+            if (dailyData == null)
+                throw new ArgumentNullException(nameof(dailyData));
 
             var filteredData = new ParticipantData
             {

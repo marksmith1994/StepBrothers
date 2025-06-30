@@ -3,8 +3,7 @@ import type {
   StepDataResponse, 
   GamificationData, 
   ParticipantData, 
-  TotalsData,
-  APIError 
+  TotalsData
 } from '@/types';
 
 /**
@@ -49,14 +48,6 @@ const DEFAULT_CONFIG: RequestConfig = {
     'Content-Type': 'application/json',
   },
 };
-
-/**
- * Create a timeout promise
- */
-const createTimeout = (ms: number): Promise<never> =>
-  new Promise((_, reject) =>
-    setTimeout(() => reject(new Error(`Request timeout after ${ms}ms`)), ms)
-  );
 
 /**
  * Retry function with exponential backoff
@@ -206,9 +197,8 @@ export class APIService {
    * Test endpoint for debugging
    */
   async testFilter(name: string, fromDate: Date): Promise<any> {
-    const params = new URLSearchParams({
-      fromDate: fromDate.toISOString().split('T')[0],
-    });
+    const params = new URLSearchParams();
+    params.append('fromDate', fromDate.toISOString().split('T')[0]);
     
     const url = `${this.baseURL}/api/sheets/test-filter/${encodeURIComponent(name)}?${params}`;
     const response = await request<any>(url);

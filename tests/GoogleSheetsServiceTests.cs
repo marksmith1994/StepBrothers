@@ -30,7 +30,7 @@ namespace StepTracker.Tests
         public void Constructor_WithMissingApiKey_ThrowsArgumentNullException()
         {
             // Arrange
-            _mockConfiguration.Setup(x => x["GoogleSheets:ApiKey"]).Returns((string)null);
+            _mockConfiguration.Setup(x => x["GoogleSheets:ApiKey"]).Returns<string>(null!);
             _mockConfiguration.Setup(x => x["GoogleSheets:SpreadsheetId"]).Returns("test_id");
             _mockConfiguration.Setup(x => x["GoogleSheets:SheetRange"]).Returns("test_range");
 
@@ -45,7 +45,7 @@ namespace StepTracker.Tests
         {
             // Arrange
             _mockConfiguration.Setup(x => x["GoogleSheets:ApiKey"]).Returns("test_key");
-            _mockConfiguration.Setup(x => x["GoogleSheets:SpreadsheetId"]).Returns((string)null);
+            _mockConfiguration.Setup(x => x["GoogleSheets:SpreadsheetId"]).Returns<string>(null!);
             _mockConfiguration.Setup(x => x["GoogleSheets:SheetRange"]).Returns("test_range");
 
             // Act & Assert
@@ -60,7 +60,7 @@ namespace StepTracker.Tests
             // Arrange
             _mockConfiguration.Setup(x => x["GoogleSheets:ApiKey"]).Returns("test_key");
             _mockConfiguration.Setup(x => x["GoogleSheets:SpreadsheetId"]).Returns("test_id");
-            _mockConfiguration.Setup(x => x["GoogleSheets:SheetRange"]).Returns((string)null);
+            _mockConfiguration.Setup(x => x["GoogleSheets:SheetRange"]).Returns<string>(null!);
 
             // Act & Assert
             var exception = Assert.Throws<ArgumentNullException>(() => 

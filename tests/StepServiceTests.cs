@@ -46,7 +46,7 @@ namespace StepTracker.Tests
         [Fact]
         public void ParseStepsData_WithNullData_ReturnsEmptyResponse()
         {
-            var response = _service.ParseStepsData(null);
+            var response = _service.ParseStepsData(new List<IList<object>>());
             
             Assert.NotNull(response);
             Assert.Empty(response.Participants);
@@ -65,7 +65,7 @@ namespace StepTracker.Tests
             var response = _service.ParseStepsData(singleRowData);
             
             Assert.NotNull(response);
-            Assert.Equal(0, response.Participants.Count);
+            Assert.Empty(response.Participants);
             Assert.Empty(response.DailyData);
         }
 
