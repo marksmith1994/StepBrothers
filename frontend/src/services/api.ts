@@ -199,7 +199,7 @@ export class APIService {
   async testFilter(name: string, fromDate: Date): Promise<any> {
     if (!name) throw new Error('Name is required');
     const params = new URLSearchParams();
-    params.append('fromDate', fromDate.toISOString().split('T')[0]);
+    params.append('fromDate', fromDate.toISOString()?.split('T')[0] ?? '');
     const url = `${this.baseURL}/api/sheets/test-filter/${encodeURIComponent(name)}?${params}`;
     const response = await request<any>(url);
     return response.data;
