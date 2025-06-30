@@ -24,7 +24,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import StarIcon from '@mui/icons-material/Star';
 import { getInitials, formatNumber } from '../utils/helpers';
-import { STREAK_CONFIG } from '../constants';
+import { STREAK_CONFIG, ACHIEVEMENT_CONFIG } from '../constants';
 import { calculateAchievements, getAchievementStats } from '../utils/achievements';
 import { calculatePersonalAnalytics } from '../utils/analytics';
 import AchievementCard from '../components/AchievementCard';
@@ -242,7 +242,7 @@ export default function PersonPage() {
                 <Paper 
                   sx={{ 
                     mb: { xs: 3, sm: 4 }, 
-                    borderRadius: 3,
+                  borderRadius: 3,
                     background: 'rgba(255, 255, 255, 0.8)',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -259,7 +259,7 @@ export default function PersonPage() {
                     scrollButtons="auto"
                     allowScrollButtonsMobile
                     sx={{
-                      '& .MuiTab-root': { 
+                      '& .MuiTab-root': {
                         fontWeight: 700, 
                         fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
                         minHeight: { xs: 48, sm: 56, md: 72 },
@@ -386,7 +386,7 @@ export default function PersonPage() {
                               mb: 1,
                               fontSize: { xs: '1.5rem', sm: '2rem' }
                             }}>
-                              {formatNumber(personData?.highestSingleDay || 0)}
+                              {personData.highestSingleDay || 0}
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
                               Best Day
@@ -513,20 +513,20 @@ export default function PersonPage() {
                           boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)'
                         }}>
                           <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
-                            <Typography variant="h4" sx={{ 
+                          <Typography variant="h4" sx={{ 
                               fontWeight: 800, 
-                              color: theme.palette.success.main,
+                            color: theme.palette.success.main,
                               mb: 1,
                               fontSize: { xs: '1.5rem', sm: '2rem' }
-                            }}>
-                              {achievementStats.earned}
-                            </Typography>
+                          }}>
+                            {achievementStats.earned}
+                          </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
                               Earned
-                            </Typography>
+                          </Typography>
                           </CardContent>
                         </Card>
-                      </Grid>
+                        </Grid>
                       
                       <Grid xs={12} sm={6} md={3}>
                         <Card sx={{ 
@@ -544,14 +544,14 @@ export default function PersonPage() {
                               mb: 1,
                               fontSize: { xs: '1.5rem', sm: '2rem' }
                             }}>
-                              {achievementStats.inProgress}
+                              {achievementStats.progress}
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
                               In Progress
                             </Typography>
                           </CardContent>
                         </Card>
-                      </Grid>
+                        </Grid>
                       
                       <Grid xs={12} sm={6} md={3}>
                         <Card sx={{ 
@@ -563,25 +563,25 @@ export default function PersonPage() {
                           boxShadow: '0 4px 20px rgba(59, 130, 246, 0.1)'
                         }}>
                           <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
-                            <Typography variant="h4" sx={{ 
+                          <Typography variant="h4" sx={{ 
                               fontWeight: 800, 
-                              color: theme.palette.info.main,
+                            color: theme.palette.info.main,
                               mb: 1,
                               fontSize: { xs: '1.5rem', sm: '2rem' }
-                            }}>
-                              {achievementStats.total}
-                            </Typography>
+                          }}>
+                            {achievementStats.total}
+                          </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-                              Total Available
-                            </Typography>
+                            Total Available
+                          </Typography>
                           </CardContent>
                         </Card>
-                      </Grid>
+                        </Grid>
                       
                       <Grid xs={12} sm={6} md={3}>
-                        <Card sx={{ 
+                              <Card sx={{ 
                           p: { xs: 2, sm: 3 }, 
-                          height: '100%',
+                                height: '100%',
                           borderRadius: 3,
                           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
                           border: '1px solid rgba(102, 126, 234, 0.2)',
@@ -606,42 +606,47 @@ export default function PersonPage() {
 
                     {/* Earned Achievements */}
                     <Grid container spacing={3} sx={{ mb: 4 }}>
-                      {achievements.filter(a => a.isEarned).map((achievement, index) => (
+                      {achievements.earned.map((achievement, index) => (
                         <Grid xs={12} sm={6} md={4} lg={3} key={index}>
-                          <AchievementCard 
-                            achievement={achievement} 
-                            isEarned={true} 
-                            showProgress={false}
-                          />
+                                <AchievementCard 
+                                  achievement={achievement} 
+                                  isEarned={true}
+                                  showProgress={false}
+                                />
+                            </Grid>
+                          ))}
                         </Grid>
-                      ))}
-                    </Grid>
 
                     {/* In Progress Achievements */}
                     <Grid container spacing={3} sx={{ mb: 4 }}>
-                      {achievements.filter(a => !a.isEarned && a.progress > 0).map((achievement, index) => (
+                      {achievements.progress.map((achievement, index) => (
                         <Grid xs={12} sm={6} md={4} lg={3} key={index}>
-                          <AchievementCard 
-                            achievement={achievement} 
-                            isEarned={false} 
-                            showProgress={true}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
+                                    <AchievementCard 
+                                      achievement={achievement} 
+                                      isEarned={false}
+                                      showProgress={true}
+                                    />
+                                </Grid>
+                              ))}
+                            </Grid>
 
-                    {/* Locked Achievements */}
+                    {/* Locked Achievements - Show remaining achievements that haven't been earned or started */}
                     <Grid container spacing={3} sx={{ mb: 4 }}>
-                      {achievements.filter(a => !a.isEarned && a.progress === 0).map((achievement, index) => (
-                        <Grid xs={12} sm={6} md={4} lg={3} key={index}>
-                          <AchievementCard 
-                            achievement={achievement} 
-                            isEarned={false} 
-                            showProgress={false}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
+                      {ACHIEVEMENT_CONFIG.STEP_MILESTONES.concat(ACHIEVEMENT_CONFIG.CONSISTENCY_ACHIEVEMENTS)
+                        .filter(achievement => 
+                          !achievements.earned.some(e => e.id === achievement.id) &&
+                          !achievements.progress.some(p => p.id === achievement.id)
+                        )
+                        .map((achievement, index) => (
+                          <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                                    <AchievementCard 
+                                      achievement={achievement} 
+                                      isEarned={false}
+                              showProgress={false}
+                                    />
+                                </Grid>
+                              ))}
+                            </Grid>
                   </Box>
                 )}
 
@@ -784,34 +789,34 @@ export default function PersonPage() {
 
                     {/* Main Progress Chart */}
                     <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                      <Paper sx={{ 
-                        p: { xs: 2, sm: 3, md: 4 }, 
-                        mb: 4,
-                        borderRadius: 3,
-                        boxShadow: 2
+                    <Paper sx={{ 
+                      p: { xs: 2, sm: 3, md: 4 }, 
+                      mb: 4,
+                      borderRadius: 3,
+                      boxShadow: 2
+                    }}>
+                      <Typography 
+                        variant="h4" 
+                        sx={{ 
+                          mb: 3, 
+                          fontWeight: 700,
+                          color: theme.palette.text.primary,
+                          textAlign: 'center',
+                          fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }
+                        }}
+                      >
+                        📊 Daily Step Progress
+                      </Typography>
+                      <Box sx={{ 
+                        height: { xs: 300, sm: 350, md: 400 },
+                        width: '100%'
                       }}>
-                        <Typography 
-                          variant="h4" 
-                          sx={{ 
-                            mb: 3, 
-                            fontWeight: 700,
-                            color: theme.palette.text.primary,
-                            textAlign: 'center',
-                            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }
-                          }}
-                        >
-                          📊 Daily Step Progress
-                        </Typography>
-                        <Box sx={{ 
-                          height: { xs: 300, sm: 350, md: 400 },
-                          width: '100%'
-                        }}>
-                          <StepLineChart 
-                            data={chartData} 
-                            title="Daily Steps Over Time"
-                          />
-                        </Box>
-                      </Paper>
+                        <StepLineChart 
+                          data={chartData} 
+                          title="Daily Steps Over Time"
+                        />
+                      </Box>
+                    </Paper>
                     </Box>
 
                     {/* Progress Insights */}

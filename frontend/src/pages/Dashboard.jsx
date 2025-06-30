@@ -294,6 +294,11 @@ export default function Dashboard() {
     const last7Days = dailyData.slice(-7);
     const recentActivity = last7Days.reduce((sum, day) => sum + (day.total || 0), 0);
 
+    // Highest single day across all participants
+    const highestSingleDay = participants.reduce((max, p) => 
+      Math.max(max, p.highestSingleDay || 0), 0
+    );
+
     return {
       totalTeamSteps,
       avgDailySteps,
@@ -301,7 +306,8 @@ export default function Dashboard() {
       yesterdaysWinner,
       recentActivity,
       totalParticipants: participants.length,
-      totalDays
+      totalDays,
+      highestSingleDay: participants.reduce((max, p) => Math.max(max, p.highestSingleDay || 0), 0)
     };
   }, [filteredStepData]);
 
@@ -377,7 +383,7 @@ export default function Dashboard() {
                   <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
                     <Typography variant="h4" sx={{ 
                       fontWeight: 800, 
-                      color: theme.palette.primary.main,
+                      color: theme.palette.primary.main, 
                       mb: 1,
                       fontSize: { xs: '1.5rem', sm: '2rem' }
                     }}>
@@ -448,16 +454,45 @@ export default function Dashboard() {
                 }}>
                   <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
                     <Typography variant="h4" sx={{ 
-                      fontWeight: 800, 
+                          fontWeight: 800, 
                       color: theme.palette.error.main,
+                          mb: 1,
+                      fontSize: { xs: '1.5rem', sm: '2rem' }
+                        }}>
+                      {quickStats.totalDays}
+                        </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                      Days Tracked
+                      </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              
+              <Grid xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
+                <Card sx={{ 
+                  p: { xs: 2, sm: 3 }, 
+                  borderRadius: 3,
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
+                  border: '1px solid rgba(139, 92, 246, 0.2)',
+                  boxShadow: '0 4px 20px rgba(139, 92, 246, 0.1)'
+                }}>
+                  <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                    <Typography variant="h4" sx={{ 
+                      fontWeight: 800, 
+                      color: theme.palette.secondary.main,
                       mb: 1,
                       fontSize: { xs: '1.5rem', sm: '2rem' }
                     }}>
-                      {quickStats.totalDays}
+                      {quickStats.yesterdaysWinner ? quickStats.yesterdaysWinner.name : 'N/A'}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-                      Days Tracked
+                      Yesterday's Winner
                     </Typography>
+                    {quickStats.yesterdaysWinner && (
+                      <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                        {formatNumber(quickStats.yesterdaysWinner.steps)} steps
+                      </Typography>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>

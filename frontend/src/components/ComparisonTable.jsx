@@ -287,37 +287,37 @@ export default function ComparisonTable({ currentPerson }) {
                 fontWeight: 600,
                 fontSize: { xs: '0.9rem', sm: '1rem' }
               }}>
-                Compare from:
-              </Typography>
-            </Box>
-            <TextField
-              type="date"
-              value={startDate instanceof Date && !isNaN(startDate) ? startDate.toISOString().split('T')[0] : ''}
-              onChange={(e) => {
-                const val = e.target.value;
-                if (val) {
-                  const newDate = new Date(val);
-                  if (!startDate || startDate.getTime() !== newDate.getTime()) {
-                    setStartDate(newDate);
+                  Compare from:
+                </Typography>
+              </Box>
+              <TextField
+                type="date"
+                value={startDate instanceof Date && !isNaN(startDate) ? startDate.toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val) {
+                    const newDate = new Date(val);
+                    if (!startDate || startDate.getTime() !== newDate.getTime()) {
+                      setStartDate(newDate);
+                    }
                   }
-                }
-              }}
-              fullWidth
-              size="small"
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  backgroundColor: 'rgba(255,255,255,0.9)',
+                }}
+                fullWidth
+                size="small"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'rgba(255,255,255,0.9)',
                   borderRadius: 2,
                   '&:hover': {
                     backgroundColor: 'rgba(255,255,255,1)'
                   }
-                }
-              }}
-              inputProps={{
-                min: '2025-01-01',
-                max: '2025-12-31'
-              }}
-            />
+                  }
+                }}
+                inputProps={{
+                  min: '2025-01-01',
+                  max: '2025-12-31'
+                }}
+              />
           </Box>
         </Paper>
         
@@ -345,7 +345,7 @@ export default function ComparisonTable({ currentPerson }) {
               gap: 2,
               justifyContent: { xs: 'center', sm: 'flex-start' }
             }}>
-              <Avatar 
+                <Avatar 
                 sx={{ 
                   width: { xs: 40, sm: 50 }, 
                   height: { xs: 40, sm: 50 }, 
@@ -353,17 +353,17 @@ export default function ComparisonTable({ currentPerson }) {
                   fontWeight: 700,
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                 }}
-              >
-                {getInitials(currentPerson)}
-              </Avatar>
+                >
+                  {getInitials(currentPerson)}
+                </Avatar>
               <Typography variant="h6" sx={{ 
                 fontWeight: 700, 
                 fontSize: { xs: '1rem', sm: '1.25rem' },
                 textAlign: { xs: 'center', sm: 'left' }
               }}>
-                {currentPerson}
-              </Typography>
-            </Box>
+                  {currentPerson}
+                </Typography>
+              </Box>
             
             {/* VS Indicator */}
             <Box sx={{ 

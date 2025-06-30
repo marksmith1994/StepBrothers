@@ -259,8 +259,7 @@ export default function GamificationPage() {
                               <Grid xs={12} sm={6} md={4} key={`win-${participant.name}`} sx={{ mb: { xs: 2, sm: 0 } }}>
                                 <StreakCard 
                                   participant={participant} 
-                                  streakType="win" 
-                                  streakCount={participant.currentWinStreak}
+                                  isWinStreak={true}
                                 />
                               </Grid>
                             ))}
@@ -269,34 +268,33 @@ export default function GamificationPage() {
 
                       {/* Losing Streaks */}
                       <Grid xs={12} sx={{ mt: 6 }}>
-                        <Typography 
-                          variant="h4" 
-                          sx={{ 
-                            mb: 3, 
-                            fontWeight: 700, 
-                            color: theme.palette.error.main,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1
-                          }}
-                        >
-                          📉 Current Losing Streaks
-                        </Typography>
+                          <Typography 
+                            variant="h4" 
+                            sx={{ 
+                              mb: 3, 
+                              fontWeight: 700, 
+                              color: theme.palette.error.main,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 1
+                            }}
+                          >
+                            📉 Current Losing Streaks
+                          </Typography>
                         <Grid container spacing={{ xs: 0, sm: 4 }}>
-                          {stepData.participantData
-                            .filter(p => p.currentLosingStreak > 0)
-                            .sort((a, b) => b.currentLosingStreak - a.currentLosingStreak)
-                            .map(participant => (
+                            {stepData.participantData
+                              .filter(p => p.currentLosingStreak > 0)
+                              .sort((a, b) => b.currentLosingStreak - a.currentLosingStreak)
+                              .map(participant => (
                               <Grid xs={12} sm={6} md={4} key={`lose-${participant.name}`} sx={{ mb: { xs: 2, sm: 0 } }}>
                                 <StreakCard 
                                   participant={participant} 
-                                  streakType="lose" 
-                                  streakCount={participant.currentLosingStreak}
+                                  isWinStreak={false}
                                 />
-                              </Grid>
-                            ))}
+                                </Grid>
+                              ))}
+                          </Grid>
                         </Grid>
-                      </Grid>
 
                       {/* Best Win Streaks */}
                       <Grid xs={12} sx={{ mt: 6 }}>
@@ -321,8 +319,7 @@ export default function GamificationPage() {
                               <Grid xs={12} sm={6} md={4} key={`best-${participant.name}`} sx={{ mb: { xs: 2, sm: 0 } }}>
                                 <StreakCard 
                                   participant={participant} 
-                                  streakType="best" 
-                                  streakCount={participant.bestWinStreak}
+                                  isWinStreak={true}
                                 />
                               </Grid>
                             ))}
