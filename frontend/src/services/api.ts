@@ -165,11 +165,11 @@ export class APIService {
    * Get participant data
    */
   async getParticipantData(name: string, fromDate?: Date): Promise<ParticipantData> {
+    if (!name) throw new Error('Name is required');
     const params = new URLSearchParams();
     if (fromDate) {
       params.append('fromDate', fromDate.toISOString().split('T')[0]);
     }
-    
     const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(name)}?${params}`;
     const response = await request<ParticipantData>(url);
     return response.data;
@@ -197,9 +197,9 @@ export class APIService {
    * Test endpoint for debugging
    */
   async testFilter(name: string, fromDate: Date): Promise<any> {
+    if (!name) throw new Error('Name is required');
     const params = new URLSearchParams();
     params.append('fromDate', fromDate.toISOString().split('T')[0]);
-    
     const url = `${this.baseURL}/api/sheets/test-filter/${encodeURIComponent(name)}?${params}`;
     const response = await request<any>(url);
     return response.data;
