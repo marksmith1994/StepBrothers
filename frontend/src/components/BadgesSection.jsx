@@ -11,7 +11,8 @@ import {
   Switch,
   FormControlLabel,
   Avatar,
-  useTheme
+  useTheme,
+  Button
 } from '@mui/material';
 import { BADGES_CONFIG } from '../constants';
 import { calculateBadges, getBadgeStats, getRecentBadges } from '../utils/achievements';
@@ -307,11 +308,11 @@ const BadgesSection = ({ participantData, allParticipants = [] }) => {
       </Box>
 
       {/* Badges grid */}
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         {getFilteredBadges().map((badge, index) => {
           const status = getBadgeStatus(badge.id);
           return (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={`${badge.id}-${index}`}>
+            <Grid xs={12} sm={6} md={4} lg={3} key={`${badge.id}-${index}`}>
               <BadgeCard badge={badge} status={status} />
             </Grid>
           );

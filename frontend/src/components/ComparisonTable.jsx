@@ -785,7 +785,7 @@ export default function ComparisonTable({ currentPerson }) {
 
       {/* Summary Cards */}
       <Grid container spacing={3} sx={{ mt: 4 }}>
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card sx={{ 
             borderRadius: 3,
             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
@@ -796,7 +796,7 @@ export default function ComparisonTable({ currentPerson }) {
             <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <Typography variant="h4" sx={{ 
                 fontWeight: 900, 
-                color: theme.palette.primary.main,
+                color: theme.palette.success.main,
                 mb: 1
               }}>
                 {comparisonMetrics.filter(m => 
@@ -804,13 +804,38 @@ export default function ComparisonTable({ currentPerson }) {
                 ).length}
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: 700 }}>
-                Metrics You Lead
+                Areas You Lead
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
+          <Card sx={{ 
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: 3 }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 900, 
+                color: theme.palette.info.main,
+                mb: 1
+              }}>
+                {comparisonMetrics.filter(m => 
+                  getComparisonValue(m.currentValue, m.selectedValue, m.isHigherBetter) === 'tie'
+                ).length}
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: 700 }}>
+                Tied Areas
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid xs={12} md={4}>
           <Card sx={{ 
             borderRadius: 3,
             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
@@ -830,31 +855,6 @@ export default function ComparisonTable({ currentPerson }) {
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: 700 }}>
                 Areas to Improve
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        
-        <Grid item xs={12} md={4}>
-          <Card sx={{ 
-            borderRadius: 3,
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-          }}>
-            <CardContent sx={{ textAlign: 'center', p: 3 }}>
-              <Typography variant="h4" sx={{ 
-                fontWeight: 900, 
-                color: theme.palette.info.main,
-                mb: 1
-              }}>
-                {comparisonMetrics.filter(m => 
-                  getComparisonValue(m.currentValue, m.selectedValue, m.isHigherBetter) === 'tie'
-                ).length}
-              </Typography>
-              <Typography variant="body1" sx={{ fontWeight: 700 }}>
-                Tied Metrics
               </Typography>
             </CardContent>
           </Card>

@@ -78,7 +78,7 @@ export default function AnalyticsDashboard({ analytics }) {
       </Typography>
       
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -101,7 +101,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -124,7 +124,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -147,7 +147,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -188,7 +188,7 @@ export default function AnalyticsDashboard({ analytics }) {
       </Typography>
       
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -216,7 +216,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Typography variant="h3" sx={{ 
@@ -237,7 +237,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid xs={12} md={4}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Typography variant="h3" sx={{ 
@@ -280,7 +280,7 @@ export default function AnalyticsDashboard({ analytics }) {
           <Paper sx={{ p: { xs: 2, sm: 3, md: 4 }, mb: 4, borderRadius: 3 }}>
             <Grid container spacing={2}>
               {Object.entries(monthlyData).map(([month, data]) => (
-                <Grid item xs={12} sm={6} md={3} key={month}>
+                <Grid xs={12} sm={6} md={3} key={month}>
                   <Card sx={{ height: '100%' }}>
                     <CardContent sx={{ textAlign: 'center', p: { xs: 1.5, sm: 2 } }}>
                       <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, fontSize: { xs: '0.875rem', sm: '1.25rem' } }}>
@@ -325,7 +325,7 @@ export default function AnalyticsDashboard({ analytics }) {
       </Typography>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Typography variant="h4" sx={{ 
@@ -342,7 +342,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Typography variant="h4" sx={{ 
@@ -359,7 +359,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Typography variant="h4" sx={{ 
@@ -376,7 +376,7 @@ export default function AnalyticsDashboard({ analytics }) {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 } }}>
               <Typography variant="h4" sx={{ 
@@ -435,6 +435,109 @@ export default function AnalyticsDashboard({ analytics }) {
           </Paper>
         </>
       )}
+
+      {/* Key Metrics */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid xs={12} sm={6} md={3}>
+          <Card sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            height: '100%',
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)',
+            border: '1px solid rgba(16, 185, 129, 0.2)',
+            boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.success.main,
+                mb: 1,
+                fontSize: { xs: '1.5rem', sm: '2rem' }
+              }}>
+                {analytics?.consistencyRate || 0}%
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                Consistency Rate
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid xs={12} sm={6} md={3}>
+          <Card sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            height: '100%',
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%)',
+            border: '1px solid rgba(245, 158, 11, 0.2)',
+            boxShadow: '0 4px 20px rgba(245, 158, 11, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.warning.main,
+                mb: 1,
+                fontSize: { xs: '1.5rem', sm: '2rem' }
+              }}>
+                {analytics?.bestWeek || 0}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                Best Week
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid xs={12} sm={6} md={3}>
+          <Card sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            height: '100%',
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
+            border: '1px solid rgba(59, 130, 246, 0.2)',
+            boxShadow: '0 4px 20px rgba(59, 130, 246, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.info.main,
+                mb: 1,
+                fontSize: { xs: '1.5rem', sm: '2rem' }
+              }}>
+                {analytics?.averageWeek || 0}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                Average Week
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid xs={12} sm={6} md={3}>
+          <Card sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            height: '100%',
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+            border: '1px solid rgba(102, 126, 234, 0.2)',
+            boxShadow: '0 4px 20px rgba(102, 126, 234, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+              <Typography variant="h4" sx={{ 
+                fontWeight: 800, 
+                color: theme.palette.primary.main,
+                mb: 1,
+                fontSize: { xs: '1.5rem', sm: '2rem' }
+              }}>
+                {analytics?.totalWeeks || 0}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                Total Weeks
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </Box>
   );
 } 

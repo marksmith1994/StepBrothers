@@ -503,190 +503,145 @@ export default function PersonPage() {
 
                     {/* Achievement Stats */}
                     <Grid container spacing={3} sx={{ mb: 4 }}>
-                      <Grid item xs={12} sm={6} md={3}>
-                        <Paper sx={{ 
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
                           p: { xs: 2, sm: 3 }, 
+                          height: '100%',
                           borderRadius: 3,
-                          boxShadow: 2,
-                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%)',
-                          border: '2px solid rgba(16, 185, 129, 0.2)',
-                          textAlign: 'center'
+                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)',
+                          border: '1px solid rgba(16, 185, 129, 0.2)',
+                          boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)'
                         }}>
-                          <Typography variant="h4" sx={{ 
-                            fontWeight: 900, 
-                            color: theme.palette.success.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
-                            mb: 1
-                          }}>
-                            {achievementStats.earned}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                            Achievements Earned
-                          </Typography>
-                        </Paper>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.success.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {achievementStats.earned}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Earned
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
-                        <Paper sx={{ 
+                      
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
                           p: { xs: 2, sm: 3 }, 
+                          height: '100%',
                           borderRadius: 3,
-                          boxShadow: 2,
-                          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%)',
-                          border: '2px solid rgba(59, 130, 246, 0.2)',
-                          textAlign: 'center'
+                          background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%)',
+                          border: '1px solid rgba(245, 158, 11, 0.2)',
+                          boxShadow: '0 4px 20px rgba(245, 158, 11, 0.1)'
                         }}>
-                          <Typography variant="h4" sx={{ 
-                            fontWeight: 900, 
-                            color: theme.palette.primary.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
-                            mb: 1
-                          }}>
-                            {achievementStats.completionRate}%
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                            Completion Rate
-                          </Typography>
-                        </Paper>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.warning.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {achievementStats.inProgress}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              In Progress
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
-                        <Paper sx={{ 
+                      
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
                           p: { xs: 2, sm: 3 }, 
+                          height: '100%',
                           borderRadius: 3,
-                          boxShadow: 2,
-                          background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%)',
-                          border: '2px solid rgba(245, 158, 11, 0.2)',
-                          textAlign: 'center'
+                          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
+                          border: '1px solid rgba(59, 130, 246, 0.2)',
+                          boxShadow: '0 4px 20px rgba(59, 130, 246, 0.1)'
                         }}>
-                          <Typography variant="h4" sx={{ 
-                            fontWeight: 900, 
-                            color: theme.palette.warning.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
-                            mb: 1
-                          }}>
-                            {achievementStats.progress}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                            In Progress
-                          </Typography>
-                        </Paper>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.info.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {achievementStats.total}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Total Available
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
-                        <Paper sx={{ 
+                      
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
                           p: { xs: 2, sm: 3 }, 
+                          height: '100%',
                           borderRadius: 3,
-                          boxShadow: 2,
-                          background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%)',
-                          border: '2px solid rgba(6, 182, 212, 0.2)',
-                          textAlign: 'center'
+                          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                          border: '1px solid rgba(102, 126, 234, 0.2)',
+                          boxShadow: '0 4px 20px rgba(102, 126, 234, 0.1)'
                         }}>
-                          <Typography variant="h4" sx={{ 
-                            fontWeight: 900, 
-                            color: theme.palette.info.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
-                            mb: 1
-                          }}>
-                            {achievementStats.total}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-                            Total Available
-                          </Typography>
-                        </Paper>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.primary.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {Math.round((achievementStats.earned / achievementStats.total) * 100)}%
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Completion Rate
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
                     </Grid>
 
                     {/* Earned Achievements */}
-                    {achievements.earned.length > 0 && (
-                      <>
-                        <Typography 
-                          variant="h4" 
-                          sx={{ 
-                            mb: 3, 
-                            fontWeight: 700,
-                            color: theme.palette.success.main
-                          }}
-                        >
-                          ✅ Earned Achievements
-                        </Typography>
-                        
-                        {/* Earned Achievement Cards */}
-                        <Grid container spacing={3} sx={{ mb: 4 }}>
-                          {achievements.earned.map((achievement, index) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                              <AchievementCard 
-                                achievement={achievement} 
-                                isEarned={true}
-                                showProgress={false}
-                              />
-                            </Grid>
-                          ))}
+                    <Grid container spacing={3} sx={{ mb: 4 }}>
+                      {achievements.filter(a => a.isEarned).map((achievement, index) => (
+                        <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                          <AchievementCard 
+                            achievement={achievement} 
+                            isEarned={true} 
+                            showProgress={false}
+                          />
                         </Grid>
-                      </>
-                    )}
-                    
-                    {/* Progress Achievements */}
-                    {achievements.progress.length > 0 && (
-                      <>
-                        <Typography 
-                          variant="h4" 
-                          sx={{ 
-                            mb: 3, 
-                            fontWeight: 700,
-                            color: theme.palette.primary.main
-                          }}
-                        >
-                          🎯 In Progress
-                        </Typography>
+                      ))}
+                    </Grid>
 
-                        {/* Step Milestone Achievements */}
-                        {achievements.progress.filter(a => a.type === 'step_milestone').length > 0 && (
-                          <>
-                            <Typography variant="h6" sx={{ 
-                              fontWeight: 700, 
-                              mb: 2,
-                              color: 'text.secondary',
-                              fontSize: { xs: '1rem', sm: '1.25rem' }
-                            }}>
-                              Step Milestones
-                            </Typography>
-                            <Grid container spacing={3} sx={{ mb: 4 }}>
-                              {achievements.progress.filter(a => a.type === 'step_milestone').map((achievement, index) => (
-                                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                                  <AchievementCard 
-                                    achievement={achievement} 
-                                    isEarned={false}
-                                    showProgress={true}
-                                  />
-                                </Grid>
-                              ))}
-                            </Grid>
-                          </>
-                        )}
+                    {/* In Progress Achievements */}
+                    <Grid container spacing={3} sx={{ mb: 4 }}>
+                      {achievements.filter(a => !a.isEarned && a.progress > 0).map((achievement, index) => (
+                        <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                          <AchievementCard 
+                            achievement={achievement} 
+                            isEarned={false} 
+                            showProgress={true}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
 
-                        {/* Consistency Achievements */}
-                        {achievements.progress.filter(a => a.type === 'consistency').length > 0 && (
-                          <>
-                            <Typography variant="h6" sx={{ 
-                              fontWeight: 700, 
-                              mb: 2,
-                              color: 'text.secondary',
-                              fontSize: { xs: '1rem', sm: '1.25rem' }
-                            }}>
-                              10K+ Consistency
-                            </Typography>
-                            <Grid container spacing={3}>
-                              {achievements.progress.filter(a => a.type === 'consistency').map((achievement, index) => (
-                                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                                  <AchievementCard 
-                                    achievement={achievement} 
-                                    isEarned={false}
-                                    showProgress={true}
-                                  />
-                                </Grid>
-                              ))}
-                            </Grid>
-                          </>
-                        )}
-                      </>
-                    )}
+                    {/* Locked Achievements */}
+                    <Grid container spacing={3} sx={{ mb: 4 }}>
+                      {achievements.filter(a => !a.isEarned && a.progress === 0).map((achievement, index) => (
+                        <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                          <AchievementCard 
+                            achievement={achievement} 
+                            isEarned={false} 
+                            showProgress={false}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
                   </Box>
                 )}
 
@@ -737,7 +692,7 @@ export default function PersonPage() {
 
                     {/* Progress Stats Cards */}
                     <Grid container spacing={3} sx={{ mb: 4 }}>
-                      <Grid item xs={12} sm={6} md={3}>
+                      <Grid xs={12} sm={6} md={3}>
                         <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
                           border: '1px solid rgba(102, 126, 234, 0.2)',
@@ -759,7 +714,7 @@ export default function PersonPage() {
                           </CardContent>
                         </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
+                      <Grid xs={12} sm={6} md={3}>
                         <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)',
                           border: '1px solid rgba(16, 185, 129, 0.2)',
@@ -781,7 +736,7 @@ export default function PersonPage() {
                           </CardContent>
                         </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
+                      <Grid xs={12} sm={6} md={3}>
                         <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%)',
                           border: '1px solid rgba(245, 158, 11, 0.2)',
@@ -803,7 +758,7 @@ export default function PersonPage() {
                           </CardContent>
                         </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
+                      <Grid xs={12} sm={6} md={3}>
                         <Card sx={{ 
                           background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
                           border: '1px solid rgba(139, 92, 246, 0.2)',
@@ -861,7 +816,7 @@ export default function PersonPage() {
 
                     {/* Progress Insights */}
                     <Grid container spacing={3}>
-                      <Grid item xs={12} md={6}>
+                      <Grid xs={12} md={6}>
                         <Paper sx={{ 
                           p: { xs: 2, sm: 3 }, 
                           height: '100%',
@@ -931,7 +886,7 @@ export default function PersonPage() {
                           </Box>
                         </Paper>
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid xs={12} md={6}>
                         <Paper sx={{ 
                           p: { xs: 2, sm: 3 }, 
                           height: '100%',
