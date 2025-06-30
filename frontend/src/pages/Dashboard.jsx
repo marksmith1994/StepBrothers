@@ -365,8 +365,8 @@ export default function Dashboard() {
 
           {/* Quick Stats Cards */}
           {!isLoading && !hasError && quickStats && (
-            <Grid container spacing={3} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
-              <Grid item xs={12} sm={6} md={4}>
+            <Grid container spacing={0} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
+              <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                 <Card sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
@@ -396,7 +396,7 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                 <Card sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
@@ -426,7 +426,7 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                 <Card sx={{ height: '100%', width: '100%' }}>
                   <CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Box sx={{ 
@@ -457,7 +457,7 @@ export default function Dashboard() {
                 </Card>
               </Grid>
               {/* Most Active */}
-              <Grid item xs={12} sm={6} md={6} lg={6}>
+              <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                 <Card sx={{ width: '100%', height: '100%' }}>
                   <CardContent sx={{ p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -515,7 +515,7 @@ export default function Dashboard() {
                 </Card>
               </Grid>
               {/* Yesterday's Winner */}
-              <Grid item xs={12} sm={6} md={6} lg={6}>
+              <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                 <Card sx={{ width: '100%', height: '100%' }}>
                   <CardContent sx={{ p: { xs: 2, sm: 3 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -641,8 +641,8 @@ export default function Dashboard() {
                   📈 Data Summary
                 </Typography>
                 
-                <Grid container spacing={{ xs: 1, sm: 2 }}>
-                  <Grid item xs={6} sm={6} md={3}>
+                <Grid container spacing={{ xs: 0, sm: 2 }}>
+                  <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                     <Box sx={{ 
                       p: { xs: 1.5, sm: 2 }, 
                       borderRadius: 2, 
@@ -663,7 +663,7 @@ export default function Dashboard() {
                     </Box>
                   </Grid>
                   
-                  <Grid item xs={6} sm={6} md={3}>
+                  <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                     <Box sx={{ 
                       p: { xs: 1.5, sm: 2 }, 
                       borderRadius: 2, 
@@ -684,7 +684,7 @@ export default function Dashboard() {
                     </Box>
                   </Grid>
                   
-                  <Grid item xs={6} sm={6} md={3}>
+                  <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                     <Box sx={{ 
                       p: { xs: 1.5, sm: 2 }, 
                       borderRadius: 2, 
@@ -705,7 +705,7 @@ export default function Dashboard() {
                     </Box>
                   </Grid>
                   
-                  <Grid item xs={6} sm={6} md={3}>
+                  <Grid item xs={12} sx={{ mb: { xs: 2, sm: 0 } }}>
                     <Box sx={{ 
                       p: { xs: 1.5, sm: 2 }, 
                       borderRadius: 2, 

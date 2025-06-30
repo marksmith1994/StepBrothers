@@ -235,9 +235,9 @@ export default function GamificationPage() {
                     🔥 Win & Losing Streaks
                   </Typography>
                   {stepData && stepData.participantData && (
-                    <Grid container spacing={4}>
+                    <Grid container spacing={{ xs: 0, sm: 4 }}>
                       {/* Win Streaks */}
-                      <Grid item xs={12}>
+                      <Grid xs={12}>
                         <Typography 
                           variant="h4" 
                           sx={{ 
@@ -251,49 +251,55 @@ export default function GamificationPage() {
                         >
                           🔥 Current Win Streaks
                         </Typography>
-                        <Grid container spacing={3}>
+                        <Grid container spacing={{ xs: 0, sm: 4 }}>
                           {stepData.participantData
                             .filter(p => p.currentWinStreak > 0)
                             .sort((a, b) => b.currentWinStreak - a.currentWinStreak)
                             .map(participant => (
-                              <Grid item xs={12} sm={6} md={4} key={`win-${participant.name}`}>
-                                <StreakCard participant={participant} isWinStreak={true} />
+                              <Grid xs={12} sm={6} md={4} key={`win-${participant.name}`} sx={{ mb: { xs: 2, sm: 0 } }}>
+                                <StreakCard 
+                                  participant={participant} 
+                                  streakType="win" 
+                                  streakCount={participant.currentWinStreak}
+                                />
                               </Grid>
                             ))}
                         </Grid>
                       </Grid>
 
                       {/* Losing Streaks */}
-                      {stepData.participantData.filter(p => p.currentLosingStreak > 0).length > 0 && (
-                        <Grid item xs={12} sx={{ mt: 6 }}>
-                          <Typography 
-                            variant="h4" 
-                            sx={{ 
-                              mb: 3, 
-                              fontWeight: 700, 
-                              color: theme.palette.error.main,
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: 1
-                            }}
-                          >
-                            📉 Current Losing Streaks
-                          </Typography>
-                          <Grid container spacing={3}>
-                            {stepData.participantData
-                              .filter(p => p.currentLosingStreak > 0)
-                              .sort((a, b) => b.currentLosingStreak - a.currentLosingStreak)
-                              .map(participant => (
-                                <Grid item xs={12} sm={6} md={4} key={`lose-${participant.name}`}>
-                                  <StreakCard participant={participant} isWinStreak={false} />
-                                </Grid>
-                              ))}
-                          </Grid>
+                      <Grid xs={12} sx={{ mt: 6 }}>
+                        <Typography 
+                          variant="h4" 
+                          sx={{ 
+                            mb: 3, 
+                            fontWeight: 700, 
+                            color: theme.palette.error.main,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1
+                          }}
+                        >
+                          📉 Current Losing Streaks
+                        </Typography>
+                        <Grid container spacing={{ xs: 0, sm: 4 }}>
+                          {stepData.participantData
+                            .filter(p => p.currentLosingStreak > 0)
+                            .sort((a, b) => b.currentLosingStreak - a.currentLosingStreak)
+                            .map(participant => (
+                              <Grid xs={12} sm={6} md={4} key={`lose-${participant.name}`} sx={{ mb: { xs: 2, sm: 0 } }}>
+                                <StreakCard 
+                                  participant={participant} 
+                                  streakType="lose" 
+                                  streakCount={participant.currentLosingStreak}
+                                />
+                              </Grid>
+                            ))}
                         </Grid>
-                      )}
+                      </Grid>
 
                       {/* Best Win Streaks */}
-                      <Grid item xs={12} sx={{ mt: 6 }}>
+                      <Grid xs={12} sx={{ mt: 6 }}>
                         <Typography 
                           variant="h4" 
                           sx={{ 
@@ -307,150 +313,17 @@ export default function GamificationPage() {
                         >
                           🏆 Best Win Streaks (All Time)
                         </Typography>
-                        <Grid container spacing={3}>
+                        <Grid container spacing={{ xs: 0, sm: 4 }}>
                           {stepData.participantData
                             .filter(p => p.bestWinStreak > 0)
                             .sort((a, b) => b.bestWinStreak - a.bestWinStreak)
                             .map(participant => (
-                              <Grid item xs={12} sm={6} md={4} key={`best-${participant.name}`}>
-                                <Card 
-                                  sx={{ 
-                                    minWidth: { xs: 250, sm: 280 },
-                                    height: '100%',
-                                    background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%)',
-                                    border: '2px solid #fbbf24',
-                                    borderRadius: 3,
-                                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    '&:hover': {
-                                      transform: 'translateY(-4px) scale(1.02)',
-                                      boxShadow: '0 12px 40px #fbbf2430',
-                                      '& .streak-number': {
-                                        transform: 'scale(1.1)',
-                                      }
-                                    },
-                                    '&::before': {
-                                      content: '""',
-                                      position: 'absolute',
-                                      top: 0,
-                                      left: 0,
-                                      right: 0,
-                                      height: 6,
-                                      background: 'linear-gradient(90deg, #fbbf24 0%, #fbbf2480 100%)',
-                                      borderRadius: '12px 12px 0 0'
-                                    }
-                                  }}
-                                >
-                                  <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-                                    {/* Header with Avatar and Name */}
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2 }, mb: { xs: 2, sm: 3 } }}>
-                                      <Avatar 
-                                        sx={{ 
-                                          width: { xs: 48, sm: 56 }, 
-                                          height: { xs: 48, sm: 56 }, 
-                                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                          color: '#fff',
-                                          fontWeight: 700,
-                                          fontSize: { xs: 18, sm: 22 },
-                                          boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
-                                        }}
-                                      >
-                                        {getInitials(participant.name)}
-                                      </Avatar>
-                                      <Box sx={{ flex: 1 }}>
-                                        <Typography 
-                                          variant="h6" 
-                                          sx={{ 
-                                            fontWeight: 800,
-                                            color: theme.palette.text.primary,
-                                            mb: 0.5,
-                                            fontSize: { xs: '1rem', sm: '1.25rem' }
-                                          }}
-                                        >
-                                          {participant.name}
-                                        </Typography>
-                                        <Chip
-                                          label="🏆 Best Win Streak"
-                                          size="small"
-                                          sx={{
-                                            background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
-                                            color: '#fff',
-                                            fontWeight: 600,
-                                            fontSize: '0.75rem',
-                                            height: 24
-                                          }}
-                                        />
-                                      </Box>
-                                    </Box>
-                                    
-                                    {/* Streak Number and Icon */}
-                                    <Box sx={{ 
-                                      display: 'flex', 
-                                      alignItems: 'center', 
-                                      justifyContent: 'center',
-                                      gap: 2, 
-                                      mb: 2,
-                                      p: 2,
-                                      background: 'rgba(255, 255, 255, 0.5)',
-                                      borderRadius: 2,
-                                      border: '1px solid rgba(255, 255, 255, 0.2)'
-                                    }}>
-                                      <EmojiEventsIcon sx={{ color: '#fbbf24', fontSize: 28 }} />
-                                      <Typography 
-                                        variant="h2" 
-                                        className="streak-number"
-                                        sx={{ 
-                                          fontWeight: 900, 
-                                          color: '#fbbf24',
-                                          transition: 'transform 0.3s ease',
-                                          textShadow: '0 2px 8px #fbbf2440'
-                                        }}
-                                      >
-                                        {participant.bestWinStreak}
-                                      </Typography>
-                                    </Box>
-                                    
-                                    {/* Streak Description */}
-                                    <Typography 
-                                      variant="body1" 
-                                      sx={{ 
-                                        textAlign: 'center',
-                                        fontWeight: 600,
-                                        color: theme.palette.text.secondary,
-                                        mb: 2
-                                      }}
-                                    >
-                                      Best win streak achieved
-                                    </Typography>
-                                    
-                                    {/* Current Streak Info */}
-                                    {participant.currentWinStreak > 0 && (
-                                      <Box sx={{ 
-                                        textAlign: 'center',
-                                        p: 1.5,
-                                        background: 'rgba(16, 185, 129, 0.1)',
-                                        borderRadius: 2,
-                                        border: '1px solid rgba(16, 185, 129, 0.2)'
-                                      }}>
-                                        <Typography 
-                                          variant="body2" 
-                                          sx={{ 
-                                            fontWeight: 600,
-                                            color: '#10b981',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            gap: 0.5
-                                          }}
-                                        >
-                                          <LocalFireDepartmentIcon sx={{ fontSize: 16 }} />
-                                          Current: {participant.currentWinStreak} days
-                                        </Typography>
-                                      </Box>
-                                    )}
-                                  </CardContent>
-                                </Card>
+                              <Grid xs={12} sm={6} md={4} key={`best-${participant.name}`} sx={{ mb: { xs: 2, sm: 0 } }}>
+                                <StreakCard 
+                                  participant={participant} 
+                                  streakType="best" 
+                                  streakCount={participant.bestWinStreak}
+                                />
                               </Grid>
                             ))}
                         </Grid>
@@ -479,7 +352,7 @@ export default function GamificationPage() {
                   {gamificationData && stepData && (
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                       {/* Cumulative Steps Chart - Full Width */}
-                      <Box>
+                      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                         <Typography 
                           variant="h4" 
                           sx={{ 
@@ -511,7 +384,7 @@ export default function GamificationPage() {
                       </Box>
 
                       {/* Weekly Performance Chart - Full Width */}
-                      <Box>
+                      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                         <Typography 
                           variant="h4" 
                           sx={{ 
@@ -612,18 +485,18 @@ export default function GamificationPage() {
                                   }).sort((a, b) => b.avgSteps - a.avgSteps);
 
                                   const tiers = {
-                                    elite: { min: 12000, color: '#10b981', label: 'Elite (12K+)', participants: [] },
-                                    advanced: { min: 10000, color: '#3b82f6', label: 'Advanced (10K+)', participants: [] },
-                                    intermediate: { min: 8000, color: '#f59e0b', label: 'Intermediate (8K+)', participants: [] },
-                                    beginner: { min: 0, color: '#6b7280', label: 'Beginner (<8K)', participants: [] }
+                                    elite: { min: 16000, color: '#10b981', label: 'Elite (16K+)', participants: [] },
+                                    advanced: { min: 14000, color: '#3b82f6', label: 'Advanced (14K+)', participants: [] },
+                                    intermediate: { min: 12000, color: '#f59e0b', label: 'Intermediate (12K+)', participants: [] },
+                                    beginner: { min: 0, color: '#6b7280', label: 'Beginner (<12K)', participants: [] }
                                   };
 
                                   participantStats.forEach(participant => {
-                                    if (participant.avgSteps >= 12000) {
+                                    if (participant.avgSteps >= 16000) {
                                       tiers.elite.participants.push(participant);
-                                    } else if (participant.avgSteps >= 10000) {
+                                    } else if (participant.avgSteps >= 14000) {
                                       tiers.advanced.participants.push(participant);
-                                    } else if (participant.avgSteps >= 8000) {
+                                    } else if (participant.avgSteps >= 12000) {
                                       tiers.intermediate.participants.push(participant);
                                     } else {
                                       tiers.beginner.participants.push(participant);
@@ -699,16 +572,16 @@ export default function GamificationPage() {
 
                                   return participantStats.map((participant, index) => {
                                     const getTierColor = (avgSteps) => {
-                                      if (avgSteps >= 12000) return '#10b981';
-                                      if (avgSteps >= 10000) return '#3b82f6';
-                                      if (avgSteps >= 8000) return '#f59e0b';
+                                      if (avgSteps >= 16000) return '#10b981';
+                                      if (avgSteps >= 14000) return '#3b82f6';
+                                      if (avgSteps >= 12000) return '#f59e0b';
                                       return '#6b7280';
                                     };
 
                                     const getTierLabel = (avgSteps) => {
-                                      if (avgSteps >= 12000) return 'Elite';
-                                      if (avgSteps >= 10000) return 'Advanced';
-                                      if (avgSteps >= 8000) return 'Intermediate';
+                                      if (avgSteps >= 16000) return 'Elite';
+                                      if (avgSteps >= 14000) return 'Advanced';
+                                      if (avgSteps >= 12000) return 'Intermediate';
                                       return 'Beginner';
                                     };
 

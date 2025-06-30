@@ -50,7 +50,7 @@ export const DashboardSkeleton = () => (
     {/* Quick stats skeleton */}
     <Grid container spacing={2} sx={{ mb: 4 }}>
       {Array.from({ length: 3 }).map((_, index) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
+        <Grid xs={12} sm={6} md={4} key={index}>
           <CardSkeleton />
         </Grid>
       ))}
@@ -64,10 +64,10 @@ export const DashboardSkeleton = () => (
     
     {/* Charts skeleton */}
     <Grid container spacing={3} sx={{ mb: 4 }}>
-      <Grid item xs={12} md={6}>
+      <Grid xs={12} md={6}>
         <ChartSkeleton height={300} />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid xs={12} md={6}>
         <ChartSkeleton height={300} />
       </Grid>
     </Grid>
@@ -97,7 +97,7 @@ export const PersonPageSkeleton = () => (
     {/* Stats cards skeleton */}
     <Grid container spacing={2} sx={{ mb: 4 }}>
       {Array.from({ length: 4 }).map((_, index) => (
-        <Grid item xs={6} sm={3} key={index}>
+        <Grid xs={6} sm={3} key={index}>
           <CardSkeleton height={100} />
         </Grid>
       ))}
@@ -134,10 +134,10 @@ export const GamificationPageSkeleton = () => (
     
     {/* Content grid skeleton */}
     <Grid container spacing={3}>
-      <Grid item xs={12} md={8}>
+      <Grid xs={12} md={8}>
         <ChartSkeleton height={400} />
       </Grid>
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {Array.from({ length: 4 }).map((_, index) => (
             <CardSkeleton key={index} height={80} />

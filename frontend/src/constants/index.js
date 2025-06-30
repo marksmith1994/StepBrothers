@@ -125,14 +125,6 @@ export const BADGES_CONFIG = {
       icon: '👑', 
       color: '#9C27B0',
       category: 'current_best'
-    },
-    { 
-      id: 'current_avg_steps', 
-      name: '📊 Consistency King', 
-      description: 'Current highest average steps/day',
-      icon: '📊', 
-      color: '#4CAF50',
-      category: 'current_best'
     }
   ],
 

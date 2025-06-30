@@ -152,7 +152,7 @@ export default function PersonPage() {
   );
 
   return (
-    <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 2, sm: 3, md: 4 } }}>
+    <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: '1rem', sm: 3, md: 4 } }}>
       <Fade in timeout={800}>
         <Box>
           {/* Header */}
@@ -239,26 +239,57 @@ export default function PersonPage() {
             <Fade in timeout={600}>
               <Box>
                 {/* Tabs */}
-                <Paper sx={{ 
-                  mb: 4, 
-                  borderRadius: 3,
-                  boxShadow: 2
-                }}>
+                <Paper 
+                  sx={{ 
+                    mb: { xs: 3, sm: 4 }, 
+                    borderRadius: 3,
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    position: 'relative',
+                    overflow: 'visible',
+                    px: { xs: 2, sm: 3 }
+                  }}
+                >
                   <Tabs 
                     value={tabValue} 
                     onChange={handleTabChange}
                     variant="scrollable"
-                    scrollButtons={false}
+                    scrollButtons="auto"
+                    allowScrollButtonsMobile
                     sx={{
-                      '& .MuiTab-root': {
-                        fontWeight: 600,
-                        fontSize: { xs: '0.875rem', sm: '1rem' },
-                        minHeight: { xs: 48, sm: 56 }
+                      '& .MuiTab-root': { 
+                        fontWeight: 700, 
+                        fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
+                        minHeight: { xs: 48, sm: 56, md: 72 },
+                        textTransform: 'none',
+                        letterSpacing: 0.5,
+                        transition: 'all 0.3s ease',
+                        '&.Mui-selected': {
+                          color: theme.palette.primary.main,
+                          transform: 'translateY(-2px)'
+                        }
                       },
                       '& .MuiTabs-indicator': {
                         height: 4,
                         borderRadius: 2,
                         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                      },
+                      '& .MuiTabs-scrollButtons': {
+                        color: theme.palette.primary.main,
+                        '&.Mui-disabled': {
+                          opacity: 0.3
+                        }
+                      },
+                      '& .MuiTabs-scrollButtons.MuiTabs-scrollButtonsDesktop': {
+                        display: { xs: 'flex', sm: 'flex' }
+                      },
+                      '& .MuiTabs-scrollButtons.MuiTabs-scrollButtonsLeft': {
+                        display: { xs: 'flex', sm: 'flex' }
+                      },
+                      '& .MuiTabs-scrollButtons.MuiTabs-scrollButtonsRight': {
+                        display: { xs: 'flex', sm: 'flex' }
                       }
                     }}
                   >
@@ -288,42 +319,105 @@ export default function PersonPage() {
                     >
                       📊 Basic Statistics
                     </Typography>
-                    <Grid container spacing={3} sx={{ mb: 6 }}>
-                      <Grid item xs={12} sm={6} md={3}>
-                        {getStatCard(
-                          'Total Steps',
-                          personData.totalSteps || 0,
-                          <StarIcon />,
-                          theme.palette.primary.main,
-                          'All time'
-                        )}
+                    <Grid container spacing={2} sx={{ mb: 4 }}>
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          height: '100%',
+                          borderRadius: 3,
+                          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                          border: '1px solid rgba(102, 126, 234, 0.2)',
+                          boxShadow: '0 4px 20px rgba(102, 126, 234, 0.1)'
+                        }}>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.primary.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {formatNumber(personData?.totalSteps || 0)}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Total Steps
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
-                        {getStatCard(
-                          'Average Steps/Day',
-                          Math.round(personData.averageSteps || 0),
-                          <TrendingDownIcon />,
-                          theme.palette.success.main,
-                          'Daily average'
-                        )}
+                      
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          height: '100%',
+                          borderRadius: 3,
+                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)',
+                          border: '1px solid rgba(16, 185, 129, 0.2)',
+                          boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)'
+                        }}>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.success.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {formatNumber(Math.round(personData?.averageSteps || 0))}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Average/Day
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
-                        {getStatCard(
-                          'Days Tracked',
-                          personData.dailySteps?.length || 0,
-                          <EmojiEventsIcon />,
-                          theme.palette.info.main,
-                          'Total days'
-                        )}
+                      
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          height: '100%',
+                          borderRadius: 3,
+                          background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%)',
+                          border: '1px solid rgba(245, 158, 11, 0.2)',
+                          boxShadow: '0 4px 20px rgba(245, 158, 11, 0.1)'
+                        }}>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.warning.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {formatNumber(personData?.highestSingleDay || 0)}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Best Day
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                      <Grid item xs={12} sm={6} md={3}>
-                        {getStatCard(
-                          'Highest Single Day',
-                          personData.highestSingleDay || 0,
-                          <LocalFireDepartmentIcon />,
-                          theme.palette.warning.main,
-                          'Best performance'
-                        )}
+                      
+                      <Grid xs={12} sm={6} md={3}>
+                        <Card sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          height: '100%',
+                          borderRadius: 3,
+                          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)',
+                          border: '1px solid rgba(239, 68, 68, 0.2)',
+                          boxShadow: '0 4px 20px rgba(239, 68, 68, 0.1)'
+                        }}>
+                          <CardContent sx={{ textAlign: 'center', p: '0 !important' }}>
+                            <Typography variant="h4" sx={{ 
+                              fontWeight: 800, 
+                              color: theme.palette.error.main,
+                              mb: 1,
+                              fontSize: { xs: '1.5rem', sm: '2rem' }
+                            }}>
+                              {personData?.allTimeWins || 0}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                              Total Wins
+                            </Typography>
+                          </CardContent>
+                        </Card>
                       </Grid>
                     </Grid>
 
@@ -408,63 +502,96 @@ export default function PersonPage() {
                     </Typography>
 
                     {/* Achievement Stats */}
-                    <Paper sx={{ 
-                      p: { xs: 2, sm: 3 }, 
-                      mb: 4,
-                      borderRadius: 3,
-                      boxShadow: 2
-                    }}>
-                      <Grid container spacing={3} alignItems="center">
-                        <Grid item xs={12} sm={6} md={3}>
+                    <Grid container spacing={3} sx={{ mb: 4 }}>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Paper sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          borderRadius: 3,
+                          boxShadow: 2,
+                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%)',
+                          border: '2px solid rgba(16, 185, 129, 0.2)',
+                          textAlign: 'center'
+                        }}>
                           <Typography variant="h4" sx={{ 
                             fontWeight: 900, 
                             color: theme.palette.success.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+                            mb: 1
                           }}>
                             {achievementStats.earned}
                           </Typography>
                           <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             Achievements Earned
                           </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Paper sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          borderRadius: 3,
+                          boxShadow: 2,
+                          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%)',
+                          border: '2px solid rgba(59, 130, 246, 0.2)',
+                          textAlign: 'center'
+                        }}>
                           <Typography variant="h4" sx={{ 
                             fontWeight: 900, 
                             color: theme.palette.primary.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+                            mb: 1
                           }}>
                             {achievementStats.completionRate}%
                           </Typography>
                           <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             Completion Rate
                           </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Paper sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          borderRadius: 3,
+                          boxShadow: 2,
+                          background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%)',
+                          border: '2px solid rgba(245, 158, 11, 0.2)',
+                          textAlign: 'center'
+                        }}>
                           <Typography variant="h4" sx={{ 
                             fontWeight: 900, 
                             color: theme.palette.warning.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+                            mb: 1
                           }}>
                             {achievementStats.progress}
                           </Typography>
                           <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             In Progress
                           </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Paper sx={{ 
+                          p: { xs: 2, sm: 3 }, 
+                          borderRadius: 3,
+                          boxShadow: 2,
+                          background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%)',
+                          border: '2px solid rgba(6, 182, 212, 0.2)',
+                          textAlign: 'center'
+                        }}>
                           <Typography variant="h4" sx={{ 
                             fontWeight: 900, 
                             color: theme.palette.info.main,
-                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+                            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+                            mb: 1
                           }}>
                             {achievementStats.total}
                           </Typography>
                           <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                             Total Available
                           </Typography>
-                        </Grid>
+                        </Paper>
                       </Grid>
-                    </Paper>
+                    </Grid>
 
                     {/* Earned Achievements */}
                     {achievements.earned.length > 0 && (
@@ -701,34 +828,36 @@ export default function PersonPage() {
                     </Grid>
 
                     {/* Main Progress Chart */}
-                    <Paper sx={{ 
-                      p: { xs: 2, sm: 3, md: 4 }, 
-                      mb: 4,
-                      borderRadius: 3,
-                      boxShadow: 2
-                    }}>
-                      <Typography 
-                        variant="h4" 
-                        sx={{ 
-                          mb: 3, 
-                          fontWeight: 700,
-                          color: theme.palette.text.primary,
-                          textAlign: 'center',
-                          fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }
-                        }}
-                      >
-                        📊 Daily Step Progress
-                      </Typography>
-                      <Box sx={{ 
-                        height: { xs: 300, sm: 350, md: 400 },
-                        width: '100%'
+                    <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                      <Paper sx={{ 
+                        p: { xs: 2, sm: 3, md: 4 }, 
+                        mb: 4,
+                        borderRadius: 3,
+                        boxShadow: 2
                       }}>
-                        <StepLineChart 
-                          data={chartData} 
-                          title="Daily Steps Over Time"
-                        />
-                      </Box>
-                    </Paper>
+                        <Typography 
+                          variant="h4" 
+                          sx={{ 
+                            mb: 3, 
+                            fontWeight: 700,
+                            color: theme.palette.text.primary,
+                            textAlign: 'center',
+                            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }
+                          }}
+                        >
+                          📊 Daily Step Progress
+                        </Typography>
+                        <Box sx={{ 
+                          height: { xs: 300, sm: 350, md: 400 },
+                          width: '100%'
+                        }}>
+                          <StepLineChart 
+                            data={chartData} 
+                            title="Daily Steps Over Time"
+                          />
+                        </Box>
+                      </Paper>
+                    </Box>
 
                     {/* Progress Insights */}
                     <Grid container spacing={3}>

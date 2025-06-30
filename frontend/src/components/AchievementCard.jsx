@@ -27,10 +27,14 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
   };
 
   return (
-    <Card className={`achievement-card ${isEarned ? 'earned' : ''} ${achievement.type === 'consistency' ? 'consistency' : ''}`}>
-      <CardContent className="text-center p-3">
+    <Card 
+      className={`achievement-card ${isEarned ? 'earned' : ''} ${achievement.type === 'consistency' ? 'consistency' : ''}`}
+      role="article"
+      aria-label={`Achievement: ${achievement.name}`}
+    >
+      <CardContent sx={{ textAlign: 'center', p: 3 }}>
         {/* Achievement Icon */}
-        <Box className="flex-center mb-2">
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
           <Typography 
             variant="h2" 
             sx={{ 
@@ -38,6 +42,7 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
               filter: isEarned ? 'none' : 'grayscale(50%)',
               opacity: isEarned ? 1 : 0.7
             }}
+            aria-hidden="true"
           >
             {achievement.icon}
           </Typography>
@@ -46,7 +51,16 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
         {/* Achievement Name */}
         <Typography 
           variant="h6" 
-          className={`text-bold mb-1 ${isEarned ? 'gradient-text-success' : ''}`}
+          sx={{ 
+            fontWeight: 700, 
+            mb: 1,
+            ...(isEarned && {
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            })
+          }}
         >
           {achievement.name}
         </Typography>
@@ -55,7 +69,7 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
         <Typography 
           variant="body2" 
           color="text.secondary" 
-          className="mb-2"
+          sx={{ mb: 2 }}
         >
           {achievement.type === 'step_milestone' 
             ? `${formatNumber(achievement.steps)} total steps`
@@ -67,8 +81,8 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
 
         {/* Progress Bar */}
         {showProgress && (
-          <Box className="mb-2">
-            <Box className="flex-between mb-1">
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
               <Typography variant="caption" color="text.secondary">
                 {getStatusText()}
               </Typography>
@@ -79,11 +93,14 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
             <LinearProgress 
               variant="determinate" 
               value={achievement.progress} 
-              className="progress-glass"
+              aria-label={`Progress: ${Math.round(achievement.progress)}%`}
               sx={{ 
                 height: 8,
+                borderRadius: 4,
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
                 '& .MuiLinearProgress-bar': {
                   backgroundColor: getProgressColor(),
+                  borderRadius: 4
                 }
               }}
             />
@@ -107,7 +124,12 @@ export default function AchievementCard({ achievement, isEarned = false, showPro
           <Chip
             label="Earned"
             size="small"
-            className="chip-gradient mt-1"
+            sx={{
+              mt: 1,
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              color: 'white',
+              fontWeight: 600
+            }}
           />
         )}
       </CardContent>

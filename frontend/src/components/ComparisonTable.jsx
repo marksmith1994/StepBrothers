@@ -63,11 +63,6 @@ export default function ComparisonTable({ currentPerson }) {
     person: selectedPerson
   } : { person: null });
 
-  // Debug: Log the received data
-  console.log('Selected person data:', selectedPersonData);
-  console.log('Filtered current person data:', filteredCurrentPersonData);
-  console.log('Start date:', startDate);
-
   // Calculate monthly cumulative totals
   const calculateMonthlyTotals = (personData) => {
     if (!personData || !personData.dailySteps) return [];
@@ -248,84 +243,150 @@ export default function ComparisonTable({ currentPerson }) {
       <Box sx={{ mb: 4 }}>
         <Typography 
           variant="h4" 
-          className="text-gradient-primary text-bolder mb-3"
-          sx={{ textAlign: 'center', fontSize: { xs: '1.5rem', sm: '2rem' } }}
+          sx={{ 
+            textAlign: 'center', 
+            fontSize: { xs: '1.5rem', sm: '2rem' },
+            fontWeight: 800,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            mb: 3
+          }}
         >
           📊 Compare Performance
         </Typography>
         
         {/* Date Range Selector - Mobile First */}
-        <Paper className="paper-glass p-3" sx={{ mb: 3 }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={6}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: { xs: 1, sm: 0 } }}>
-                <CalendarTodayIcon sx={{ color: theme.palette.primary.main }} />
-                <Typography variant="body1" className="text-bold">
-                  Compare from:
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                type="date"
-                value={startDate instanceof Date && !isNaN(startDate) ? startDate.toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (val) {
-                    const newDate = new Date(val);
-                    // Only update if the date actually changed
-                    if (!startDate || startDate.getTime() !== newDate.getTime()) {
-                      setStartDate(newDate);
-                    }
+        <Paper sx={{ 
+          p: { xs: 2, sm: 3 }, 
+          mb: 3,
+          borderRadius: 3,
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, 
+            alignItems: { xs: 'stretch', sm: 'center' }, 
+            gap: { xs: 2, sm: 3 }
+          }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 2,
+              minWidth: { xs: 'auto', sm: '200px' }
+            }}>
+              <CalendarTodayIcon sx={{ 
+                color: theme.palette.primary.main,
+                fontSize: { xs: 20, sm: 24 }
+              }} />
+              <Typography variant="body1" sx={{ 
+                fontWeight: 600,
+                fontSize: { xs: '0.9rem', sm: '1rem' }
+              }}>
+                Compare from:
+              </Typography>
+            </Box>
+            <TextField
+              type="date"
+              value={startDate instanceof Date && !isNaN(startDate) ? startDate.toISOString().split('T')[0] : ''}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val) {
+                  const newDate = new Date(val);
+                  if (!startDate || startDate.getTime() !== newDate.getTime()) {
+                    setStartDate(newDate);
                   }
-                }}
-                fullWidth
-                size="small"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    backgroundColor: 'rgba(255,255,255,0.9)',
-                    borderRadius: 2
+                }
+              }}
+              fullWidth
+              size="small"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'rgba(255,255,255,0.9)',
+                  borderRadius: 2,
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,1)'
                   }
-                }}
-                inputProps={{
-                  min: '2025-01-01',
-                  max: '2025-12-31'
-                }}
-              />
-            </Grid>
-          </Grid>
+                }
+              }}
+              inputProps={{
+                min: '2025-01-01',
+                max: '2025-12-31'
+              }}
+            />
+          </Box>
         </Paper>
         
         {/* Person Selection - Mobile Optimized */}
-        <Paper className="paper-glass p-3" sx={{ mb: 3 }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={5}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: { xs: 2, sm: 0 } }}>
-                <Avatar 
-                  className="avatar-gradient"
-                  sx={{ width: { xs: 40, sm: 50 }, height: { xs: 40, sm: 50 }, fontSize: { xs: 16, sm: 20 }, fontWeight: 700 }}
-                >
-                  {getInitials(currentPerson)}
-                </Avatar>
-                <Typography variant="h6" className="text-bold" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
-                  {currentPerson}
-                </Typography>
-              </Box>
-            </Grid>
-            
-            <Grid item xs={12} sm={2} sx={{ textAlign: 'center' }}>
-              <CompareArrowsIcon sx={{ 
-                fontSize: { xs: 30, sm: 40 }, 
-                color: theme.palette.primary.main,
-                transform: 'rotate(90deg)',
-                display: { xs: 'none', sm: 'block' }
-              }} />
-              <Typography variant="body2" sx={{ display: { xs: 'block', sm: 'none' }, color: 'text.secondary' }}>
-                vs
+        <Paper sx={{ 
+          p: { xs: 2, sm: 3 }, 
+          mb: 3,
+          borderRadius: 3,
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, 
+            alignItems: { xs: 'stretch', sm: 'center' }, 
+            gap: { xs: 3, sm: 4 }
+          }}>
+            {/* Current Person */}
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'row', sm: 'row' }, 
+              alignItems: 'center', 
+              gap: 2,
+              justifyContent: { xs: 'center', sm: 'flex-start' }
+            }}>
+              <Avatar 
+                sx={{ 
+                  width: { xs: 40, sm: 50 }, 
+                  height: { xs: 40, sm: 50 }, 
+                  fontSize: { xs: 16, sm: 20 }, 
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                }}
+              >
+                {getInitials(currentPerson)}
+              </Avatar>
+              <Typography variant="h6" sx={{ 
+                fontWeight: 700, 
+                fontSize: { xs: '1rem', sm: '1.25rem' },
+                textAlign: { xs: 'center', sm: 'left' }
+              }}>
+                {currentPerson}
               </Typography>
-            </Grid>
+            </Box>
             
-            <Grid item xs={12} sm={5}>
+            {/* VS Indicator */}
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              px: { xs: 0, sm: 2 }
+            }}>
+              <CompareArrowsIcon sx={{ 
+                fontSize: { xs: 24, sm: 32 }, 
+                color: theme.palette.primary.main,
+                transform: { xs: 'rotate(90deg)', sm: 'rotate(0deg)' }
+              }} />
+            </Box>
+            
+            {/* Selected Person */}
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', sm: 'row' }, 
+              alignItems: { xs: 'stretch', sm: 'center' }, 
+              gap: 2,
+              flex: 1
+            }}>
               <FormControl fullWidth>
                 <Select
                   value={selectedPerson}
@@ -336,7 +397,15 @@ export default function ComparisonTable({ currentPerson }) {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 1,
-                      fontSize: { xs: '0.9rem', sm: '1rem' }
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
+                      py: { xs: 1.5, sm: 1 }
+                    },
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'rgba(255,255,255,0.9)',
+                      borderRadius: 2,
+                      '&:hover': {
+                        backgroundColor: 'rgba(255,255,255,1)'
+                      }
                     }
                   }}
                 >
@@ -361,13 +430,19 @@ export default function ComparisonTable({ currentPerson }) {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Paper>
       </Box>
 
       {/* Comparison Table - Mobile Optimized */}
-      <Paper className="paper-glass">
+      <Paper sx={{ 
+        borderRadius: 3,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
         <TableContainer sx={{ 
           maxHeight: { xs: 'none', sm: 600 },
           overflowX: 'auto'
@@ -425,8 +500,10 @@ export default function ComparisonTable({ currentPerson }) {
                         })}
                         <Typography 
                           variant="body1" 
-                          className="text-bold"
-                          sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}
+                          sx={{ 
+                            fontWeight: 700,
+                            fontSize: { xs: '0.8rem', sm: '1rem' }
+                          }}
                         >
                           {metric.label}
                         </Typography>
@@ -489,7 +566,14 @@ export default function ComparisonTable({ currentPerson }) {
       </Paper>
 
       {/* Monthly Cumulative Totals Table */}
-      <Paper className="paper-glass" sx={{ mt: 4 }}>
+      <Paper sx={{ 
+        mt: 4,
+        borderRadius: 3,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+      }}>
         <Box sx={{ 
           p: 3, 
           pb: 0, 
@@ -501,8 +585,14 @@ export default function ComparisonTable({ currentPerson }) {
         }}>
           <Typography 
             variant="h5" 
-            className="text-gradient-primary text-bolder"
-            sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}
+            sx={{ 
+              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+              fontWeight: 800,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
           >
             📈 {isCumulative ? 'Cumulative' : 'Monthly'} Totals
           </Typography>
@@ -602,8 +692,10 @@ export default function ComparisonTable({ currentPerson }) {
                         <TableCell>
                           <Typography 
                             variant="body1" 
-                            className="text-bold"
-                            sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}
+                            sx={{ 
+                              fontWeight: 700,
+                              fontSize: { xs: '0.8rem', sm: '1rem' }
+                            }}
                           >
                             {month} {year}
                           </Typography>
@@ -694,8 +786,14 @@ export default function ComparisonTable({ currentPerson }) {
       {/* Summary Cards */}
       <Grid container spacing={3} sx={{ mt: 4 }}>
         <Grid item xs={12} md={4}>
-          <Card className="stat-card">
-            <CardContent className="text-center p-3">
+          <Card sx={{ 
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <Typography variant="h4" sx={{ 
                 fontWeight: 900, 
                 color: theme.palette.primary.main,
@@ -705,7 +803,7 @@ export default function ComparisonTable({ currentPerson }) {
                   getComparisonValue(m.currentValue, m.selectedValue, m.isHigherBetter) === 'better'
                 ).length}
               </Typography>
-              <Typography variant="body1" className="text-bold">
+              <Typography variant="body1" sx={{ fontWeight: 700 }}>
                 Metrics You Lead
               </Typography>
             </CardContent>
@@ -713,8 +811,14 @@ export default function ComparisonTable({ currentPerson }) {
         </Grid>
         
         <Grid item xs={12} md={4}>
-          <Card className="stat-card">
-            <CardContent className="text-center p-3">
+          <Card sx={{ 
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <Typography variant="h4" sx={{ 
                 fontWeight: 900, 
                 color: theme.palette.error.main,
@@ -724,7 +828,7 @@ export default function ComparisonTable({ currentPerson }) {
                   getComparisonValue(m.currentValue, m.selectedValue, m.isHigherBetter) === 'worse'
                 ).length}
               </Typography>
-              <Typography variant="body1" className="text-bold">
+              <Typography variant="body1" sx={{ fontWeight: 700 }}>
                 Areas to Improve
               </Typography>
             </CardContent>
@@ -732,8 +836,14 @@ export default function ComparisonTable({ currentPerson }) {
         </Grid>
         
         <Grid item xs={12} md={4}>
-          <Card className="stat-card">
-            <CardContent className="text-center p-3">
+          <Card sx={{ 
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          }}>
+            <CardContent sx={{ textAlign: 'center', p: 3 }}>
               <Typography variant="h4" sx={{ 
                 fontWeight: 900, 
                 color: theme.palette.info.main,
@@ -743,7 +853,7 @@ export default function ComparisonTable({ currentPerson }) {
                   getComparisonValue(m.currentValue, m.selectedValue, m.isHigherBetter) === 'tie'
                 ).length}
               </Typography>
-              <Typography variant="body1" className="text-bold">
+              <Typography variant="body1" sx={{ fontWeight: 700 }}>
                 Tied Metrics
               </Typography>
             </CardContent>

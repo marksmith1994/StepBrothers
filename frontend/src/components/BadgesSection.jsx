@@ -266,40 +266,6 @@ const BadgesSection = ({ participantData, allParticipants = [] }) => {
         </Grid>
       </Box>
 
-      {/* Recent badges */}
-      {recentBadges.length > 0 && (
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h5" sx={{ 
-            fontWeight: 700, 
-            mb: 2,
-            fontSize: { xs: '1.25rem', sm: '1.5rem' }
-          }}>
-            🎉 Recently Earned
-          </Typography>
-          <Grid container spacing={1}>
-            {recentBadges.slice(0, 5).map((badge, index) => (
-              <Grid item xs={6} sm={4} md={2} key={index}>
-                <Card sx={{ textAlign: 'center', p: 1 }}>
-                  <Box sx={{ 
-                    fontSize: { xs: '1.5rem', sm: '2rem' }, 
-                    mb: 0.5,
-                    color: badge.color
-                  }}>
-                    {badge.icon}
-                  </Box>
-                  <Typography variant="caption" sx={{ 
-                    fontSize: { xs: '0.65rem', sm: '0.75rem' },
-                    fontWeight: 600
-                  }}>
-                    {badge.name}
-                  </Typography>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
-
       {/* Filters */}
       <Box sx={{ mb: 4 }}>
         <Box sx={{ mb: 2 }}>
@@ -317,7 +283,6 @@ const BadgesSection = ({ participantData, allParticipants = [] }) => {
           >
             {categories.map(category => (
               <ToggleButton key={category.id} value={category.id}>
-                <Box sx={{ mr: 1 }}>{category.icon}</Box>
                 {category.name}
               </ToggleButton>
             ))}

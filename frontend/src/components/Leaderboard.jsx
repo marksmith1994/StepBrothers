@@ -88,7 +88,14 @@ export default function Leaderboard({ tab = 'dashboard' }) {
                 fontSize: { xs: '0.75rem', sm: '0.875rem' },
                 padding: { xs: '8px 4px', sm: '16px' }
               }}>
-                {idx < 3 ? medals[idx].icon : idx + 1}
+                <Box sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center',
+                  height: '100%',
+                  minHeight: { xs: '24px', sm: '32px' }
+                }}>
+                  {idx < 3 ? medals[idx].icon : idx + 1}
+                </Box>
               </TableCell>
               <TableCell sx={{ 
                 display: 'flex', 

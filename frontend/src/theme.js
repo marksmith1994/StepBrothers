@@ -216,6 +216,8 @@ const components = {
         '@media (max-width: 600px)': {
           borderRadius: 12,
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2)',
+          width: '100%',
+          margin: '0',
           '&:hover': {
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12)',
             transform: 'translateY(-1px)'
@@ -245,7 +247,9 @@ const components = {
       root: {
         borderRadius: 16,
         '@media (max-width: 600px)': {
-          borderRadius: 12
+          borderRadius: 12,
+          width: '100%',
+          margin: '0'
         }
       },
       elevation1: {
@@ -358,6 +362,7 @@ const components = {
     styleOverrides: {
       root: {
         '@media (max-width: 600px)': {
+          width: '100% !important',
           fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
           '& .MuiDataGrid-cell': {
             padding: '4px 8px'
@@ -393,7 +398,129 @@ const components = {
         }
       }
     }
-  }
+  },
+  MuiGrid: {
+    styleOverrides: {
+      root: {
+        '@media (max-width: 600px)': {
+          '&.MuiGrid-container': {
+            margin: '0 !important',
+            padding: '0 1rem !important',
+            width: '100% !important',
+            flexDirection: 'column !important',
+            '& .MuiGrid-item': {
+              padding: '0 !important',
+              marginBottom: '1rem !important',
+              width: '100% !important',
+              flexBasis: '100% !important',
+              maxWidth: '100% !important',
+              flex: '0 0 100% !important',
+              minWidth: '100% !important'
+            },
+            '&.MuiGrid-spacing-xs-0 .MuiGrid-item': {
+              marginBottom: '1rem !important'
+            }
+          },
+          '&.MuiGrid-item': {
+            padding: '0 !important',
+            marginBottom: '1rem !important',
+            width: '100% !important',
+            flexBasis: '100% !important',
+            maxWidth: '100% !important',
+            flex: '0 0 100% !important',
+            minWidth: '100% !important'
+          },
+          '&.MuiGrid-direction-xs-row': {
+            flexDirection: 'column !important'
+          },
+          '&.MuiGrid-direction-xs-column': {
+            flexDirection: 'column !important'
+          },
+          '&.MuiGrid-grid-xs-1, &.MuiGrid-grid-xs-2, &.MuiGrid-grid-xs-3, &.MuiGrid-grid-xs-4, &.MuiGrid-grid-xs-5, &.MuiGrid-grid-xs-6, &.MuiGrid-grid-xs-7, &.MuiGrid-grid-xs-8, &.MuiGrid-grid-xs-9, &.MuiGrid-grid-xs-10, &.MuiGrid-grid-xs-11, &.MuiGrid-grid-xs-12': {
+            flexBasis: '100% !important',
+            maxWidth: '100% !important',
+            flex: '0 0 100% !important',
+            minWidth: '100% !important'
+          }
+        }
+      }
+    }
+  },
+  MuiBox: {
+    styleOverrides: {
+      root: {
+        '@media (max-width: 600px)': {
+          '& .MuiPaper-root, & .MuiCard-root': {
+            width: '100%',
+            margin: '0 0 1rem 0'
+          }
+        }
+      }
+    }
+  },
+  MuiToggleButtonGroup: {
+    styleOverrides: {
+      root: {
+        '@media (max-width: 600px)': {
+          width: '100%',
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          gap: '0.125rem',
+          '& .MuiToggleButton-root': {
+            flex: '1 1 0%',
+            minWidth: 'auto',
+            minHeight: '40px',
+            fontSize: 'clamp(0.65rem, 1vw, 0.75rem)',
+            padding: '6px 4px'
+          }
+        }
+      }
+    }
+  },
+  MuiToggleButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: 8,
+        fontSize: 'clamp(0.75rem, 1.2vw, 0.875rem)',
+        fontWeight: 600,
+        textTransform: 'none',
+        padding: '10px 16px',
+        minHeight: '44px',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        '&:hover': {
+          transform: 'translateY(-1px)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+        },
+        '&.Mui-selected': {
+          backgroundColor: 'rgba(6, 182, 212, 0.12)',
+          color: '#06b6d4',
+          '&:hover': {
+            backgroundColor: 'rgba(6, 182, 212, 0.16)'
+          }
+        },
+        '@media (max-width: 600px)': {
+          borderRadius: 6,
+          fontSize: 'clamp(0.65rem, 1vw, 0.75rem)',
+          padding: '6px 4px',
+          minHeight: '40px',
+          justifyContent: 'center',
+          '& .MuiBox-root': {
+            marginRight: '3px'
+          }
+        }
+      },
+      sizeSmall: {
+        padding: '8px 12px',
+        minHeight: '36px',
+        fontSize: 'clamp(0.7rem, 1vw, 0.8rem)',
+        '@media (max-width: 600px)': {
+          padding: '10px 14px',
+          minHeight: '44px',
+          fontSize: 'clamp(0.75rem, 1.5vw, 0.85rem)'
+        }
+      }
+    }
+  },
 };
 
 // Breakpoints for mobile-first design

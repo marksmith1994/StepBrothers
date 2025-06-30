@@ -57,7 +57,11 @@ export default function StepLineChart({ data, title }) {
   };
 
   return (
-    <Box sx={{ width: '100%', height: 400 }}>
+    <Box sx={{ 
+      width: '100%', 
+      height: 400,
+      display: { xs: 'none', md: 'block' } // Hide on mobile, show on desktop
+    }}>
       {title && (
         <Typography 
           variant="h6" 

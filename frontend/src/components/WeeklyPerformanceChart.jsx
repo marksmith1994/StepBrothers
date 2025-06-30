@@ -53,7 +53,9 @@ export default function WeeklyPerformanceChart({ dailySteps }) {
   }
 
   return (
-    <Card className="glass-card">
+    <Card className="glass-card" sx={{ 
+      display: { xs: 'none', md: 'block' } // Hide on mobile, show on desktop
+    }}>
       <CardContent className="p-4">
         <Typography variant="h5" className="text-bold mb-3 text-center">
           📊 Weekly Performance Overview

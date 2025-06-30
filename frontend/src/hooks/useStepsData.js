@@ -5,8 +5,9 @@ export const useStepsData = (options = {}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
-  const fetchData = async (url) => {
+  const fetchData = async (url, retryAttempt = 0) => {
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -15,6 +16,12 @@ export const useStepsData = (options = {}) => {
       const result = await response.json();
       return result;
     } catch (e) {
+      // Retry up to 2 times with exponential backoff
+      if (retryAttempt < 2) {
+        const delay = Math.pow(2, retryAttempt) * 1000; // 1s, 2s
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return fetchData(url, retryAttempt + 1);
+      }
       setError(e.message);
       return null;
     }

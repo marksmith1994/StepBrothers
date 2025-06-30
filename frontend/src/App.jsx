@@ -40,8 +40,8 @@ export default function App() {
               disableGutters 
               sx={{ 
                 flex: 1,
-                px: { xs: 2, sm: 3, md: 4 },
-                py: { xs: 2, sm: 3 },
+                px: { xs: 1, sm: 3, md: 4 },
+                py: { xs: 1, sm: 3 },
                 minHeight: 'calc(100vh - 64px)',
                 '@media (min-width: 600px)': {
                   minHeight: 'calc(100vh - 80px)'

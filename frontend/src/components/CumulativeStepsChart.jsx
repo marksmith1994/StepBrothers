@@ -47,7 +47,12 @@ export default function CumulativeStepsChart({ cumulativeData, participants }) {
   });
 
   return (
-    <Paper sx={{ p: 3, borderRadius: 3, boxShadow: 3 }}>
+    <Paper sx={{ 
+      p: 3, 
+      borderRadius: 3, 
+      boxShadow: 3,
+      display: { xs: 'none', md: 'block' } // Hide on mobile, show on desktop
+    }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
         <TrendingUpIcon sx={{ color: '#4CAF50', fontSize: 28 }} />
         <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: 1 }}>
