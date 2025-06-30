@@ -168,7 +168,7 @@ export class APIService {
     if (!name) throw new Error('Name is required');
     const params = new URLSearchParams();
     if (fromDate) {
-      params.append('fromDate', fromDate.toISOString().split('T')[0]);
+      params.append('fromDate', fromDate.toISOString()?.split('T')[0] ?? '');
     }
     const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(name)}?${params}`;
     const response = await request<ParticipantData>(url);
