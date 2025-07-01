@@ -1,4 +1,5 @@
-using StepTracker.Backend;
+using StepTracker.Services;
+using StepTracker.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,8 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 
-// Register GoogleSheetsService
-builder.Services.AddScoped<GoogleSheetsService>();
+// Register services with dependency injection
+builder.Services.AddScoped<IGoogleSheetsService, GoogleSheetsService>();
+builder.Services.AddScoped<IStepDataService, StepDataService>();
+builder.Services.AddScoped<IGamificationService, GamificationService>();
 
 // Add CORS policy to allow frontend
 builder.Services.AddCors(options =>

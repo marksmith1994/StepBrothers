@@ -4,12 +4,15 @@
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'https://stepbrothers.azurewebsites.net',
+  BASE_URL: import.meta.env.VITE_API_URL || 
+    (typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+      ? 'http://localhost:5120' 
+      : 'https://stepbrothers.azurewebsites.net'),
   ENDPOINTS: {
-    SHEETS_DATA: '/api/sheets/data',
-    SHEETS_TOTALS: '/api/sheets/totals',
-    SHEETS_GAMIFICATION: '/api/sheets/gamification',
-    SHEETS_PARTICIPANT: '/api/sheets/participant',
+    STEPS_DATA: '/api/steps',
+    STEPS_TOTALS: '/api/steps/totals',
+    STEPS_GAMIFICATION: '/api/steps/gamification',
+    STEPS_PARTICIPANT: '/api/steps/participants',
     SHEETS_TABS: '/api/sheets/tabs'
   }
 };

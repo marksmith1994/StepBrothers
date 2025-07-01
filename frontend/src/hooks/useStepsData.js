@@ -1,58 +1,30 @@
 import { useState, useEffect } from 'react';
-import { API_CONFIG } from '../constants';
+import { apiService } from '../services/api';
 
 export const useStepsData = (options = {}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [retryCount, setRetryCount] = useState(0);
-
-  const fetchData = async (url, retryAttempt = 0) => {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const result = await response.json();
-      return result;
-    } catch (e) {
-      // Retry up to 2 times with exponential backoff
-      if (retryAttempt < 2) {
-        const delay = Math.pow(2, retryAttempt) * 1000; // 1s, 2s
-        await new Promise(resolve => setTimeout(resolve, delay));
-        return fetchData(url, retryAttempt + 1);
-      }
-      setError(e.message);
-      return null;
-    }
-  };
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       setError(null);
       try {
-        let url;
+        let result;
         if (options.totals) {
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_TOTALS}`;
+          result = await apiService.getTotals();
         } else if (options.gamification) {
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_GAMIFICATION}`;
+          result = await apiService.getGamificationData();
         } else if (options.person) {
-          const dateParam = options.fromDate ? `?fromDate=${options.fromDate.toISOString().split('T')[0]}` : '';
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(options.person)}${dateParam}`;
+          result = await apiService.getParticipantData(options.person, options.fromDate);
         } else if (options.person === null) {
           setLoading(false);
           return;
         } else {
-          const tabParam = options.tab ? `?tab=${encodeURIComponent(options.tab)}` : '?tab=dashboard';
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_DATA}${tabParam}`;
+          result = await apiService.getStepData(options.tab || 'dashboard', options.year);
         }
-        const result = await fetchData(url);
-        if (result) {
-          setData(result);
-        } else {
-          setError('Failed to fetch data');
-        }
+        setData(result);
       } catch (e) {
         setError(e.message);
       } finally {
@@ -60,7 +32,7 @@ export const useStepsData = (options = {}) => {
       }
     };
     loadData();
-  }, [options.tab, options.totals, options.gamification, options.person, options.fromDate]);
+  }, [options.tab, options.totals, options.gamification, options.person, options.fromDate, options.year]);
 
   const refreshData = () => {
     setData(null);
@@ -68,27 +40,20 @@ export const useStepsData = (options = {}) => {
     setError(null);
     const loadData = async () => {
       try {
-        let url;
+        let result;
         if (options.totals) {
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_TOTALS}`;
+          result = await apiService.getTotals();
         } else if (options.gamification) {
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_GAMIFICATION}`;
+          result = await apiService.getGamificationData();
         } else if (options.person) {
-          const dateParam = options.fromDate ? `?fromDate=${options.fromDate.toISOString().split('T')[0]}` : '';
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(options.person)}${dateParam}`;
+          result = await apiService.getParticipantData(options.person, options.fromDate);
         } else if (options.person === null) {
           setLoading(false);
           return;
         } else {
-          const tabParam = options.tab ? `?tab=${encodeURIComponent(options.tab)}` : '?tab=dashboard';
-          url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SHEETS_DATA}${tabParam}`;
+          result = await apiService.getStepData(options.tab || 'dashboard', options.year);
         }
-        const result = await fetchData(url);
-        if (result) {
-          setData(result);
-        } else {
-          setError('Failed to fetch data');
-        }
+        setData(result);
       } catch (e) {
         setError(e.message);
       } finally {

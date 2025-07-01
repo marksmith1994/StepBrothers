@@ -1,42 +1,45 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using StepTracker.Controllers;
-using StepTracker.Services;
-using StepTracker.Models;
+using StepTracker.Interfaces;
 using Xunit;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StepTracker.Tests
 {
     public class SheetsControllerTests
     {
-        private readonly Mock<IConfiguration> _mockConfiguration;
+        private readonly Mock<IGoogleSheetsService> _mockSheetsService;
+        private readonly SheetsController _controller;
 
         public SheetsControllerTests()
         {
-            _mockConfiguration = new Mock<IConfiguration>();
+            _mockSheetsService = new Mock<IGoogleSheetsService>();
+            _controller = new SheetsController(_mockSheetsService.Object);
         }
 
         [Fact]
-        public void Constructor_WithValidConfiguration_CreatesController()
+        public void Constructor_WithValidService_CreatesController()
         {
-            // Arrange
-            SetupMockConfiguration();
-
-            // Act & Assert
-            var controller = new SheetsController(_mockConfiguration.Object);
-            Assert.NotNull(controller);
+            Assert.NotNull(_controller);
         }
 
-        private void SetupMockConfiguration()
+        [Fact]
+        public async Task GetSheetTabs_ReturnsOkResultWithTabs()
         {
-            var mockConfigSection = new Mock<IConfigurationSection>();
-            mockConfigSection.Setup(x => x.Value).Returns("test_value");
+            // Arrange
+            var tabs = new List<string> { "Tab1", "Tab2" };
+            _mockSheetsService.Setup(s => s.GetSheetNamesAsync()).ReturnsAsync(tabs);
 
-            _mockConfiguration.Setup(x => x["GoogleSheets:ApiKey"]).Returns("test_api_key");
-            _mockConfiguration.Setup(x => x["GoogleSheets:SpreadsheetId"]).Returns("test_spreadsheet_id");
-            _mockConfiguration.Setup(x => x["GoogleSheets:SheetRange"]).Returns("test_sheet_range");
+            // Act
+            var result = await _controller.GetSheetTabs();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var returnedTabs = Assert.IsType<List<string>>(okResult.Value);
+            Assert.Equal(2, returnedTabs.Count);
+            Assert.Contains("Tab1", returnedTabs);
         }
     }
 } 

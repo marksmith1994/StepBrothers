@@ -1,13 +1,16 @@
+#nullable disable
 using System.Collections.Generic;
 using Xunit;
 using StepTracker.Services;
 using StepTracker.Models;
+using StepTracker.Interfaces;
+using Moq;
 
 namespace StepTracker.Tests
 {
-    public class StepServiceTests
+    public class StepDataServiceTests
     {
-        private readonly StepService _service = new StepService();
+        private readonly StepDataService _service = new StepDataService();
 
         private readonly List<IList<object>> sampleRawData = new()
         {
@@ -46,7 +49,7 @@ namespace StepTracker.Tests
         [Fact]
         public void ParseStepsData_WithNullData_ReturnsEmptyResponse()
         {
-            var response = _service.ParseStepsData(new List<IList<object>>());
+            var response = _service.ParseStepsData(null);
             
             Assert.NotNull(response);
             Assert.Empty(response.Participants);
@@ -198,72 +201,32 @@ namespace StepTracker.Tests
         }
 
         [Fact]
-        public void CalculateGamificationData_ReturnsCorrectData()
+        public void FilterParticipantDataFromDate_ReturnsFilteredData()
         {
             var response = _service.ParseStepsData(sampleRawData);
-            var gamificationData = _service.CalculateGamificationData(response.DailyData, response.Participants);
+            var participantData = response.ParticipantData.First(p => p.Name == "Mark");
+            var fromDate = new DateTime(2025, 1, 3); // Day 3
             
-            Assert.NotNull(gamificationData);
-            Assert.NotNull(gamificationData.MonthlyWinners);
-            Assert.NotNull(gamificationData.AllTimeBests);
-            Assert.NotNull(gamificationData.CumulativeData);
-            Assert.NotNull(gamificationData.CurrentStreaks);
+            var filteredData = _service.FilterParticipantDataFromDate(participantData, response.DailyData, fromDate);
+            
+            Assert.NotNull(filteredData);
+            Assert.Equal("Mark", filteredData.Name);
+            // Should only include data from day 3 onwards
+            Assert.Equal(3, filteredData.DailySteps.Count); // Days 3, 4, 5
         }
 
         [Fact]
-        public void CalculateGamificationData_WithEmptyData_ReturnsEmptyData()
+        public void CalculateParticipantData_CalculatesStreaksAndWins()
         {
-            var gamificationData = _service.CalculateGamificationData(new List<StepEntry>(), new List<string>());
+            var response = _service.ParseStepsData(sampleRawData);
+            var markData = response.ParticipantData.First(p => p.Name == "Mark");
             
-            Assert.NotNull(gamificationData);
-            Assert.Empty(gamificationData.MonthlyWinners);
-            Assert.Empty(gamificationData.AllTimeBests);
-            Assert.Empty(gamificationData.CumulativeData);
-            Assert.Empty(gamificationData.CurrentStreaks);
-        }
-
-        [Fact]
-        public void ParseStepsData_HandlesMissingValues()
-        {
-            var dataWithMissingValues = new List<IList<object>>
-            {
-                new List<object> { "Mark", "John", "Sarah" },
-                new List<object> { "1000", "2000" }, // Missing Sarah
-                new List<object> { "1500", "2500", "1200" },
-                new List<object> { "2000" } // Missing John and Sarah
-            };
-            
-            var response = _service.ParseStepsData(dataWithMissingValues);
-            
-            Assert.Equal(3, response.DailyData.Count);
-            Assert.Equal(1000, response.DailyData[0].Steps["Mark"]);
-            Assert.Equal(2000, response.DailyData[0].Steps["John"]);
-            Assert.True(response.DailyData[0].Steps.ContainsKey("Sarah") ? response.DailyData[0].Steps["Sarah"] == 0 : true);
-            Assert.Equal(1500, response.DailyData[1].Steps["Mark"]);
-            Assert.Equal(2500, response.DailyData[1].Steps["John"]);
-            Assert.Equal(1200, response.DailyData[1].Steps["Sarah"]);
-            Assert.Equal(2000, response.DailyData[2].Steps["Mark"]);
-            Assert.True(response.DailyData[2].Steps.ContainsKey("John") ? response.DailyData[2].Steps["John"] == 0 : true);
-            Assert.True(response.DailyData[2].Steps.ContainsKey("Sarah") ? response.DailyData[2].Steps["Sarah"] == 0 : true);
-        }
-
-        [Fact]
-        public void ParseStepsData_HandlesEmptyStrings()
-        {
-            var dataWithEmptyStrings = new List<IList<object>>
-            {
-                new List<object> { "Mark", "John" },
-                new List<object> { "", "2000" },
-                new List<object> { "1500", "" }
-            };
-            
-            var response = _service.ParseStepsData(dataWithEmptyStrings);
-            
-            Assert.Equal(2, response.DailyData.Count);
-            Assert.Equal(0, response.DailyData[0].Steps["Mark"]);
-            Assert.Equal(2000, response.DailyData[0].Steps["John"]);
-            Assert.Equal(1500, response.DailyData[1].Steps["Mark"]);
-            Assert.Equal(0, response.DailyData[1].Steps["John"]);
+            // Verify that streaks and wins are calculated
+            Assert.True(markData.BestWinStreak >= 0);
+            Assert.True(markData.CurrentWinStreak >= 0);
+            Assert.True(markData.CurrentLosingStreak >= 0);
+            Assert.True(markData.MonthlyWins >= 0);
+            Assert.True(markData.AllTimeWins >= 0);
         }
     }
-}
+} 

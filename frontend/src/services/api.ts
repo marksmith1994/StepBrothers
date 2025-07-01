@@ -147,7 +147,7 @@ export class APIService {
     const params = new URLSearchParams({ tab });
     if (year) params.append('year', year.toString());
     
-    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.SHEETS_DATA}?${params}`;
+    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.STEPS_DATA}?${params}`;
     const response = await request<StepDataResponse>(url);
     return response.data;
   }
@@ -156,7 +156,7 @@ export class APIService {
    * Get gamification data
    */
   async getGamificationData(): Promise<GamificationData> {
-    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.SHEETS_GAMIFICATION}`;
+    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.STEPS_GAMIFICATION}`;
     const response = await request<GamificationData>(url);
     return response.data;
   }
@@ -170,7 +170,7 @@ export class APIService {
     if (fromDate) {
       params.append('fromDate', fromDate.toISOString()?.split('T')[0] ?? '');
     }
-    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.SHEETS_PARTICIPANT}/${encodeURIComponent(name)}?${params}`;
+    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.STEPS_PARTICIPANT}/${encodeURIComponent(name)}?${params}`;
     const response = await request<ParticipantData>(url);
     return response.data;
   }
@@ -179,7 +179,7 @@ export class APIService {
    * Get totals data
    */
   async getTotals(): Promise<TotalsData> {
-    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.SHEETS_TOTALS}`;
+    const url = `${this.baseURL}${API_CONFIG.ENDPOINTS.STEPS_TOTALS}`;
     const response = await request<TotalsData>(url);
     return response.data;
   }

@@ -3,15 +3,16 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Microsoft.Extensions.Configuration;
+using StepTracker.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StepTracker.Backend
+namespace StepTracker.Services
 {
-    public class GoogleSheetsService
+    public class GoogleSheetsService : IGoogleSheetsService
     {
         private readonly string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         private readonly string ApplicationName = "StepBrothers Step Tracker";
